@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.shim.sosafront.R;
 
@@ -23,6 +25,7 @@ public class CaptureActivity extends Activity {
     File imgFile;
     Bitmap myBitmap;
     ImageView myImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +72,18 @@ public class CaptureActivity extends Activity {
 
         button = (Button) findViewById(R.id.button);
 
+
         button.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                button.setVisibility(View.INVISIBLE);
                 takeScreenshot();
 
             }
         });
+
+        button.setVisibility(View.VISIBLE);
     }
 
     private void takeScreenshot() {
@@ -87,7 +95,7 @@ public class CaptureActivity extends Activity {
             String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
 
             // create bitmap screen capture
-            /*View v1 = getWindow().getDecorView().getRootView();*/
+           /* View v1 = getWindow().getDecorView().getRootView();*/
             View v1 = myImage.getRootView();
             v1.setDrawingCacheEnabled(true);
             Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
