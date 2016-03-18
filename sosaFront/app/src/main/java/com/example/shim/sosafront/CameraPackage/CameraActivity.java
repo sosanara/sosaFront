@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,10 +28,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.Date;
 
 import io.values.camera.widget.CameraView;
 import io.values.camera.widget.FocusView;
@@ -42,8 +39,6 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
     private static final int Permission_Request = 211;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 211;
     private CameraView cameraView;
-    String mRootPath;
-    static final String PICFOLDER = "CameraTest";
 
     DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.ARGB_8888)
             .imageScaleType(ImageScaleType.EXACTLY).considerExifParams(true)
@@ -67,11 +62,6 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         setContentView(R.layout.activity_camera);
 
 
-
-
-
-
-
         //마시멜로 버전 부터 이거 써야함
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // only for gingerbread and newer versions
@@ -84,9 +74,6 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         } else {
             // Add your function here which open camera
         }
-
-
-
 
 
         try {
@@ -103,6 +90,11 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         imgGrid.setVisibility(View.VISIBLE);
 
         showDCIM();
+        /*GalleryScannerClass scanner = GalleryScannerClass.newInstance(CameraActivity.this);
+        scanner.mediaScanning(Environment.getExternalStorageDirectory().getAbsolutePath() + "/sosaCamera/IMG.jpg");*/
+
+        scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");
+
     }
 
     private void initViews() {
@@ -161,7 +153,7 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
             ImageLoader.getInstance().displayImage("file://" + path, ibCameraPhotos, options);
         }
     }
-    
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -208,12 +200,7 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
                 break;*/
 
             case R.id.ib_camera_take_picture:
-
-                /*takeScreenshot();*/
-                //여기부터 시작이염
                 cameraView.takePicture(false);
-
-
                 break;
         }
     }
@@ -229,8 +216,8 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (success){
-                    Toast.makeText(CameraActivity.this,"success!",Toast.LENGTH_SHORT).show();
+                if (success) {
+                    Toast.makeText(CameraActivity.this, "success!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -256,68 +243,15 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
 
     }
 
+    private void scanFile(String path) {
 
+        MediaScannerConnection.scanFile(CameraActivity.this,
+                new String[]{path}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
 
-
-    private void screenshot(Bitmap bm) {
-        try {
-            File path = new File("/디력토리명");
-            if(! path.isDirectory()) {
-                path.mkdirs();
-            }
-
-            String temp = "/sosaCamera/";
-            temp = temp + "file1";
-            temp = temp + ".jpg";
-
-            FileOutputStream out = new FileOutputStream(temp);
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
-
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
-                    Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-        } catch (FileNotFoundException e) {
-            Log.d("FileNotFoundException: ", e.getMessage());
-        }
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.i("TAG", "Finished scanning " + path);
+                    }
+                });
     }
-
-    private void takeScreenshot() {
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
-        try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-
-            // create bitmap screen capture
-            View v1 = getWindow().getDecorView().getRootView();
-            v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
-
-            File imageFile = new File(mPath);
-
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-
-            openScreenshot(imageFile);
-        } catch (Throwable e) {
-            // Several error may come out with file handling or OOM
-            e.printStackTrace();
-        }
-    }
-
-
-    private void openScreenshot(File imageFile) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(imageFile);
-        intent.setDataAndType(uri, "image/*");
-        startActivity(intent);
-    }
-
-
-
 }

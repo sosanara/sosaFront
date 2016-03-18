@@ -652,4 +652,6 @@ public class CameraView implements SurfaceHolder.Callback, Camera.PictureCallbac
             }
         }
     }
+
+
 }

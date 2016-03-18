@@ -5,6 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#0000ff"
         >
 
         <RelativeLayout
@@ -12,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#4e5051">
+
 
             <ImageButton
                 android:id="@+id/ib_camera_change"
@@ -64,7 +66,7 @@
             android:layout_alignLeft="@+id/sf_camera"
             android:layout_alignRight="@+id/sf_camera"
             android:layout_alignTop="@+id/sf_camera"
-            android:background="@drawable/camera_frame"
+            android:background="@drawable/erase"
             android:scaleType="fitXY"
             android:visibility="gone" />
 
