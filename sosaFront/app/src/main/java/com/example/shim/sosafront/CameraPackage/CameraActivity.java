@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -38,6 +39,7 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
 
     private static final int Permission_Request = 211;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 211;
+    int permissionCheck;
     private CameraView cameraView;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.ARGB_8888)
@@ -61,7 +63,8 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         initImaLoader();
         setContentView(R.layout.activity_camera);
 
-
+        permissionCheck = ContextCompat.checkSelfPermission(CameraActivity.this,
+                Manifest.permission.WRITE_CALENDAR);
         //마시멜로 버전 부터 이거 써야함
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // only for gingerbread and newer versions
@@ -88,11 +91,8 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         }
         initViews();
         imgGrid.setVisibility(View.VISIBLE);
-
+        /*scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");*/
         showDCIM();
-        /*GalleryScannerClass scanner = GalleryScannerClass.newInstance(CameraActivity.this);
-        scanner.mediaScanning(Environment.getExternalStorageDirectory().getAbsolutePath() + "/sosaCamera/IMG.jpg");*/
-
         scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");
 
     }
@@ -201,6 +201,10 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
 
             case R.id.ib_camera_take_picture:
                 cameraView.takePicture(false);
+                scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");
+                /*Intent captureIntent = new Intent(this, CaptureActivity.class);
+                captureIntent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK); // | Intent.FLAG_ACTIVITY_NEW_TASK);
+*/
                 break;
         }
     }
@@ -221,6 +225,10 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
                 }
             }
         });
+
+        Intent intent = new Intent(CameraActivity.this, CaptureActivity.class);
+        startActivity(intent);
+
     }
 
     @Override

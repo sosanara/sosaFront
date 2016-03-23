@@ -16,6 +16,8 @@ import android.view.View;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
 import com.example.shim.sosafront.CameraPackage.CaptureActivity;
+import com.example.shim.sosafront.LoginPackage.LoginActivity;
+import com.example.shim.sosafront.LoginPackage.SignUpActivity;
 import com.example.shim.sosafront.R;
 
 public class MainActivity extends AppCompatActivity
@@ -86,15 +88,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent intent=new Intent(MainActivity.this, CameraActivity.class);
-            startActivity(intent);
+            Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
+            startActivity(cameraIntent);
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Intent intent=new Intent(MainActivity.this, CaptureActivity.class);
-            startActivity(intent);
+            Intent signUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
+            startActivity(signUpIntent);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
 
         } else if (id == R.id.nav_manage) {
 

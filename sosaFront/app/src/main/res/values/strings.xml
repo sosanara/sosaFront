@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TalPaGo</string>
+    <string name="app_name">sosanara</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,4 +10,6 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="title_activity_find_id">FindIdActivity</string>
+    <string name="title_activity_logout">LogoutActivity</string>
 </resources>

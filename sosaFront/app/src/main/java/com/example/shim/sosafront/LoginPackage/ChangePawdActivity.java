@@ -27,92 +27,56 @@ import java.net.URL;
 import com.example.shim.sosafront.R;
 
 
-public class SignUpActivity extends Activity {
+public class ChangePawdActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    private Button loginTest;
+    private Button changePawdBtn;
 
-    private EditText signUpUserNameView;
-    private EditText signUpEmailView;
-    private EditText signUpPawd1View;
-    private EditText signUpPawd2View;
-    private EditText signUpAgeView;
-    private EditText signUpFirstNameView;
-    private EditText signUpLastNameView;
-    private EditText signUpGenderView;
-
-    String testSignUp;
-
+    private EditText changePawd1View;
+    private EditText changePawd2View;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_change_pawd);
 
         // Get Reference to variables
-        signUpUserNameView = (EditText) findViewById(R.id.signUpUserNameView);
-        signUpEmailView = (EditText) findViewById(R.id.signUpEmailView);
-        signUpPawd1View = (EditText) findViewById(R.id.signUpPawd1View);
-        signUpPawd2View = (EditText) findViewById(R.id.signUpPawd2View);
-        signUpAgeView = (EditText) findViewById(R.id.signUpAgeView);
-        signUpFirstNameView = (EditText) findViewById(R.id.signUpFirstNameView);
-        signUpLastNameView = (EditText) findViewById(R.id.signUpLastNameView);
-        signUpGenderView= (EditText) findViewById(R.id.signUpGenderView);
+        changePawd1View = (EditText) findViewById(R.id.changePawd1View);
+        changePawd2View = (EditText) findViewById(R.id.changePawd2View);
 
-        loginTest = (Button) findViewById(R.id.loginTest);
+        changePawdBtn = (Button) findViewById(R.id.changePawdBtn);
 
-        signUpUserNameView.setText("minhoShimm", TextView.BufferType.EDITABLE);
-        signUpEmailView.setText("shim5369@naver.com", TextView.BufferType.EDITABLE);
-        signUpPawd1View.setText("test1234", TextView.BufferType.EDITABLE);
-        signUpPawd2View.setText("test1234", TextView.BufferType.EDITABLE);
 
-        signUpAgeView.setText("25", TextView.BufferType.EDITABLE);
-        signUpFirstNameView.setText("minho", TextView.BufferType.EDITABLE);
-        signUpLastNameView.setText("shim", TextView.BufferType.EDITABLE);
-        signUpGenderView.setText("Man", TextView.BufferType.EDITABLE);
 
-        loginTest.setOnClickListener(new View.OnClickListener() {
+        /*changePawdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                Intent intent = new Intent(FindPawdActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
     }
 
     // Triggers when LOGIN Button clicked
-    public void checkLogin(View arg0) {
+    public void changePawd(View arg0) {
 
-        final String username = signUpUserNameView.getText().toString();
-        final String email = signUpEmailView.getText().toString();
-        final String password1 = signUpPawd1View.getText().toString();
-        final String password2 = signUpPawd2View.getText().toString();
-
-        final String age = signUpAgeView.getText().toString();
-        final String first_name = signUpFirstNameView.getText().toString();
-        final String last_name = signUpLastNameView.getText().toString();
-        final String gender = signUpGenderView.getText().toString();
-
-
-
-
-
+        final String password1 = changePawd1View.getText().toString();
+        final String password2 = changePawd2View.getText().toString();
 
         // Initialize  AsyncLogin() class with email and password
         //*new AsyncLogin().execute(email,password);*/
-        new AsyncLogin().execute(username,email,password1,password2, age
-                ,first_name, last_name, gender);
+        new AsyncLogin().execute(password1,password2);
 
     }
 
     private class AsyncLogin extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(SignUpActivity.this);
+        ProgressDialog pdLoading = new ProgressDialog(ChangePawdActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
@@ -132,7 +96,7 @@ public class SignUpActivity extends Activity {
 
                 // Enter URL address where your php file resides
 
-                url = new URL("http://192.168.0.2:8000/rest-auth/registration/");
+                url = new URL("http://192.168.0.2:8000/rest-auth/password/change/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -152,14 +116,8 @@ public class SignUpActivity extends Activity {
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("username", params[0])
-                        .appendQueryParameter("email", params[1])
-                        .appendQueryParameter("password1", params[2])
-                        .appendQueryParameter("password2", params[3])
-                        .appendQueryParameter("age", params[4])
-                        .appendQueryParameter("first_name", params[5])
-                        .appendQueryParameter("last_name", params[6])
-                        .appendQueryParameter("gender", params[7]);
+                        .appendQueryParameter("password1", params[0])
+                        .appendQueryParameter("password2", params[1]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -191,7 +149,7 @@ public class SignUpActivity extends Activity {
 
                 // Check if successful connection made
 
-                if (response_code == HttpURLConnection.HTTP_CREATED) {
+                if (response_code == HttpURLConnection.HTTP_OK) {
 
                     // Read data sent from server
                     InputStream input = conn.getInputStream();
@@ -237,18 +195,18 @@ public class SignUpActivity extends Activity {
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
 
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                /*Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
-                SignUpActivity.this.finish();
+                SignUpActivity.this.finish();*/
 
             }else if (result.equalsIgnoreCase("false")){
 
                 // If username and password does not match display a error message
-                Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);
+               /* Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);*/
 
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
 
-                Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);
+                /*Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);*/
 
             }
         }
