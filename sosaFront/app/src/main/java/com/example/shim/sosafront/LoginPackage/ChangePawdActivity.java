@@ -62,7 +62,7 @@ public class ChangePawdActivity extends Activity {
 
     }
 
-    // Triggers when LOGIN Button clicked
+    // Triggers when changePawd Button clicked
     public void changePawd(View arg0) {
 
         final String password1 = changePawd1View.getText().toString();
@@ -70,11 +70,11 @@ public class ChangePawdActivity extends Activity {
 
         // Initialize  AsyncLogin() class with email and password
         //*new AsyncLogin().execute(email,password);*/
-        new AsyncLogin().execute(password1,password2);
+        new AsyncChangePawd().execute(password1,password2);
 
     }
 
-    private class AsyncLogin extends AsyncTask<String, String, String>
+    private class AsyncChangePawd extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(ChangePawdActivity.this);
         HttpURLConnection conn;

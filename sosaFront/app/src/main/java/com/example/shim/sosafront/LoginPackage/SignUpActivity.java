@@ -105,12 +105,12 @@ public class SignUpActivity extends Activity {
 
         // Initialize  AsyncLogin() class with email and password
         //*new AsyncLogin().execute(email,password);*/
-        new AsyncLogin().execute(username,email,password1,password2, age
+        new AsyncSignUp().execute(username,email,password1,password2, age
                 ,first_name, last_name, gender);
 
     }
 
-    private class AsyncLogin extends AsyncTask<String, String, String>
+    private class AsyncSignUp extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(SignUpActivity.this);
         HttpURLConnection conn;

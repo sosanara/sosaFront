@@ -139,8 +139,6 @@ public class LoginActivity extends Activity {
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Accept", "application/json");
-                conn.setRequestProperty("cookie", cookies);
-
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);

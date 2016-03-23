@@ -43,11 +43,13 @@
         <activity
             android:name=".LoginPackage.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".LoginPackage.FindPawdActivity" />
+        <activity
+            android:name=".LoginPackage.FindPawdActivity"
+            android:label="@string/title_activity_find_pawd" />
         <activity android:name=".LoginPackage.ChangePawdActivity" />
         <activity
             android:name=".LoginPackage.LogoutActivity"
-            android:label="@string/title_activity_logout"></activity>
+            android:label="@string/title_activity_logout" />
     </application>
 
 </manifest>
