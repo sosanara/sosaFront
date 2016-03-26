@@ -15,12 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/loginEmailView"
-        android:layout_marginTop="5dp"
-        android:hint="email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/loginPawdView"

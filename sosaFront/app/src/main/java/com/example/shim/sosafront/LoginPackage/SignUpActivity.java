@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.shim.sosafront.R;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,13 +25,11 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import com.example.shim.sosafront.R;
 
 
 public class SignUpActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
-
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -41,8 +40,7 @@ public class SignUpActivity extends Activity {
     private EditText signUpPawd1View;
     private EditText signUpPawd2View;
     private EditText signUpAgeView;
-    private EditText signUpFirstNameView;
-    private EditText signUpLastNameView;
+    private EditText signUpNameView;
     private EditText signUpGenderView;
 
     String testSignUp;
@@ -59,20 +57,18 @@ public class SignUpActivity extends Activity {
         signUpPawd1View = (EditText) findViewById(R.id.signUpPawd1View);
         signUpPawd2View = (EditText) findViewById(R.id.signUpPawd2View);
         signUpAgeView = (EditText) findViewById(R.id.signUpAgeView);
-        signUpFirstNameView = (EditText) findViewById(R.id.signUpFirstNameView);
-        signUpLastNameView = (EditText) findViewById(R.id.signUpLastNameView);
+        signUpNameView = (EditText) findViewById(R.id.signUpNameView);
         signUpGenderView= (EditText) findViewById(R.id.signUpGenderView);
 
         loginTest = (Button) findViewById(R.id.loginTest);
 
-        signUpUserNameView.setText("minhoShimm", TextView.BufferType.EDITABLE);
-        signUpEmailView.setText("shim5369@naver.com", TextView.BufferType.EDITABLE);
-        signUpPawd1View.setText("test1234", TextView.BufferType.EDITABLE);
-        signUpPawd2View.setText("test1234", TextView.BufferType.EDITABLE);
+        signUpUserNameView.setText("qwer1234", TextView.BufferType.EDITABLE);
+        signUpEmailView.setText("qwer1234@naver.com", TextView.BufferType.EDITABLE);
+        signUpPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
+        signUpPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
 
-        signUpAgeView.setText("25", TextView.BufferType.EDITABLE);
-        signUpFirstNameView.setText("minho", TextView.BufferType.EDITABLE);
-        signUpLastNameView.setText("shim", TextView.BufferType.EDITABLE);
+        signUpAgeView.setText("1992", TextView.BufferType.EDITABLE);
+        signUpNameView.setText("심민호", TextView.BufferType.EDITABLE);
         signUpGenderView.setText("Man", TextView.BufferType.EDITABLE);
 
         loginTest.setOnClickListener(new View.OnClickListener() {
@@ -94,19 +90,27 @@ public class SignUpActivity extends Activity {
         final String password2 = signUpPawd2View.getText().toString();
 
         final String age = signUpAgeView.getText().toString();
-        final String first_name = signUpFirstNameView.getText().toString();
-        final String last_name = signUpLastNameView.getText().toString();
+        final String name = signUpNameView.getText().toString();
+        /*final String first_name = signUpFirstNameView.getText().toString();
+        final String last_name = signUpLastNameView.getText().toString();*/
         final String gender = signUpGenderView.getText().toString();
 
 
 
+        //이름 성과 이름으로 나눔
+        final String first_name = "shim";
+        final String last_name = "minho";
+        /*final String first_name = String.valueOf(name.charAt(0));
+        final String last_name = name.substring(1);*/
 
+        /*Log.d("signUpTest", "회원가입 테스트1-1 : " +  first_name);
+        Log.d("signUpTest", "회원가입 테스트1-2 : " +  last_name);*/
 
 
         // Initialize  AsyncLogin() class with email and password
         //*new AsyncLogin().execute(email,password);*/
-        new AsyncSignUp().execute(username,email,password1,password2, age
-                ,first_name, last_name, gender);
+        new AsyncSignUp().execute(username, email, password1, password2, age
+                , first_name, last_name, gender);
 
     }
 
@@ -117,7 +121,7 @@ public class SignUpActivity extends Activity {
         URL url = null;
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {  //Background 작업 시작전에 UI 작업을 진행
             super.onPreExecute();
 
             //this method will be running on UI thread
@@ -127,7 +131,7 @@ public class SignUpActivity extends Activity {
 
         }
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(String... params) {  //Background 작업을 진행
             try {
 
                 // Enter URL address where your php file resides
@@ -156,7 +160,7 @@ public class SignUpActivity extends Activity {
                         .appendQueryParameter("email", params[1])
                         .appendQueryParameter("password1", params[2])
                         .appendQueryParameter("password2", params[3])
-                        .appendQueryParameter("age", params[4])
+                        .appendQueryParameter("birth", params[4])
                         .appendQueryParameter("first_name", params[5])
                         .appendQueryParameter("last_name", params[6])
                         .appendQueryParameter("gender", params[7]);
@@ -225,7 +229,7 @@ public class SignUpActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String result) {  //Background 작업이 끝난 후 UI 작업을 진행
 
             //this method will be running on UI thread
 

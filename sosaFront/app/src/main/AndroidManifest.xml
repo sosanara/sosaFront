@@ -50,6 +50,10 @@
         <activity
             android:name=".LoginPackage.LogoutActivity"
             android:label="@string/title_activity_logout" />
+        <activity
+            android:name=".LoginPackage.ResetPawdActivity"
+            android:label="@string/title_activity_reset_pawd" />
+        <activity android:name=".CameraPackage.SendImageActivity"></activity>
     </application>
 
 </manifest>

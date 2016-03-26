@@ -3,32 +3,19 @@ package com.example.shim.sosafront.LoginPackage;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,34 +27,16 @@ public class LogoutActivity extends Activity {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    private EditText loginUserNameView;
-    private EditText loginEmailView;
-    private EditText loginPawdView;
 
-    private Button moveFindPass;
-    private Button moveSignUp;
-
-    private String cookies;
-
-    private String loginResponse;
-    InputStream loginIs   = null;
-    ByteArrayOutputStream loginBaos = null;
-    String testAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logout);
-
-
-
     }
 
     // Triggers when LOGIN Button clicked
     public void logOut(View arg0) {
-
-
-
 
         // Initialize  AsyncLogin() class with email and password
         new AsyncLogin().execute();
@@ -96,42 +65,32 @@ public class LogoutActivity extends Activity {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL("http://http://192.168.0.2:8000/rest-auth/logout/");
+                url = new URL("http://192.168.0.2:8000/rest-auth/logout/");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                return "exception";
+                return "exception fail!";
             }
 
             try {
+
+                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+                String authKey = prefs.getString("key", "");
+                Log.d("tmdlsk", "비밀번호 수정 테스트0" + authKey);
+
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection)url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Authorization", " Token " + authKey);
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
                 // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder();
 
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                Log.d("loginTest", "로그인 테스트1 " + query);
-                Log.d("loginTest", "로그인 테스트2-0 " + writer);
-                Log.d("loginTest", "로그인 테스트2-1 " + os);
-                Log.d("loginTest", "로그인 테스트2-2 " + cookies);
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
                 conn.connect();
 
             } catch (IOException e1) {
@@ -144,8 +103,8 @@ public class LogoutActivity extends Activity {
                 //여기서 로그인 페이지로 이동
                 int response_code = conn.getResponseCode();
 
-                Log.d("logoutTest", "로그인 받는거0-0: " + conn.getResponseCode());
-                Log.d("logoutTest", "로그인 받는거0-1: " + conn.getResponseCode());
+                Log.d("logoutTest", "로그아웃 받는거0-0: " + conn.getResponseCode());
+                Log.d("logoutTest", "로그아웃 받는거0-1: " + conn.getResponseCode());
 
                 // Check if successful connection made
 
@@ -196,31 +155,7 @@ public class LogoutActivity extends Activity {
 
             Toast.makeText(LogoutActivity.this, "로그아웃 되었습니다", Toast.LENGTH_LONG);
 
-
             pdLoading.dismiss();
-
-            /*if(result.equalsIgnoreCase("true"))  //equals랑 같음(대소문자까지)
-            {
-                *//* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 *//*
-                Log.d("loginTest", "로그인 테스트5-1 : 화면 이동" );
-                *//*Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_LONG);
-                //다른 화면이동
-                Intent moveMainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(moveMainIntent);
-                LoginActivity.this.finish();*//*
-
-            }else if (result.equalsIgnoreCase("false")){
-                Log.d("loginTest", "로그인 테스트5-2 : 화면 이동 실패1" );
-                // If username and password does not match display a error message
-                Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_LONG);
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-                Log.d("loginTest", "로그인 테스트5-3 : 화면 이동 실패2" );
-                Toast.makeText(LoginActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);
-
-            }*/
         }
 
     }

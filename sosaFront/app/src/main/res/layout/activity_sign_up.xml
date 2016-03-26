@@ -11,21 +11,21 @@
     <EditText
         android:id="@+id/signUpUserNameView"
         android:layout_marginTop="5dp"
-        android:hint="username"
+        android:hint="ex)홍길동"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/signUpEmailView"
         android:layout_marginTop="5dp"
-        android:hint="email"
+        android:hint="ex)sosanara@example.com"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/signUpPawd1View"
         android:layout_marginTop="5dp"
-        android:hint="password1"
+        android:hint="ex)6~12자리 숫자 또는 문자"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -33,7 +33,6 @@
     <EditText
         android:id="@+id/signUpPawd2View"
         android:layout_marginTop="5dp"
-        android:hint="password2"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -41,30 +40,24 @@
     <EditText
         android:id="@+id/signUpAgeView"
         android:layout_marginTop="5dp"
-        android:hint="age"
+        android:hint="ex)1992 //스피너로 바꿀예정"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
     <EditText
-        android:id="@+id/signUpFirstNameView"
+        android:id="@+id/signUpNameView"
         android:layout_marginTop="5dp"
-        android:hint="firtstName"
+        android:hint="ex)홍길동"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
 
-    <EditText
-        android:id="@+id/signUpLastNameView"
-        android:layout_marginTop="10dp"
-        android:hint="lastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/signUpGenderView"
         android:layout_marginTop="5dp"
-        android:hint="Gender"
+        android:hint="ex)남: Man 여: Woman //라디오버튼로 바꿀예정"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

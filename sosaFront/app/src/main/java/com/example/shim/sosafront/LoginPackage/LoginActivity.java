@@ -1,14 +1,15 @@
 package com.example.shim.sosafront.LoginPackage;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +24,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,18 +41,11 @@ public class LoginActivity extends Activity {
     public static final int READ_TIMEOUT=15000;
 
     private EditText loginUserNameView;
-    private EditText loginEmailView;
     private EditText loginPawdView;
 
     private Button moveFindPass;
     private Button moveSignUp;
 
-    private String cookies;
-
-    private String loginResponse;
-    InputStream           loginIs   = null;
-    ByteArrayOutputStream loginBaos = null;
-    String testAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +54,21 @@ public class LoginActivity extends Activity {
 
         // Get Reference to variables
         loginUserNameView = (EditText) findViewById(R.id.loginUserNameView);
-        loginEmailView = (EditText) findViewById(R.id.loginEmailView);
         loginPawdView = (EditText) findViewById(R.id.loginPawdView);
 
         moveFindPass = (Button) findViewById(R.id.moveFindPass);
         moveSignUp = (Button) findViewById(R.id.moveSignUp);
 
-        loginUserNameView.setText("minhoshim", TextView.BufferType.EDITABLE);
-        loginEmailView.setText("shim5365@naver.com", TextView.BufferType.EDITABLE);
+        loginUserNameView.setText("qwer1234", TextView.BufferType.EDITABLE);
         loginPawdView.setText("qwer1234", TextView.BufferType.EDITABLE);
-
 
         moveFindPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moveFindPass = new Intent(LoginActivity.this, ChangePawdActivity.class);
-                startActivity(moveFindPass);
+                Intent moveFindPawd = new Intent(LoginActivity.this, FindPawdActivity.class);
+                startActivity(moveFindPawd);
+                LoginActivity.this.finish();
+
             }
         });
 
@@ -85,8 +77,13 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 Intent moveSignUp = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(moveSignUp);
+                LoginActivity.this.finish();
             }
         });
+
+
+
+
 
     }
 
@@ -94,12 +91,11 @@ public class LoginActivity extends Activity {
     public void startLogin(View arg0) {
 
         final String username = loginUserNameView.getText().toString();
-        final String email = loginEmailView.getText().toString();
         final String password = loginPawdView.getText().toString();
 
 
         // Initialize  AsyncLogin() class with email and password
-        new AsyncLogin().execute(username, email, password);
+        new AsyncLogin().execute(username, password);
 
     }
 
@@ -117,13 +113,12 @@ public class LoginActivity extends Activity {
             pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
-
         }
+        @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... params) {  //프로그레스 다이얼로그 자동 종료 및 에러메시지 토스트보여줌
                                                                 //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
             try {
-
                 // Enter URL address where your php file resides
                 url = new URL("http://192.168.0.2:8000/rest-auth/login/");
             } catch (MalformedURLException e) {
@@ -135,36 +130,41 @@ public class LoginActivity extends Activity {
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection)url.openConnection();
+
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
+
                 conn.setRequestMethod("POST");
+
+                //Request Header값 셋팅
                 conn.setRequestProperty("Accept", "application/json");
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
+                conn.setDoInput(true); // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션
+                conn.setDoOutput(true); // InputStream으로 서버로 부터 응답을 받겠다는 옵션.
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("username", params[0])
-                        .appendQueryParameter("email", params[1])
-                        .appendQueryParameter("password", params[2]);
+                        .appendQueryParameter("password", params[1]);
 
                 String query = builder.build().getEncodedQuery();
 
                 // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
+                OutputStream os = conn.getOutputStream(); // Request Body에 Data를 담기위해 OutputStream 객체를 생성.
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("loginTest", "로그인 테스트1 " + query);
+                Log.d("loginTest", "로그인 테스트1 " + query);  //보내는값 username=minhoshim&password=test12345
                 Log.d("loginTest", "로그인 테스트2-0 " + writer);
                 Log.d("loginTest", "로그인 테스트2-1 " + os);
-                Log.d("loginTest", "로그인 테스트2-2 " + cookies);
+
                 writer.write(query);
                 writer.flush();
                 writer.close();
                 os.close();
                 conn.connect();
+
+                Log.d("loginTest", "로그인 테스트2-3 " + conn.getHeaderFields());
 
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
@@ -187,8 +187,9 @@ public class LoginActivity extends Activity {
                     InputStream input = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
+
                     String line;
-                    Log.d("loginTest", "로그인 받는거 1: " + result.toString());
+                    Log.d("loginTest", "로그인 받는거 1: " + result);
                     Log.d("loginTest", "로그인 받는거 1-1: " + reader);
 
                     while ((line = reader.readLine()) != null) {
@@ -197,39 +198,25 @@ public class LoginActivity extends Activity {
 
                     Log.d("loginTest", "로그인 받는거 2: " + result.toString());  // result.toString()
                     Log.d("loginTest", "로그인 받는거 2-1: " + reader);    //java.io.BufferedReader@5015f88
+                    Log.d("loginTest", "로그인 받는거 2-2: " + result);
 
-                    /*loginIs = conn.getInputStream();
-                    loginBaos = new ByteArrayOutputStream();
-                    byte[] byteBuffer = new byte[1024];
-                    byte[] byteData = null;
-                    int nLength = 0;
-                    while((nLength = loginIs.read(byteBuffer, 0, byteBuffer.length)) != -1) {
-                        loginBaos.write(byteBuffer, 0, nLength);
-                    }
-                    byteData = loginBaos.toByteArray();
+                    SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
 
-                    loginResponse = new String(byteData);
-
-                    JSONObject responseJSON = null;
                     try {
-                        responseJSON = new JSONObject(loginResponse);
+
+                        String value = result.toString();
+                        JSONObject testJson = new JSONObject(value);
+                        String authKey = (String) testJson.get("key");
+                        Log.d("loginTest", "로그인 받는거 2-2: " + authKey);
+
+                        editor.putString("key", authKey);
+                        editor.commit();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        testAge = (String) responseJSON.get("key");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
 
-                    Log.d("loginTest", "로그인 받는거 3: " + loginResponse);
-                    /*Log.d("loginTest", "로그인 받는거 3: " + responseJSON);*/
-                    Log.d("loginTest", "로그인 받는거 3: " + testAge);
-                    /*  Boolean result = (Boolean) responseJSON.get("result");
-                        String age = (String) responseJSON.get("age");
-                        String job = (String) responseJSON.get("job");
-                         
-                        Log.i(TAG, "DATA response = " + loginResopnse);*/
 
 
                     // Pass data to onPostExecute method
@@ -250,40 +237,15 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
-/*
-            JSONObject responseJSON = null;
-            try {
-                responseJSON = new JSONObject(loginResponse);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-            try {
-                testAge = (String) responseJSON.get("key");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            Log.d("loginTest", "로그인 받는거 3: " + loginResponse);
-            Log.d("loginTest", "로그인 받는거 3: " + responseJSON);
-            Log.d("loginTest", "로그인 받는거 3: " + testAge);*/
-
-            //여기에 Json 받는거
-            //this method will be running on UI thread
-
-
-
-            //여기 처리 생각해야함
-            Log.d("loginTest", "로그인 테스트4-1 : " +  result);
-            Log.d("loginTest", "로그인 테스트4-2 : " +  result);
+            Log.d("loginTest", "로그인 테스트4-0 : " +  result);
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             LoginActivity.this.finish();
 
             pdLoading.dismiss();
-            Log.d("loginTest", "로그인 테스트5 : 여기 들어와지나?" ); //여기까진 들어옴
+
             if(result.equalsIgnoreCase("true"))  //equals랑 같음(대소문자까지)
             {
                 /* Here launching another activity when login successful. If you persist login state

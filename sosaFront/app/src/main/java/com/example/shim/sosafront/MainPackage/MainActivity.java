@@ -15,8 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
-import com.example.shim.sosafront.CameraPackage.CaptureActivity;
+import com.example.shim.sosafront.LoginPackage.ChangePawdActivity;
 import com.example.shim.sosafront.LoginPackage.LoginActivity;
+import com.example.shim.sosafront.LoginPackage.LogoutActivity;
 import com.example.shim.sosafront.LoginPackage.SignUpActivity;
 import com.example.shim.sosafront.R;
 
@@ -101,11 +102,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(loginIntent);
 
         } else if (id == R.id.nav_manage) {
+            Intent loginIntent = new Intent(MainActivity.this, ChangePawdActivity.class);
+            startActivity(loginIntent);
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            Intent logoutIntent = new Intent(MainActivity.this, LogoutActivity.class);
+            startActivity(logoutIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -2,17 +2,16 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.shim.sosafront.R;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,7 +23,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import com.example.shim.sosafront.R;
 
 
 public class ChangePawdActivity extends Activity {
@@ -34,8 +32,7 @@ public class ChangePawdActivity extends Activity {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    private Button changePawdBtn;
-
+    private EditText oldPawdView;
     private EditText changePawd1View;
     private EditText changePawd2View;
 
@@ -45,32 +42,28 @@ public class ChangePawdActivity extends Activity {
         setContentView(R.layout.activity_change_pawd);
 
         // Get Reference to variables
+        oldPawdView = (EditText) findViewById(R.id.oldPawdView);
         changePawd1View = (EditText) findViewById(R.id.changePawd1View);
         changePawd2View = (EditText) findViewById(R.id.changePawd2View);
 
-        changePawdBtn = (Button) findViewById(R.id.changePawdBtn);
+        oldPawdView.setText("test12345", TextView.BufferType.EDITABLE);
+        changePawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
+        changePawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
 
 
 
-        /*changePawdBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FindPawdActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });*/
 
     }
 
     // Triggers when changePawd Button clicked
     public void changePawd(View arg0) {
 
-        final String password1 = changePawd1View.getText().toString();
-        final String password2 = changePawd2View.getText().toString();
+        final String old_password = oldPawdView.getText().toString();
+        final String new_password1 = changePawd1View.getText().toString();
+        final String new_password2 = changePawd2View.getText().toString();
 
         // Initialize  AsyncLogin() class with email and password
-        //*new AsyncLogin().execute(email,password);*/
-        new AsyncChangePawd().execute(password1,password2);
+        new AsyncChangePawd().execute(old_password, new_password1, new_password2);
 
     }
 
@@ -95,20 +88,30 @@ public class ChangePawdActivity extends Activity {
             try {
 
                 // Enter URL address where your php file resides
-
                 url = new URL("http://192.168.0.2:8000/rest-auth/password/change/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                Log.d("tmdlsk", "비밀번호 수정 테스트 0 : 접근실패");
                 return "exception";
             }
             try {
+
+                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+                String authKey = prefs.getString("key", "");
+                Log.d("tmdlsk", "비밀번호 수정 테스트0" + authKey);
+
+
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
+
                 conn.setRequestMethod("POST");
+                conn.setRequestProperty("Authorization", " Token " + authKey);
+                /*conn.setRequestProperty("Authorization", " Token 02d5b931870caedc2ce683fcad66e42040447e5e");*/
+
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
@@ -116,8 +119,9 @@ public class ChangePawdActivity extends Activity {
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("password1", params[0])
-                        .appendQueryParameter("password2", params[1]);
+                        .appendQueryParameter("old_password", params[0])
+                        .appendQueryParameter("new_password1", params[1])
+                        .appendQueryParameter("new_password2", params[2]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -125,9 +129,9 @@ public class ChangePawdActivity extends Activity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("tmdlsk", "테스트1" + query);
-                Log.d("tmdlsk", "테스트2" + writer);
-                Log.d("tmdlsk", "테스트2" + os);
+                Log.d("tmdlsk", "비밀번호 수정 테스트1" + query);
+                Log.d("tmdlsk", "비밀번호 수정 테스트2" + writer);
+                Log.d("tmdlsk", "비밀번호 수정 테스트2" + os);
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -144,8 +148,8 @@ public class ChangePawdActivity extends Activity {
                 //여기서 로그인 페이지로 이동
                 int response_code = conn.getResponseCode();
 
-                Log.d("receiveServer", "받는거0-0: " + conn.getResponseCode());
-                Log.d("receiveServer", "받는거0-1: " + conn.getResponseCode());
+                Log.d("receiveServer", "비밀번호 수정 받는거0-0: " + conn.getResponseCode());
+                Log.d("receiveServer", "비밀번호 수정 받는거0-1: " + conn.getResponseCode());
 
                 // Check if successful connection made
 
@@ -156,15 +160,15 @@ public class ChangePawdActivity extends Activity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("receiveServer", "받는거1: " + result.toString());
-                    Log.d("receiveServer", "받는거3: " + reader);
+                    Log.d("receiveServer", "비밀번호 수정 받는거1: " + result.toString());
+                    Log.d("receiveServer", "비밀번호 수정 받는거3: " + reader);
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("receiveServer", "받는거1: " + result.toString());
-                    Log.d("receiveServer", "받는거3: " + reader);
+                    Log.d("receiveServer", "비밀번호 수정 받는거1: " + result.toString());
+                    Log.d("receiveServer", "비밀번호 수정 받는거3: " + reader);
 
                     // Pass data to onPostExecute method
                     return(result.toString());

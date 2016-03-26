@@ -23,7 +23,5 @@
         android:layout_marginTop="10dp"
         android:onClick="findPawd"/>
 
-
-
     <!--android:layout_below="@+id/password"-->
 </LinearLayout>

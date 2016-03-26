@@ -1,1 +1,1 @@
-include ':app', ':library', ':library2'
+include ':app', ':library', ':library2', ':commons-codec-1.4-javadoc', ':commons-codec-1.4-sources', ':commons-codec-1.4'

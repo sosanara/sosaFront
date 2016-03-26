@@ -9,33 +9,42 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/oldPawdView"
+        android:id="@+id/resetPawd1View"
         android:layout_marginTop="5dp"
-        android:hint="old_password"
+        android:hint="새 비밀번호"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/changePawd1View"
+        android:id="@+id/resetPawd2View"
         android:layout_marginTop="5dp"
-        android:hint="New password1"
+        android:hint="새 비밀번호 확인"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/changePawd2View"
+        android:id="@+id/resetUid"
         android:layout_marginTop="5dp"
-        android:hint="New password2"
+        android:hint="인증번호(Uid)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/resetToken"
+        android:layout_marginTop="5dp"
+        android:hint="인증번호(Token)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change Password"
-        android:id="@+id/changePawdBtn"
+        android:text="Reset Password"
+        android:id="@+id/resetPawdBtn"
         android:layout_marginTop="10dp"
-        android:onClick="changePawd"/>
+        android:onClick="resetPawd"/>
 
     <!--android:layout_below="@+id/password"-->
 </LinearLayout>
