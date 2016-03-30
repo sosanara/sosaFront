@@ -83,12 +83,12 @@ public class ChangePawdActivity extends Activity {
             pdLoading.show();
 
         }
+
         @Override
         protected String doInBackground(String... params) {
             try {
-
                 // Enter URL address where your php file resides
-                url = new URL("http://192.168.0.2:8000/rest-auth/password/change/");
+                url = new URL("http://113.198.84.37/rest-auth/password/change/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -96,8 +96,8 @@ public class ChangePawdActivity extends Activity {
                 Log.d("tmdlsk", "비밀번호 수정 테스트 0 : 접근실패");
                 return "exception";
             }
-            try {
 
+            try {
                 SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
                 String authKey = prefs.getString("key", "");
                 Log.d("tmdlsk", "비밀번호 수정 테스트0" + authKey);
@@ -137,6 +137,7 @@ public class ChangePawdActivity extends Activity {
                 writer.close();
                 os.close();
                 conn.connect();
+
 
             } catch (IOException e1) {
                 // TODO Auto-generated catch block

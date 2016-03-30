@@ -9,4 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.shim.sosafront.CameraPackage.SendImageActivity">
 
+    <ImageView
+        android:id="@+id/sendImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/camera_crop"
+
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Image"
+        android:id="@+id/sendImageBtn"
+        android:layout_marginTop="10dp"
+        android:onClick="sendImage"/>
 </RelativeLayout>

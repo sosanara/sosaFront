@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
+import com.example.shim.sosafront.CameraPackage.SendImageActivity;
 import com.example.shim.sosafront.LoginPackage.ChangePawdActivity;
 import com.example.shim.sosafront.LoginPackage.LoginActivity;
 import com.example.shim.sosafront.LoginPackage.LogoutActivity;
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(loginIntent);
 
         } else if (id == R.id.nav_share) {
+            Intent sendImageIntent = new Intent(MainActivity.this, SendImageActivity.class);
+            startActivity(sendImageIntent);
 
         } else if (id == R.id.nav_send) {
             Intent logoutIntent = new Intent(MainActivity.this, LogoutActivity.class);

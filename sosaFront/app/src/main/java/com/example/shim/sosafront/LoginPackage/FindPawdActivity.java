@@ -43,7 +43,7 @@ public class FindPawdActivity extends Activity {
 
         // Get Reference to variables
         findPassEmailView = (EditText) findViewById(R.id.findPassEmailView);
-        findPassEmailView.setText("qwer1234@naver.com", TextView.BufferType.EDITABLE);
+        findPassEmailView.setText("shim5365@naver.com", TextView.BufferType.EDITABLE);
 
 
     }
@@ -81,8 +81,7 @@ public class FindPawdActivity extends Activity {
             try {
 
                 // Enter URL address where your php file resides
-
-                url = new URL("http://192.168.0.2:8000/rest-auth/password/reset/");
+                url = new URL("http://113.198.84.37/rest-auth/password/reset/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block

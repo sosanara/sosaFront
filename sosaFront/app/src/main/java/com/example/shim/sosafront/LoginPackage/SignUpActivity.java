@@ -136,7 +136,7 @@ public class SignUpActivity extends Activity {
 
                 // Enter URL address where your php file resides
 
-                url = new URL("http://192.168.0.2:8000/rest-auth/registration/");
+                url = new URL("http://113.198.84.37/rest-auth/registration/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block

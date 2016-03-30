@@ -65,7 +65,7 @@ public class LogoutActivity extends Activity {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL("http://192.168.0.2:8000/rest-auth/logout/");
+                url = new URL("http://113.198.84.37/rest-auth/logout/");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

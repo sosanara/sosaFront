@@ -60,7 +60,7 @@ public class LoginActivity extends Activity {
         moveSignUp = (Button) findViewById(R.id.moveSignUp);
 
         loginUserNameView.setText("qwer1234", TextView.BufferType.EDITABLE);
-        loginPawdView.setText("qwer1234", TextView.BufferType.EDITABLE);
+        loginPawdView.setText("asdf1234", TextView.BufferType.EDITABLE);
 
         moveFindPass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +120,7 @@ public class LoginActivity extends Activity {
                                                                 //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
             try {
                 // Enter URL address where your php file resides
-                url = new URL("http://192.168.0.2:8000/rest-auth/login/");
+                url = new URL("http://113.198.84.37/rest-auth/login/");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
