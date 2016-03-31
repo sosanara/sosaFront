@@ -207,6 +207,7 @@ public class LoginActivity extends Activity {
 
                         String value = result.toString();
                         JSONObject testJson = new JSONObject(value);
+                        /*String authKey = (String) testJson.get("key");*/
                         String authKey = (String) testJson.get("key");
                         Log.d("loginTest", "로그인 받는거 2-2: " + authKey);
 
@@ -238,15 +239,17 @@ public class LoginActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            Log.d("loginTest", "로그인 테스트4-0 : " +  result);
+            SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+            String authKey = prefs.getString("key", "");
 
+            /*Log.d("loginTest", "로그인 테스트4-0 : " +  result);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-            LoginActivity.this.finish();
+            LoginActivity.this.finish();*/
 
             pdLoading.dismiss();
 
-            if(result.equalsIgnoreCase("true"))  //equals랑 같음(대소문자까지)
+            if(result.contains(authKey))  //equals랑 같음(대소문자까지)
             {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
