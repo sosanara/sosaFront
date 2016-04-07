@@ -14,4 +14,9 @@
     <string name="title_activity_logout">LogoutActivity</string>
     <string name="title_activity_find_pawd">FindPawdActivity</string>
     <string name="title_activity_reset_pawd">ResetPawdActivity</string>
+    <string name="title_activity_test_send_image">testSendImageActivity</string>
+    <string name="title_activity_test_image">testImage</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="title_activity_graph">GraphActivity</string>
+    <string name="title_activity_graph_result">GraphResultActivity</string>
 </resources>

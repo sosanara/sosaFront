@@ -1,73 +1,70 @@
-package com.example.shim.sosafront.LoginPackage;
+package com.example.shim.sosafront.UserInfoPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class ResetPawdActivity extends Activity {
+public class UserInfoActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    private EditText resetPawd1View;
-    private EditText resetPawd2View;
-    private EditText resetUid;
-    private EditText resetToken;
+    private TextView userInfoUserNameView;
+    private TextView userInfoEmailView;
+    private TextView userInfoAgeView;
+    private TextView userInfoNameView;
+    private TextView userInfoGenderView;
+
+    private String userInfoUserName;
+    private String userInfoGender;
+    private String userInfoName;
+    private String userInfoAge;
+    private String userInfoEmail;
+
+    private String authKey;
+    DataStore dataStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset_pawd);
+        setContentView(R.layout.activity_user_info);
 
         // Get Reference to variables
-        resetPawd1View = (EditText) findViewById(R.id.resetPawd1View);
-        resetPawd2View = (EditText) findViewById(R.id.resetPawd2View);
-        resetUid = (EditText) findViewById(R.id.resetUid);
-        resetToken = (EditText) findViewById(R.id.resetToken);
+        userInfoUserNameView = (TextView) findViewById(R.id.userInfoUserNameView);
+        userInfoEmailView = (TextView) findViewById(R.id.userInfoEmailView);
+        userInfoAgeView = (TextView) findViewById(R.id.userInfoAgeView);
+        userInfoNameView = (TextView) findViewById(R.id.userInfoNameView);
+        userInfoGenderView = (TextView) findViewById(R.id.userInfoGenderView);
 
-        resetPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
-        resetPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
+        dataStore = new DataStore(this);
+        authKey = dataStore.getValue("key", "");
 
+        new AsynUserInfo().execute();
     }
 
-    // Triggers when changePawd Button clicked
-    public void resetPawd(View arg0) {
-
-        final String new_password1 = resetPawd1View.getText().toString();
-        final String new_password2 = resetPawd2View.getText().toString();
-        final String uid = resetUid.getText().toString();
-        final String token = resetToken.getText().toString();
-
-        // Initialize  AsyncLogin() class with email and password
-        new AsyncChangePawd().execute(new_password1, new_password2, uid, token);
-
-    }
-
-    private class AsyncChangePawd extends AsyncTask<String, String, String>
+    private class AsynUserInfo extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(ResetPawdActivity.this);
+        ProgressDialog pdLoading = new ProgressDialog(UserInfoActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
@@ -79,50 +76,30 @@ public class ResetPawdActivity extends Activity {
             pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
-
         }
+
         @Override
         protected String doInBackground(String... params) {
             try {
                 // Enter URL address where your php file resides
-                url = new URL("http://113.198.84.37/rest-auth/password/reset/confirm/");
+                url = new URL("http://113.198.84.37/api/v1/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                Log.d("tmdlsk", "비밀번호 수정 테스트 0 : 접근실패");
                 return "exception";
             }
+
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
 
-                conn.setRequestMethod("POST");
-
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Authorization", " Token " + authKey);
                 conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("new_password1", params[0])
-                        .appendQueryParameter("new_password2", params[1])
-                        .appendQueryParameter("uid", params[2])
-                        .appendQueryParameter("token", params[3]);
-
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                Log.d("tmdlsk", "리셋 테스트1" + query);
-                Log.d("tmdlsk", "리셋 테스트1-1" + writer);
-                Log.d("tmdlsk", "리셋 테스트1-2" + os);
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
                 conn.connect();
 
             } catch (IOException e1) {
@@ -132,10 +109,11 @@ public class ResetPawdActivity extends Activity {
             }
 
             try {
-                //여기서 로그인 페이지로 이동
+
                 int response_code = conn.getResponseCode();
-                Log.d("tmdlsk", "리셋 테스트2-1: " + conn.getResponseCode());
-                Log.d("tmdlsk", "리셋 테스트12-2: " + conn.getResponseCode());
+
+                Log.d("UserInfoLog", "UserInfoLog 0-0: " + conn.getResponseCode());
+                Log.d("UserInfoLog", "UserInfoLog 0-1: " + conn.getResponseCode());
 
                 // Check if successful connection made
 
@@ -146,15 +124,30 @@ public class ResetPawdActivity extends Activity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("receiveServer", "리셋 테스트3-1: " + result.toString());
-                    Log.d("receiveServer", "리셋 테스트3-2: " + reader);
+                    Log.d("UserInfoActivity", "UserInfoActivity 1-1: " + result.toString());
+                    Log.d("UserInfoActivity", "UserInfoActivity 1-2:" + reader);
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("receiveServer", "리셋 테스트3-3: " + result.toString());
-                    Log.d("receiveServer", "리셋 테스트3-4: " + reader);
+                    String value = result.toString();
+                    JSONObject jsonObject = new JSONObject(value);
+                    String test = jsonObject.getString("value").toString();
+
+                    JSONObject subJsonObject = new JSONObject(test);
+
+                    userInfoUserName = subJsonObject.getString("username").toString();
+                    userInfoGender = subJsonObject.getString("gender").toString();
+                    userInfoName = subJsonObject.getString("name").toString();
+                    userInfoAge = subJsonObject.getString("birth").toString();
+                    userInfoEmail = subJsonObject.getString("email").toString();
+
+                    Log.d("UserInfoLog", "UserInfoLog 2-1: " + userInfoUserName);
+                    Log.d("UserInfoLog", "UserInfoLog 2-2: " + userInfoGender);
+                    Log.d("UserInfoLog", "UserInfoLog 2-3: " + userInfoName);
+                    Log.d("UserInfoLog", "UserInfoLog 2-4: " + userInfoAge);
+                    Log.d("UserInfoLog", "UserInfoLog 2-5: " + userInfoEmail);
 
                     // Pass data to onPostExecute method
                     return(result.toString());
@@ -167,6 +160,9 @@ public class ResetPawdActivity extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
                 return "exception";
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return "exception";
             } finally {
                 conn.disconnect();
             }
@@ -175,6 +171,11 @@ public class ResetPawdActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
+            userInfoUserNameView.setText(userInfoUserName);
+            userInfoEmailView.setText(userInfoEmail);
+            userInfoAgeView.setText(userInfoAge);
+            userInfoNameView.setText(userInfoName);
+            userInfoGenderView.setText(userInfoEmail);
             //this method will be running on UI thread
 
             pdLoading.dismiss();

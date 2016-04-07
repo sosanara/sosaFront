@@ -2,7 +2,6 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 
 import java.io.BufferedReader;
@@ -36,6 +36,10 @@ public class ChangePawdActivity extends Activity {
     private EditText changePawd1View;
     private EditText changePawd2View;
 
+    private String authKey;
+
+    DataStore dataStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +54,8 @@ public class ChangePawdActivity extends Activity {
         changePawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
         changePawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
 
-
+        dataStore = new DataStore(this);
+        authKey = dataStore.getValue("key", "");
 
 
     }
@@ -98,20 +103,13 @@ public class ChangePawdActivity extends Activity {
             }
 
             try {
-                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
-                String authKey = prefs.getString("key", "");
-                Log.d("tmdlsk", "비밀번호 수정 테스트0" + authKey);
 
-
-                // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
 
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Authorization", " Token " + authKey);
-                /*conn.setRequestProperty("Authorization", " Token 02d5b931870caedc2ce683fcad66e42040447e5e");*/
-
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
@@ -129,9 +127,9 @@ public class ChangePawdActivity extends Activity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("tmdlsk", "비밀번호 수정 테스트1" + query);
-                Log.d("tmdlsk", "비밀번호 수정 테스트2" + writer);
-                Log.d("tmdlsk", "비밀번호 수정 테스트2" + os);
+                Log.d("ChangePawdLog", "ChangePawdLog 1-0" + query);
+                Log.d("ChangePawdLog", "ChangePawdLog 1-1" + writer);
+                Log.d("ChangePawdLog", "ChangePawdLog 1-2" + os);
                 writer.write(query);
                 writer.flush();
                 writer.close();

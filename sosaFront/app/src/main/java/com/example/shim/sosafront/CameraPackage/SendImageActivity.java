@@ -1,184 +1,174 @@
 package com.example.shim.sosafront.CameraPackage;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 
 public class SendImageActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
+
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
     private ImageView sendImageView;
-    private Bitmap image;
-    private Button sendImageBtn;
+    /*private ImageView resultImageView;*/
+
+    String lineEnd = "\r\n";
+    String twoHyphens = "--";
+    String boundary = "*****";
+    String authKey;
+
+    int bytesRead, bytesAvailable, bufferSize;
+    byte[] buffer;
+    int maxBufferSize = 1 * 1024 * 1024;
 
     final String uploadFilePath = Environment.getExternalStorageDirectory() + "/sosaCamera/";
     final String uploadFileName = "img.jpg";
-    int serverResponseCode = 0;
+    String captureImage;
+    String fileName;
+    Bitmap testBitmap;
 
+    DataStore dataStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_image);
 
-        // Get Reference to variables
+        captureImage  = getIntent().getExtras().getString("captureImage");
+        Log.d("sendImage", "sendImage : " + captureImage);
+        dataStore = new DataStore(this);
+        authKey = dataStore.getValue("key", "");
 
         sendImageView = (ImageView) findViewById(R.id.sendImageView);
-        image = ((BitmapDrawable)sendImageView.getDrawable()).getBitmap();
-        sendImageBtn = (Button) findViewById(R.id.sendImageBtn);
-
-        sendImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
 
-                new Thread(new Runnable() {
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
+        /*resultImageView = (ImageView) findViewById(R.id.resultImageView);
+        resultImageView.setVisibility(View.GONE);*/
 
-                            }
-                        });
 
-                        uploadFile(uploadFilePath + uploadFileName);
+        File imgFile = new  File(captureImage);
 
-                    }
-                }).start();
-            }
-        });
+        if(imgFile.exists()){
+
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            sendImageView.setImageBitmap(myBitmap);
+
+        }
 
     }
 
+    public void retryImage(View arg0) {
 
+        Intent cameraIntent = new Intent(SendImageActivity.this, CameraActivity.class);
+        startActivity(cameraIntent);
+        SendImageActivity.this.finish();
 
+    }
 
+    public void sendImage(View arg0) {
 
-    public int uploadFile(final String sourceFileUri) {
+        // Initialize  AsyncLogin() class with email and password
+        new AsyncSendImage().execute();
 
-        String fileName = sourceFileUri;
+    }
 
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
+    private class AsyncSendImage extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(SendImageActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
 
-        if (!sourceFile.isFile()) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-           /* Log.e("uploadFile", "Source File not exist :" + filepath);*/
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    /*messageText.setText("Source File not exist :" + filepath);*/
-                }
-            });
+        }
 
-            return 0;
-
-        } else {
+        @Override
+        protected String doInBackground(String... params) {
             try {
+                // Enter URL address where your php file resides
+                url = new URL("http://113.198.84.37/api/v1/picture/");
 
-                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
-                String authKey = prefs.getString("key", "");
-                Log.d("tmdlsk", "비밀번호 수정 테스트0" + authKey);
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
 
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL("http://113.198.84.37/api/v1/picture/");
+            try {
+                FileInputStream fileInputStream = new FileInputStream(uploadFilePath + uploadFileName);
+                DataOutputStream dos = null;
+                fileName = uploadFilePath + uploadFileName;
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true); // Allow Inputs
-                conn.setDoOutput(true); // Allow Outputs
-                conn.setUseCaches(false); // Don't use a Cached Copy
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+
+                Log.d("sendImage", "sendImage 주는거 1-1: " + authKey);
+
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Authorization", " Token " + authKey);
                 conn.setRequestProperty("Connection", "Keep-Alive");
                 //  conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type","multipart/form-data;boundary=" + boundary);
+                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                 conn.setRequestProperty("image", fileName);
 
 
                 dos = new DataOutputStream(conn.getOutputStream());
-
-
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
 
-/*//Adding Parameter name
-
-                String name="amir";
-                dos.writeBytes("Content-Disposition: form-data; name=\"name\"" + lineEnd);
-                //dos.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
-                //dos.writeBytes("Content-Length: " + name.length() + lineEnd);
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(name); // mobile_no is String variable
-                dos.writeBytes(lineEnd);
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-
-//Adding Parameter phone
-                String phone="9956565656";
-                dos.writeBytes("Content-Disposition: form-data; name=\"phone\"" + lineEnd);
-                //dos.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
-                //dos.writeBytes("Content-Length: " + name.length() + lineEnd);
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(phone); // mobile_no is String variable
-                dos.writeBytes(lineEnd);*/
-
-
-                //Json_Encoder encode=new Json_Encoder();
-                //call to encode method and assigning response data to variable 'data'
-                //String data=encode.encod_to_json();
-                //response of encoded data
-                //System.out.println(data);
-
-
-                //Adding Parameter filepath
-
-               /* String filepath="http://192.168.1.110/echo/uploads"+fileName;*/
                 String filepath = uploadFilePath + uploadFileName;
 
                 dos.writeBytes("Content-Disposition: form-data; name=\"filepath\"" + lineEnd);
-                //dos.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
-                //dos.writeBytes("Content-Length: " + name.length() + lineEnd);
                 dos.writeBytes(lineEnd);
                 dos.writeBytes(filepath); // mobile_no is String variable
                 dos.writeBytes(lineEnd);
-
-
-//Adding Parameter media file(audio,video and image)
-
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
 
-                dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\""+ fileName + "\"" + lineEnd);
+                dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\"" + fileName + "\"" + lineEnd);
                 dos.writeBytes(lineEnd);
+
+
                 // create a buffer of maximum size
                 bytesAvailable = fileInputStream.available();
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -186,8 +176,7 @@ public class SendImageActivity extends Activity {
                 // read file and write it into form...
                 bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
-                while (bytesRead > 0)
-                {
+                while (bytesRead > 0) {
                     dos.write(buffer, 0, bufferSize);
                     bytesAvailable = fileInputStream.available();
                     bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -199,181 +188,131 @@ public class SendImageActivity extends Activity {
                 dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
 
-                serverResponseCode = conn.getResponseCode();
-                String serverResponseMessage = conn.getResponseMessage();
+                conn.connect();
 
 
 
-                Log.i("uploadFile", "HTTP Response is : "+ serverResponseMessage + ": " + serverResponseCode);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
 
-                if (serverResponseCode == 200) {
-                    Log.i("uploadFile", "File Upload Complete.");
+            try {
+                //여기서 로그인 페이지로 이동
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
 
                     // Read data sent from server
                     InputStream input = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
-
                     String line;
+
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("sendImage", "sendImage 받는거2: " + result.toString());  // result.toString()
-                    Log.d("sendImage", "sendImage거 받는거 2-2: " + result);
-
-
                     String value = result.toString();
-                    JSONObject jsonObject =  new JSONObject(value);
-
-
+                    JSONObject jsonObject = new JSONObject(value);
                     String test = jsonObject.getString("value").toString();
 
+                    JSONObject subJsonObject = new JSONObject(test);
 
+                    String sendImagePath = subJsonObject.getString("image").toString();
+                    String resultImagePath = subJsonObject.getString("result_image").toString();
+                    String resultType = subJsonObject.getString("result_type").toString();
+                    String userName = subJsonObject.getString("user").toString();
 
+                    Log.d("sendImage", "sendImage 받는거 2-2: " + sendImagePath);
+                    Log.d("sendImage", "sendImage 받는거 2-3: " + resultImagePath);
+                    Log.d("sendImage", "sendImage 받는거 2-4: " + resultType);
+                    Log.d("sendImage", "sendImage 받는거 2-5: " + userName);
 
+                    displayImageView(resultImagePath);
 
-                    /*SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();*/
+                    // Pass data to onPostExecute method
+                    return (result.toString());
 
-                    Log.d("sendImage", "sendImage 받는거 2-3: " + test);
+                } else {
 
-                    JSONObject subJsonObject =  new JSONObject(test);
-
-                    String test1 = jsonObject.getString("image").toString();
-                    String test2 = jsonObject.getString("result").toString();
-                    String test3 = jsonObject.getString("user").toString();
-
-                    /*try {
-                        // Locate the array name in JSON
-                        jsonarray = jsonobject.getJSONArray("worldpopulation");
-
-                        for (int i = 0; i < jsonarray.length(); i++) {
-                            HashMap<String, String> map = new HashMap<String, String>();
-                            jsonobject = jsonarray.getJSONObject(i);
-                            // Retrive JSON Objects
-                            map.put("rank", jsonobject.getString("rank"));
-                            map.put("country", jsonobject.getString("country"));
-                            map.put("population", jsonobject.getString("population"));
-                            map.put("flag", jsonobject.getString("flag"));
-                            // Set the JSON Objects into the array
-                            arraylist.add(map);
-                        }
-                    } catch (JSONException e) {
-                        Log.e("Error", e.getMessage());
-                        e.printStackTrace();
-                    }*/
-
-
-                    /*JSONArray jArr = new JSONArray(jsonObject.getString("value"));
-                    Log.d("sendImage", "sendImage 받는거 2-4: " + jArr);
-
-                    String btnTitle [] = new String[jArr.length()];
-
-
-                    String title = jsonObject.getString("title").toString();
-
-                    for(int i = 0; i < jArr.length(); i++){
-                        btnTitle [i] = jArr.getJSONObject(i).getString("image").toString();
-                        //출력하여 결과 얻기
-                        Log.d("sendImage", "btnTitle[" + i + "]=" + btnTitle[i]);
-                    }*/
-
-                    /*JSONObject  jsonObject =  new JSONObject(value);
-                    JSONArray jsonarray = new JSONArray(jsonObject.getString("value"));
-
-                    String btnTitle [] = new String[jsonarray.length()];
-
-                    for(int i = 0; i < jsonarray.length(); i++){
-                        btnTitle [i] = jsonarray.getJSONObject(i).getString("result").toString();
-                        Log.d("sendImage", "sendImage 받는거 2-3: " + btnTitle[i]);
-                        //출력하여 결과 얻기
-                    }*/
-
-                    /*for (int i = 0; i < jsonarray.length(); i++) {
-                        JSONObject jsonobject = jsonarray.getJSONObject(i);
-                        String resultFirstImage = jsonobject.getString("image");
-                        String resultLastImage = jsonobject.getString("result");
-                        String resultUser = jsonobject.getString("user");
-                        String resultSuccess = jsonobject.getString("uccess");
-
-                        Log.d("sendImage", "sendImage 받는거 2-3: " + resultFirstImage);
-                        Log.d("sendImage", "sendImage 받는거 2-3: " + resultLastImage);
-                        Log.d("sendImage", "sendImage 받는거 2-3: " + resultUser);
-                        Log.d("sendImage", "sendImage 받는거 2-3: " + resultSuccess);
-                    }*/
-
-
-                    /*SONObject uj = (JSONObject) uJson;
-                    JSONArray jsonSites = (JSONArray)  obj;
-                    obj =  parser.parse(uj.get("sites").toString());
-
-                    for()*/
-/*
-                    JSONObject site = (JSONObject)(((JSONArray)jsonSites.get(i)).get(0));
-                    JSONObject testJson = new JSONObject(value);
-                    String resultValue = (String) testJson.get("value");
-                    Log.d("sendImage", "sendImage 받는거 2-3: " + resultValue);*/
-                    /*String resultFirstImage = (String) testJson.get("image");
-                    String resultLastImage = (String) testJson.get("result");
-                    String resultUser = (String) testJson.get("user
-");*/
-
-                    /*Log.d("sendImage", "sendImage 받는거 2-3: " + resultFirstImage);
-                    Log.d("sendImage", "sendImage 받는거 2-3: " + resultLastImage);
-                    Log.d("sendImage", "sendImage 받는거 2-3: " + resultUser);*/
-
-                        /*String authKey = (String) testJson.get("key");*/
-
-
-
-                        /*editor.putString("key", authKey);
-                        editor.commit();*/
-
+                    return ("unsuccessful");
                 }
 
-                // close the streams //
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-
-            } catch (MalformedURLException ex) {
-
-
-                ex.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-
-                        Toast.makeText(SendImageActivity.this,
-                                "MalformedURLException", Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                });
-
-                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-            } catch (final Exception e) {
-
-
+            } catch (IOException e) {
                 e.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-
-                        Toast.makeText(SendImageActivity.this,
-                                "Got Exception : see logcat ",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                /*Log.e("Upload file to server Exception", "Exception : " );*/
+                return "exception";
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
             }
+        }
 
-            return serverResponseCode;
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //this method will be running on UI thread
+
+            pdLoading.dismiss();
+
+            if(result.equalsIgnoreCase("true"))
+            {
+                /* Here launching another activity when login successful. If you persist login state
+                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+                 */
+
+                /*Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
+                SignUpActivity.this.finish();*/
+
+            }else if (result.equalsIgnoreCase("false")){
+
+                // If username and password does not match display a error message
+               /* Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);*/
+
+            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+
+                /*Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);*/
+
+            }
+        }
+
+    }
+
+    public void displayImageView(String ImagePath) {
+        try {
+
+            //웹사이트에 접속 (사진이 있는 주소로 접근)
+            URL Url = new URL("http://113.198.84.37/" + ImagePath);
+            // 웹사이트에 접속 설정
+            URLConnection urlcon = Url.openConnection();
+            // 연결하시오
+            urlcon.connect();
+            // 이미지 길이 불러옴
+            int imagelength = urlcon.getContentLength();
+            // 스트림 클래스를 이용하여 이미지를 불러옴
+            BufferedInputStream bis = new BufferedInputStream(urlcon.getInputStream(), imagelength);
+            // 스트림을 통하여 저장된 이미지를 이미지 객체에 넣어줌
+            testBitmap = BitmapFactory.decodeStream(bis);
+
+            /*if(ImagePath.contains("myResult"))
+                resultImageView.setImageBitmap(testBitmap);
+
+            else
+                sendImageView.setImageBitmap(testBitmap);*/
+
+            sendImageView.setImageBitmap(testBitmap);
+
+            bis.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
-
-
-
-
-

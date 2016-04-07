@@ -3,13 +3,13 @@ package com.example.shim.sosafront.LoginPackage;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 
 import java.io.BufferedReader;
@@ -27,23 +27,28 @@ public class LogoutActivity extends Activity {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
+    String authKey;
+    DataStore dataStore;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logout);
+
+        dataStore = new DataStore(this);
+        authKey = dataStore.getValue("key", "");
     }
 
     // Triggers when LOGIN Button clicked
     public void logOut(View arg0) {
 
         // Initialize  AsyncLogin() class with email and password
-        new AsyncLogin().execute();
+        new AsyncLogout().execute();
 
     }
 
-    private class AsyncLogin extends AsyncTask<String, String, String>
+    private class AsyncLogout extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(LogoutActivity.this);
         HttpURLConnection conn;
@@ -74,8 +79,8 @@ public class LogoutActivity extends Activity {
 
             try {
 
-                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
-                String authKey = prefs.getString("key", "");
+
+
                 Log.d("tmdlsk", "비밀번호 수정 테스트0" + authKey);
 
                 // Setup HttpURLConnection class to send and receive data from php and mysql
@@ -100,7 +105,7 @@ public class LogoutActivity extends Activity {
             }
 
             try {
-                //여기서 로그인 페이지로 이동
+
                 int response_code = conn.getResponseCode();
 
                 Log.d("logoutTest", "로그아웃 받는거0-0: " + conn.getResponseCode());

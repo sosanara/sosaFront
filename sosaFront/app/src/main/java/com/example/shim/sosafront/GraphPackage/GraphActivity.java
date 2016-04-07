@@ -1,0 +1,1400 @@
+/*
+package com.example.shim.sosafront.GraphPackage;
+
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.WindowManager;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import com.example.shim.sosafront.R;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class GraphActivity extends DemoBase implements OnChartGestureListener, OnChartValueSelectedListener {
+
+    private LineChart mChart;
+    private SeekBar mSeekBarX, mSeekBarY;
+    private TextView tvX, tvY;
+
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
+
+
+    ArrayList<String> graphIndex = new ArrayList<String>();
+    ArrayList<String> graphType = new ArrayList<String>();
+    ArrayList<String> graphCreateDate = new ArrayList<String>();
+    ArrayList<String> graphBirth = new ArrayList<String>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_linechart);
+
+        new AsyncGraph().execute();
+
+        tvX = (TextView) findViewById(R.id.tvXMax);
+        */
+/*tvY = (TextView) findViewById(R.id.tvYMax);*//*
+
+
+        */
+/*mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
+        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
+
+        mSeekBarX.setProgress(graphIndex.size());  //여기 이미지 개수만큼
+        mSeekBarY.setProgress(10);
+
+        mSeekBarY.setOnSeekBarChangeListener(this);
+        mSeekBarX.setOnSeekBarChangeListener(this);*//*
+
+
+        mChart = (LineChart) findViewById(R.id.chart1);
+        mChart.setOnChartGestureListener(this);
+        mChart.setOnChartValueSelectedListener(this);
+        mChart.setDrawGridBackground(false);
+
+        // no description text
+        mChart.setDescription("");
+        mChart.setNoDataTextDescription("You need to provide data for the chart.");
+
+        // enable touch gestures
+        mChart.setTouchEnabled(true);
+
+        // enable scaling and dragging
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(true);
+        // mChart.setScaleXEnabled(true);
+        // mChart.setScaleYEnabled(true);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        mChart.setPinchZoom(true);
+
+        // set an alternative background color
+        // mChart.setBackgroundColor(Color.GRAY);
+
+        // create a custom MarkerView (extend MarkerView) and specify the layout
+        // to use for it
+        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
+
+        // set the marker to the chart
+        mChart.setMarkerView(mv);
+
+        // x-axis limit line
+        */
+/*LimitLine llXAxis = new LimitLine(10f, "Index 10");*//*
+
+        */
+/*llXAxis.setLineWidth(4f);
+        llXAxis.enableDashedLine(10f, 10f, 0f);
+        llXAxis.setLabelPosition(LimitLabelPosition.LEFT_BOTTOM);
+        llXAxis.setTextSize(10f);*//*
+
+
+        XAxis xAxis = mChart.getXAxis();
+        //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
+        //xAxis.addLimitLine(llXAxis); // add x-axis limit line
+
+        */
+/*Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+*//*
+
+        */
+/*LimitLine ll1 = new LimitLine(100f, "Upper Limit");
+        ll1.setLineWidth(4f);
+        ll1.enableDashedLine(10f, 10f, 0f);
+        ll1.setLabelPosition(LimitLabelPosition.RIGHT_TOP);
+        ll1.setTextSize(10f);
+        ll1.setTypeface(tf);
+
+        LimitLine ll2 = new LimitLine(0f, "Lower Limit");
+        ll2.setLineWidth(4f);
+        ll2.enableDashedLine(10f, 10f, 0f);
+        ll2.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
+        ll2.setTextSize(10f);
+        ll2.setTypeface(tf);*//*
+
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        */
+/*leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
+        leftAxis.addLimitLine(ll1);
+        leftAxis.addLimitLine(ll2);*//*
+
+        */
+/*leftAxis.setAxisMaxValue(220f);
+        leftAxis.setAxisMinValue(-50f);*//*
+
+        //leftAxis.setYOffset(20f);
+        leftAxis.enableGridDashedLine(10f, 10f, 0f);
+        leftAxis.setDrawZeroLine(false);
+
+        // limit lines are drawn behind data (and not on top)
+        */
+/*leftAxis.setDrawLimitLinesBehindData(true);*//*
+
+
+        mChart.getAxisRight().setEnabled(false);
+
+        //mChart.getViewPortHandler().setMaximumScaleY(2f);
+        //mChart.getViewPortHandler().setMaximumScaleX(2f);
+
+        // add data
+        */
+/*setData(45, 100);*//*
+
+
+//        mChart.setVisibleXRange(20);
+//        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
+//        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
+
+        mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+//        mChart.invalidate();
+
+        // get the legend (only possible after setting data)
+        Legend l = mChart.getLegend();
+
+        // modify the legend ...
+        // l.setPosition(LegendPosition.LEFT_OF_CHART);
+        l.setForm(Legend.LegendForm.LINE);
+
+        // // dont forget to refresh the drawing
+        // mChart.invalidate();
+    }
+
+    private class AsyncGraph extends AsyncTask<String, String, String>
+    {
+        ProgressDialog pdLoading = new ProgressDialog(GraphActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+
+        }
+        @Override
+        protected String doInBackground(String... params) {  //프로그레스 다이얼로그 자동 종료 및 에러메시지 토스트보여줌
+            //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
+            try {
+                // Enter URL address where your php file resides
+                url = new URL("http://113.198.84.37/api/v1/userInfo/graph/");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception fail!";
+            }
+
+            try {
+
+                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+                String authKey = prefs.getString("key", "");
+                authKey = "a6bf78ac14b1845b9f91f193ea4b86e8c0a65002";
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("GET");
+                Log.d("테스트염", "테스트욤 : " + authKey);
+                conn.setRequestProperty("Authorization", " Token " + authKey);
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                */
+/*conn.setDoOutput(true);*//*
+
+
+                // Append parameters to URL
+
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+                //여기서 로그인 페이지로 이동
+                int response_code = conn.getResponseCode();
+
+                Log.d("GraphLog", "GraphLog 0-0: " + conn.getResponseCode());
+
+                // Check if successful connection made
+
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+                    Log.d("GraphLog", "GraphLog 1: " + result.toString());
+                    Log.d("GraphLog", "GraphLog 1-1: " + reader);
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    Log.d("GraphLog", "GraphLog 2: " + result.toString());  // result.toString()
+                    Log.d("GraphLog", "GraphLog 2-1: " + reader);    //java.io.BufferedReader@5015f88
+
+                    String value = result.toString();
+                    JSONObject jsonObject = new JSONObject(value);
+
+                    Log.d("GraphLog", "GraphLog 2-3: " + jsonObject.get("value"));
+
+
+
+                    JSONObject testJsonObject = new JSONObject(String.valueOf(jsonObject.get("value")));
+
+                    Iterator<String> keys = testJsonObject.keys();
+
+                    while( keys.hasNext() ) {
+                        String key = (String)keys.next();
+                        graphIndex.add(key);
+                        Log.d("GraphLog", "GraphLog 2-4: " + key);
+
+                        JSONObject testJsonObject2 = new JSONObject(String.valueOf(testJsonObject.get(key)));
+                        Log.d("GraphLog", "GraphLog 2-5: " + testJsonObject2);
+                        Log.d("GraphLog", "GraphLog 2-6 type: " + testJsonObject2.getString("type").toString());
+                        Log.d("GraphLog", "GraphLog 2-7 create_date: " + testJsonObject2.getString("create_date").toString());
+                        Log.d("GraphLog", "GraphLog 2-8 birth: " + testJsonObject2.getString("birth").toString());
+
+                        graphType.add(testJsonObject2.getString("type").toString());
+                        graphCreateDate.add(testJsonObject2.getString("create_date").toString());
+                        graphBirth.add(testJsonObject2.getString("birth").toString());
+
+                    }
+
+                    for(int i = 0; i < graphIndex.size(); i++) {
+                        Log.d("GraphLog", "GraphLog 2-9 Index: " + graphIndex.get(i));
+                    }
+
+                    Log.d("GraphLog", "GraphLog 2-10: " + testJsonObject);
+
+                    // Pass data to onPostExecute method
+                    return(result.toString());
+
+                }else{
+
+                    return("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //여기 처리 생각해야함
+
+            setData(graphIndex.size(), 100);
+
+            pdLoading.dismiss();
+        }
+
+    }
+
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+    }
+
+    */
+/*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.line, menu);
+        return true;
+    }*//*
+
+
+    */
+/*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.actionToggleValues: {
+                List<ILineDataSet> sets = mChart.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    set.setDrawValues(!set.isDrawValuesEnabled());
+                }
+
+                mChart.invalidate();
+                break;
+            }
+            case R.id.actionToggleHighlight: {
+                if(mChart.getData() != null) {
+                    mChart.getData().setHighlightEnabled(!mChart.getData().isHighlightEnabled());
+                    mChart.invalidate();
+                }
+                break;
+            }
+            case R.id.actionToggleFilled: {
+
+                List<ILineDataSet> sets = mChart.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    if (set.isDrawFilledEnabled())
+                        set.setDrawFilled(false);
+                    else
+                        set.setDrawFilled(true);
+                }
+                mChart.invalidate();
+                break;
+            }
+            case R.id.actionToggleCircles: {
+                List<ILineDataSet> sets = mChart.getData()
+                        .getDataSets();
+
+                Log.d("GraphLog", "GraphLog 4-5: 점 클릭");
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    Log.d("GraphLog", "GraphLog 4-6: " + iSet);
+                    if (set.isDrawCirclesEnabled())
+                        set.setDrawCircles(false);
+                    else
+                        set.setDrawCircles(true);
+                }
+                mChart.invalidate();
+                break;
+            }
+            case R.id.actionToggleCubic: {
+                List<ILineDataSet> sets = mChart.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    if (set.isDrawCubicEnabled())
+                        set.setDrawCubic(false);
+                    else
+                        set.setDrawCubic(true);
+                }
+                mChart.invalidate();
+                break;
+            }
+            case R.id.actionToggleStepped: {
+                List<ILineDataSet> sets = mChart.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    if (set.isDrawSteppedEnabled())
+                        set.setDrawStepped(false);
+                    else
+                        set.setDrawStepped(true);
+                }
+                mChart.invalidate();
+                break;
+            }
+            case R.id.actionTogglePinch: {
+                if (mChart.isPinchZoomEnabled())
+                    mChart.setPinchZoom(false);
+                else
+                    mChart.setPinchZoom(true);
+
+                mChart.invalidate();
+                break;
+            }
+            case R.id.actionToggleAutoScaleMinMax: {
+                mChart.setAutoScaleMinMaxEnabled(!mChart.isAutoScaleMinMaxEnabled());
+                mChart.notifyDataSetChanged();
+                break;
+            }
+            case R.id.animateX: {
+                mChart.animateX(3000);
+                break;
+            }
+            case R.id.animateY: {
+                mChart.animateY(3000, Easing.EasingOption.EaseInCubic);
+                break;
+            }
+            case R.id.animateXY: {
+                mChart.animateXY(3000, 3000);
+                break;
+            }
+            case R.id.actionSave: {
+                if (mChart.saveToPath("title" + System.currentTimeMillis(), "")) {
+                    Toast.makeText(getApplicationContext(), "Saving SUCCESSFUL!",
+                            Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getApplicationContext(), "Saving FAILED!", Toast.LENGTH_SHORT)
+                            .show();
+
+                // mChart.saveToGallery("title"+System.currentTimeMillis())
+                break;
+            }
+        }
+        return true;
+    }*//*
+
+
+    */
+/*@Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        tvX.setText("" + (mSeekBarX.getProgress() + 1));
+        tvY.setText("" + (mSeekBarY.getProgress()));
+
+        setData(mSeekBarX.getProgress() + 1, mSeekBarY.getProgress());
+
+        // redraw
+        mChart.invalidate();
+    }*//*
+
+
+   */
+/* @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+
+    }*//*
+
+
+    private void setData(int count, float range) {
+
+        Log.d("GraphLog", "GraphLog 4-0: " + graphIndex.size());
+
+
+        range = 100;
+        ArrayList<String> xVals = new ArrayList<String>();
+
+        for (int i = 0; i < count; i++) {
+            String graphCreateDateCut =  graphCreateDate.get(i).substring (5 ,10 ) ;// ex) 2016-04-01
+            xVals.add(graphCreateDateCut);  //여기에 찍은 날짜
+
+        }
+
+
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+
+        for (int i = 0; i < count; i++) {
+
+            */
+/*float mult = (range + 1);*//*
+
+            float mult =  10;
+            float val = i * 6;
+            */
+/*float val = (float) (Math.random() * mult) + 3;*//*
+// + (float)
+            // ((mult *
+            // 0.1) / 10);
+            yVals.add(new Entry(val, i));
+        }
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(yVals, "x축 : 찍은날짜,  y축 : 탈모 비율");
+        // set1.setFillAlpha(110);
+        // set1.setFillColor(Color.RED);
+
+        // set the line to be drawn like this "- - - - - -"
+        set1.enableDashedLine(10f, 5f, 0f);
+        set1.enableDashedHighlightLine(10f, 5f, 0f);
+        set1.setColor(Color.BLACK);
+        set1.setCircleColor(Color.BLACK);
+        set1.setLineWidth(1f);
+        set1.setCircleRadius(3f);
+        set1.setDrawCircleHole(false);
+        set1.setValueTextSize(9f);
+        set1.setDrawFilled(true);
+
+        if(Utils.getSDKInt() >= 18) {
+            // fill drawable only supported on api level 18 and above
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.graph_backround_red);
+            set1.setFillDrawable(drawable);
+        } else {
+            set1.setFillColor(Color.GREEN);
+        }
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+        LineData data = new LineData(xVals, dataSets);
+
+        // set data
+        mChart.setData(data);
+    }
+
+    @Override
+    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        Log.i("Gesture", "START, x: " + me.getX() + ", y: " + me.getY());
+    }
+
+    @Override
+    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        Log.i("Gesture", "END, lastGesture: " + lastPerformedGesture);
+
+        // un-highlight values after the gesture is finished and no single-tap
+        if(lastPerformedGesture != ChartTouchListener.ChartGesture.SINGLE_TAP)
+            mChart.highlightValues(null); // or highlightTouch(null) for callback to onNothingSelected(...)
+    }
+
+    @Override
+    public void onChartLongPressed(MotionEvent me) {
+        Log.i("LongPress", "Chart longpressed.");
+    }
+
+    @Override
+    public void onChartDoubleTapped(MotionEvent me) {
+        Log.i("DoubleTap", "Chart double-tapped.");
+    }
+
+    @Override
+    public void onChartSingleTapped(MotionEvent me) {
+        Log.i("SingleTap", "Chart single-tapped.");
+    }
+
+    @Override
+    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+        Log.i("Fling", "Chart flinged. VeloX: " + velocityX + ", VeloY: " + velocityY);
+    }
+
+    @Override
+    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+        Log.i("Scale / Zoom", "ScaleX: " + scaleX + ", ScaleY: " + scaleY);
+    }
+
+    @Override
+    public void onChartTranslate(MotionEvent me, float dX, float dY) {
+        Log.i("Translate / Move", "dX: " + dX + ", dY: " + dY);
+    }
+
+    @Override
+    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+
+
+
+
+        */
+/*Intent moveMainIntent = new Intent(LineChartActivity1.this, GraphResultActivity.class);
+        //graphIndex 보내면됨
+        moveMainIntent.putExtra("graphIndex", graphIndex.get(mChart.getHighestVisibleXIndex()));  //x축 index값을 보냄
+        startActivity(moveMainIntent);*//*
+
+        String xDotString = e.toString().substring(0, 20);
+
+        Log.i("GraphLog", "xDot :" + xDotString);
+
+        String xDotNum = xDotString.replaceAll("[^0-9]", "");
+
+        Log.i("GraphLog", "xDot :" + xDotNum);
+
+        Intent moveMainIntent = new Intent(GraphActivity.this, GraphResultActivity.class);
+        //graphIndex 보내면됨
+        moveMainIntent.putExtra("graphIndex", graphIndex.get(Integer.parseInt(xDotNum)));  //x축 index값을 보냄
+        startActivity(moveMainIntent);
+
+        Log.i("GraphLog", "Entry selected :" + e.toString());
+        Log.i("GraphLog", String.valueOf(mChart.getHighestVisibleXIndex()));
+
+        Log.i("GraphLog", "low: " + mChart.getLowestVisibleXIndex() + ", high: " + mChart.getHighestVisibleXIndex());
+        Log.i("GraphLog", "xmin: " + mChart.getXChartMin() + ", xmax: " + mChart.getXChartMax() + ", ymin: " + mChart.getYChartMin() + ", ymax: " + mChart.getYChartMax());
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+        Log.i("Nothing selected", "Nothing selected.");
+    }
+}
+
+
+
+*/
+/*
+package com.example.shim.sosafront.UserInfoPackage;
+
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class GraphActivity extends Activity {
+
+    // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
+
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
+
+    String authKey;
+    DataStore dataStore;
+
+    List<String> graphIndex = new ArrayList<String>();
+    List<String> graphType = new ArrayList<String>();
+    List<String> graphCreateDate = new ArrayList<String>();
+    List<String> graphBirth = new ArrayList<String>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_graph);
+
+        dataStore = new DataStore(this);
+        authKey = dataStore.getValue("key", "");
+
+        new AsyncGraph().execute();
+    }
+
+
+
+    private class AsyncGraph extends AsyncTask<String, String, String>
+    {
+        ProgressDialog pdLoading = new ProgressDialog(GraphActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+
+        }
+        @TargetApi(Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... params) {  //프로그레스 다이얼로그 자동 종료 및 에러메시지 토스트보여줌
+            //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
+            try {
+
+                // Enter URL address where your php file resides
+                url = new URL("http://113.198.84.37/api/v1/userInfo/graph/");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception fail!";
+            }
+
+            try {
+
+
+
+                Log.d("tmdlsk", "비밀번호 수정 테스트0" + authKey);
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Authorization", " Token " + authKey);
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                *//*
+
+*/
+/*conn.setDoOutput(true);
+*//*
+*/
+/*
+
+                // Append parameters to URL
+
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                Log.d("GraphLog", "GraphLog: " + conn.getResponseCode());
+                Log.d("GraphLog", "GraphLog: " + conn.getResponseCode());
+
+                // Check if successful connection made
+
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+                    Log.d("GraphLog", "GraphLog 1: " + result.toString());
+                    Log.d("GraphLog", "GraphLog 1-1: " + reader);
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    Log.d("GraphLog", "GraphLog 2: " + result.toString());  // result.toString()
+                    Log.d("GraphLog", "GraphLog 2-1: " + reader);    //java.io.BufferedReader@5015f88
+
+
+
+                    String value = result.toString();
+                    JSONObject jsonObject = new JSONObject(value);
+
+                    Log.d("GraphLog", "GraphLog 2-3: " + jsonObject.get("value"));
+
+
+
+                    JSONObject testJsonObject = new JSONObject(String.valueOf(jsonObject.get("value")));
+
+                    Iterator<String> keys = testJsonObject.keys();
+
+                    while( keys.hasNext() ) {
+                        String key = (String)keys.next();
+                        graphIndex.add(key);
+                        Log.d("GraphLog", "GraphLog 2-4: " + key);
+
+                        JSONObject testJsonObject2 = new JSONObject(String.valueOf(testJsonObject.get(key)));
+                        Log.d("GraphLog", "GraphLog 2-5: " + testJsonObject2);
+                        Log.d("GraphLog", "GraphLog 2-6 type: " + testJsonObject2.getString("type").toString());
+                        Log.d("GraphLog", "GraphLog 2-6 create_date: " + testJsonObject2.getString("create_date").toString());
+                        Log.d("GraphLog", "GraphLog 2-6 birth: " + testJsonObject2.getString("birth").toString());
+
+                        graphType.add(testJsonObject2.getString("type").toString());
+                        graphCreateDate.add(testJsonObject2.getString("create_date").toString());
+                        graphBirth.add(testJsonObject2.getString("birth").toString());
+
+                    }
+
+                    Log.d("GraphLog", "GraphLog 2-7: " + graphIndex.size());
+
+
+
+
+
+                    // Pass data to onPostExecute method
+                    return(result.toString());
+
+                }else{
+
+                    return("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //여기 처리 생각해야함
+
+
+            pdLoading.dismiss();
+        }
+
+    }
+}
+
+
+
+*//*
+
+
+*/
+
+
+
+package com.example.shim.sosafront.GraphPackage;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.WindowManager;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import com.example.shim.sosafront.R;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.Legend.LegendForm;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class GraphActivity extends DemoBase implements OnChartGestureListener, OnChartValueSelectedListener {
+
+    private LineChart mChart;
+    private SeekBar mSeekBarX, mSeekBarY;
+    private TextView tvX, tvY;
+
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
+
+
+    ArrayList<String> graphIndex = new ArrayList<String>();
+    ArrayList<String> graphType = new ArrayList<String>();
+    ArrayList<String> graphCreateDate = new ArrayList<String>();
+    ArrayList<String> graphBirth = new ArrayList<String>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_graph);
+
+        new AsyncGraph().execute();
+
+        tvX = (TextView) findViewById(R.id.tvXMax);
+        /*tvY = (TextView) findViewById(R.id.tvYMax);*/
+
+        /*mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
+        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
+
+        mSeekBarX.setProgress(graphIndex.size());  //여기 이미지 개수만큼
+        mSeekBarY.setProgress(10);
+
+        mSeekBarY.setOnSeekBarChangeListener(this);
+        mSeekBarX.setOnSeekBarChangeListener(this);*/
+
+        mChart = (LineChart) findViewById(R.id.chart1);
+        mChart.setOnChartGestureListener(this);
+        mChart.setOnChartValueSelectedListener(this);
+        mChart.setDrawGridBackground(false);
+
+        // no description text
+        mChart.setDescription("");
+        mChart.setNoDataTextDescription("You need to provide data for the chart.");
+
+        // enable touch gestures
+        mChart.setTouchEnabled(true);
+
+        // enable scaling and dragging
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(true);
+        // mChart.setScaleXEnabled(true);
+        // mChart.setScaleYEnabled(true);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        mChart.setPinchZoom(true);
+
+        // set an alternative background color
+        // mChart.setBackgroundColor(Color.GRAY);
+
+        // create a custom MarkerView (extend MarkerView) and specify the layout
+        // to use for it
+        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
+
+        // set the marker to the chart
+        mChart.setMarkerView(mv);
+
+        // x-axis limit line
+        /*LimitLine llXAxis = new LimitLine(10f, "Index 10");*/
+        /*llXAxis.setLineWidth(4f);
+        llXAxis.enableDashedLine(10f, 10f, 0f);
+        llXAxis.setLabelPosition(LimitLabelPosition.LEFT_BOTTOM);
+        llXAxis.setTextSize(10f);*/
+
+        XAxis xAxis = mChart.getXAxis();
+        //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
+        //xAxis.addLimitLine(llXAxis); // add x-axis limit line
+
+        /*Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+*/
+        /*LimitLine ll1 = new LimitLine(100f, "Upper Limit");
+        ll1.setLineWidth(4f);
+        ll1.enableDashedLine(10f, 10f, 0f);
+        ll1.setLabelPosition(LimitLabelPosition.RIGHT_TOP);
+        ll1.setTextSize(10f);
+        ll1.setTypeface(tf);
+
+        LimitLine ll2 = new LimitLine(0f, "Lower Limit");
+        ll2.setLineWidth(4f);
+        ll2.enableDashedLine(10f, 10f, 0f);
+        ll2.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
+        ll2.setTextSize(10f);
+        ll2.setTypeface(tf);*/
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        /*leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
+        leftAxis.addLimitLine(ll1);
+        leftAxis.addLimitLine(ll2);*/
+        /*leftAxis.setAxisMaxValue(220f);
+        leftAxis.setAxisMinValue(-50f);*/
+        //leftAxis.setYOffset(20f);
+        leftAxis.enableGridDashedLine(10f, 10f, 0f);
+        leftAxis.setDrawZeroLine(false);
+
+        // limit lines are drawn behind data (and not on top)
+        /*leftAxis.setDrawLimitLinesBehindData(true);*/
+
+        mChart.getAxisRight().setEnabled(false);
+
+        //mChart.getViewPortHandler().setMaximumScaleY(2f);
+        //mChart.getViewPortHandler().setMaximumScaleX(2f);
+
+        // add data
+        /*setData(45, 100);*/
+
+//        mChart.setVisibleXRange(20);
+//        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
+//        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
+
+        mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+//        mChart.invalidate();
+
+        // get the legend (only possible after setting data)
+        Legend l = mChart.getLegend();
+
+        // modify the legend ...
+        // l.setPosition(LegendPosition.LEFT_OF_CHART);
+        l.setForm(LegendForm.LINE);
+
+        // // dont forget to refresh the drawing
+        // mChart.invalidate();
+    }
+
+    private class AsyncGraph extends AsyncTask<String, String, String>
+    {
+        ProgressDialog pdLoading = new ProgressDialog(GraphActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+
+        }
+        @Override
+        protected String doInBackground(String... params) {  //프로그레스 다이얼로그 자동 종료 및 에러메시지 토스트보여줌
+            //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
+            try {
+                // Enter URL address where your php file resides
+                url = new URL("http://113.198.84.37/api/v1/userInfo/graph/");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception fail!";
+            }
+
+            try {
+
+                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+                String authKey = prefs.getString("key", "");
+                authKey = "a6bf78ac14b1845b9f91f193ea4b86e8c0a65002";
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("GET");
+                Log.d("테스트염", "테스트욤 : " +authKey);
+                conn.setRequestProperty("Authorization", " Token " + authKey);
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                /*conn.setDoOutput(true);*/
+
+                // Append parameters to URL
+
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+                //여기서 로그인 페이지로 이동
+                int response_code = conn.getResponseCode();
+
+                Log.d("GraphLog", "GraphLog 0-0: " + conn.getResponseCode());
+
+                // Check if successful connection made
+
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+                    Log.d("GraphLog", "GraphLog 1: " + result.toString());
+                    Log.d("GraphLog", "GraphLog 1-1: " + reader);
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    Log.d("GraphLog", "GraphLog 2: " + result.toString());  // result.toString()
+                    Log.d("GraphLog", "GraphLog 2-1: " + reader);    //java.io.BufferedReader@5015f88
+
+                    String value = result.toString();
+                    JSONObject jsonObject = new JSONObject(value);
+
+                    Log.d("GraphLog", "GraphLog 2-3: " + jsonObject.get("value"));
+
+
+
+                    JSONObject testJsonObject = new JSONObject(String.valueOf(jsonObject.get("value")));
+
+                    Iterator<String> keys = testJsonObject.keys();
+
+                    while( keys.hasNext() ) {
+                        String key = (String)keys.next();
+                        graphIndex.add(key);
+                        Log.d("GraphLog", "GraphLog 2-4: " + key);
+
+                        JSONObject testJsonObject2 = new JSONObject(String.valueOf(testJsonObject.get(key)));
+                        Log.d("GraphLog", "GraphLog 2-5: " + testJsonObject2);
+                        Log.d("GraphLog", "GraphLog 2-6 type: " + testJsonObject2.getString("type").toString());
+                        Log.d("GraphLog", "GraphLog 2-7 create_date: " + testJsonObject2.getString("create_date").toString());
+                        Log.d("GraphLog", "GraphLog 2-8 birth: " + testJsonObject2.getString("birth").toString());
+
+                        graphType.add(testJsonObject2.getString("type").toString());
+                        graphCreateDate.add(testJsonObject2.getString("create_date").toString());
+                        graphBirth.add(testJsonObject2.getString("birth").toString());
+
+                    }
+
+                    for(int i = 0; i < graphIndex.size(); i++) {
+                        Log.d("GraphLog", "GraphLog 2-9 Index: " + graphIndex.get(i));
+                    }
+
+                    Log.d("GraphLog", "GraphLog 2-10: " + testJsonObject);
+
+                    // Pass data to onPostExecute method
+                    return(result.toString());
+
+                }else{
+
+                    return("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //여기 처리 생각해야함
+
+            setData(graphIndex.size(), 100);
+
+            pdLoading.dismiss();
+        }
+
+    }
+
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /*getMenuInflater().inflate(R.menu.line, menu);*/
+        return true;
+    }
+
+
+
+    /*@Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        tvX.setText("" + (mSeekBarX.getProgress() + 1));
+        tvY.setText("" + (mSeekBarY.getProgress()));
+
+        setData(mSeekBarX.getProgress() + 1, mSeekBarY.getProgress());
+
+        // redraw
+        mChart.invalidate();
+    }*/
+
+   /* @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+
+    }*/
+
+    private void setData(int count, float range) {
+
+        Log.d("GraphLog", "GraphLog 4-0: " + graphIndex.size());
+
+
+        range = 100;
+        ArrayList<String> xVals = new ArrayList<String>();
+
+        for (int i = 0; i < count; i++) {
+            String graphCreateDateCut =  graphCreateDate.get(i).substring (5 ,10 ) ;// ex) 2016-04-01
+            xVals.add(graphCreateDateCut);  //여기에 찍은 날짜
+
+        }
+
+
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+
+        for (int i = 0; i < count; i++) {
+
+            /*float mult = (range + 1);*/
+            float mult =  10;
+            float val = i * 6;
+            /*float val = (float) (Math.random() * mult) + 3;*/// + (float)
+            // ((mult *
+            // 0.1) / 10);
+            yVals.add(new Entry(val, i));
+        }
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(yVals, "x축 : 찍은날짜,  y축 : 탈모 비율");
+        // set1.setFillAlpha(110);
+        // set1.setFillColor(Color.RED);
+
+        // set the line to be drawn like this "- - - - - -"
+        set1.enableDashedLine(10f, 5f, 0f);
+        set1.enableDashedHighlightLine(10f, 5f, 0f);
+        set1.setColor(Color.BLACK);
+        set1.setCircleColor(Color.BLACK);
+        set1.setLineWidth(1f);
+        set1.setCircleRadius(3f);
+        set1.setDrawCircleHole(false);
+        set1.setValueTextSize(9f);
+        set1.setDrawFilled(true);
+
+        if(Utils.getSDKInt() >= 18) {
+            // fill drawable only supported on api level 18 and above
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.graph_backround_red);
+            set1.setFillDrawable(drawable);
+        } else {
+            set1.setFillColor(Color.GREEN);
+        }
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+        LineData data = new LineData(xVals, dataSets);
+
+        // set data
+        mChart.setData(data);
+    }
+
+    @Override
+    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        Log.i("Gesture", "START, x: " + me.getX() + ", y: " + me.getY());
+    }
+
+    @Override
+    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        Log.i("Gesture", "END, lastGesture: " + lastPerformedGesture);
+
+        // un-highlight values after the gesture is finished and no single-tap
+        if(lastPerformedGesture != ChartTouchListener.ChartGesture.SINGLE_TAP)
+            mChart.highlightValues(null); // or highlightTouch(null) for callback to onNothingSelected(...)
+    }
+
+    @Override
+    public void onChartLongPressed(MotionEvent me) {
+        Log.i("LongPress", "Chart longpressed.");
+    }
+
+    @Override
+    public void onChartDoubleTapped(MotionEvent me) {
+        Log.i("DoubleTap", "Chart double-tapped.");
+    }
+
+    @Override
+    public void onChartSingleTapped(MotionEvent me) {
+        Log.i("SingleTap", "Chart single-tapped.");
+    }
+
+    @Override
+    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+        Log.i("Fling", "Chart flinged. VeloX: " + velocityX + ", VeloY: " + velocityY);
+    }
+
+    @Override
+    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+        Log.i("Scale / Zoom", "ScaleX: " + scaleX + ", ScaleY: " + scaleY);
+    }
+
+    @Override
+    public void onChartTranslate(MotionEvent me, float dX, float dY) {
+        Log.i("Translate / Move", "dX: " + dX + ", dY: " + dY);
+    }
+
+    @Override
+    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+
+
+
+
+        /*Intent moveMainIntent = new Intent(LineChartActivity1.this, GraphResultActivity.class);
+        //graphIndex 보내면됨
+        moveMainIntent.putExtra("graphIndex", graphIndex.get(mChart.getHighestVisibleXIndex()));  //x축 index값을 보냄
+        startActivity(moveMainIntent);*/
+        String xDotString = e.toString().substring(0, 20);
+
+        Log.i("GraphLog", "xDot :" + xDotString);
+
+        String xDotNum = xDotString.replaceAll("[^0-9]", "");
+
+        Log.i("GraphLog", "xDot :" + xDotNum);
+
+        Intent moveMainIntent = new Intent(GraphActivity.this, GraphResultActivity.class);
+        //graphIndex 보내면됨
+        moveMainIntent.putExtra("graphIndex", graphIndex.get(Integer.parseInt(xDotNum)));  //x축 index값을 보냄
+        startActivity(moveMainIntent);
+
+        Log.i("GraphLog", "Entry selected :" + e.toString());
+        Log.i("GraphLog", String.valueOf(mChart.getHighestVisibleXIndex()));
+
+        Log.i("GraphLog", "low: " + mChart.getLowestVisibleXIndex() + ", high: " + mChart.getHighestVisibleXIndex());
+        Log.i("GraphLog", "xmin: " + mChart.getXChartMin() + ", xmax: " + mChart.getXChartMax() + ", ymin: " + mChart.getYChartMin() + ", ymax: " + mChart.getYChartMax());
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+        Log.i("Nothing selected", "Nothing selected.");
+    }
+}

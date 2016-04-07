@@ -3,11 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/commons-codec-1.4/commons-codec-1.4.iml" filepath="$PROJECT_DIR$/commons-codec-1.4/commons-codec-1.4.iml" />
-      <module fileurl="file://$PROJECT_DIR$/commons-codec-1.4-javadoc/commons-codec-1.4-javadoc.iml" filepath="$PROJECT_DIR$/commons-codec-1.4-javadoc/commons-codec-1.4-javadoc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/commons-codec-1.4-sources/commons-codec-1.4-sources.iml" filepath="$PROJECT_DIR$/commons-codec-1.4-sources/commons-codec-1.4-sources.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library2/library2.iml" filepath="$PROJECT_DIR$/library2/library2.iml" />
       <module fileurl="file://$PROJECT_DIR$/sosaFront.iml" filepath="$PROJECT_DIR$/sosaFront.iml" />
     </modules>
   </component>

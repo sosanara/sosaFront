@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 
@@ -46,11 +47,16 @@ public class LoginActivity extends Activity {
     private Button moveFindPass;
     private Button moveSignUp;
 
+    DataStore dataStore;
+    String authKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        dataStore = new DataStore(this);
+
 
         // Get Reference to variables
         loginUserNameView = (EditText) findViewById(R.id.loginUserNameView);
@@ -59,7 +65,7 @@ public class LoginActivity extends Activity {
         moveFindPass = (Button) findViewById(R.id.moveFindPass);
         moveSignUp = (Button) findViewById(R.id.moveSignUp);
 
-        loginUserNameView.setText("qwer1234", TextView.BufferType.EDITABLE);
+        loginUserNameView.setText("asdf1234", TextView.BufferType.EDITABLE);
         loginPawdView.setText("asdf1234", TextView.BufferType.EDITABLE);
 
         moveFindPass.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +98,6 @@ public class LoginActivity extends Activity {
 
         final String username = loginUserNameView.getText().toString();
         final String password = loginPawdView.getText().toString();
-
 
         // Initialize  AsyncLogin() class with email and password
         new AsyncLogin().execute(username, password);
@@ -207,18 +212,15 @@ public class LoginActivity extends Activity {
 
                         String value = result.toString();
                         JSONObject testJson = new JSONObject(value);
-                        /*String authKey = (String) testJson.get("key");*/
-                        String authKey = (String) testJson.get("key");
-                        Log.d("loginTest", "로그인 받는거 2-2: " + authKey);
+                        authKey = (String) testJson.get("key");
 
-                        editor.putString("key", authKey);
-                        editor.commit();
+                        dataStore.put("key", authKey);
+                        /*editor.putString("key", authKey);*/
+                        /*editor.commit();*/
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
 
                     // Pass data to onPostExecute method
                     return(result.toString());
@@ -238,14 +240,6 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
-
-            SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
-            String authKey = prefs.getString("key", "");
-
-            /*Log.d("loginTest", "로그인 테스트4-0 : " +  result);
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            LoginActivity.this.finish();*/
 
             pdLoading.dismiss();
 

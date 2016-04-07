@@ -16,11 +16,11 @@ import android.view.View;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
 import com.example.shim.sosafront.CameraPackage.SendImageActivity;
-import com.example.shim.sosafront.LoginPackage.ChangePawdActivity;
 import com.example.shim.sosafront.LoginPackage.LoginActivity;
-import com.example.shim.sosafront.LoginPackage.LogoutActivity;
 import com.example.shim.sosafront.LoginPackage.SignUpActivity;
 import com.example.shim.sosafront.R;
+import com.example.shim.sosafront.GraphPackage.GraphActivity;
+import com.example.shim.sosafront.UserInfoPackage.UserInfoActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -103,16 +103,16 @@ public class MainActivity extends AppCompatActivity
             startActivity(loginIntent);
 
         } else if (id == R.id.nav_manage) {
-            Intent loginIntent = new Intent(MainActivity.this, ChangePawdActivity.class);
-            startActivity(loginIntent);
+            Intent userInfoIntent = new Intent(MainActivity.this, UserInfoActivity.class);
+            startActivity(userInfoIntent);
 
         } else if (id == R.id.nav_share) {
             Intent sendImageIntent = new Intent(MainActivity.this, SendImageActivity.class);
             startActivity(sendImageIntent);
 
         } else if (id == R.id.nav_send) {
-            Intent logoutIntent = new Intent(MainActivity.this, LogoutActivity.class);
-            startActivity(logoutIntent);
+            Intent graphIntent = new Intent(MainActivity.this, GraphActivity.class);
+            startActivity(graphIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

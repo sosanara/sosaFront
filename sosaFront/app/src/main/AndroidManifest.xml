@@ -53,7 +53,16 @@
         <activity
             android:name=".LoginPackage.ResetPawdActivity"
             android:label="@string/title_activity_reset_pawd" />
-        <activity android:name=".CameraPackage.SendImageActivity"></activity>
+        <activity android:name=".CameraPackage.SendImageActivity" />
+        <activity
+            android:name=".UserInfoPackage.UserInfoActivity"
+            android:label="@string/title_activity_user_info" />
+        <activity
+            android:name=".GraphPackage.GraphActivity"
+            android:label="@string/title_activity_graph" />
+        <activity
+            android:name=".GraphPackage.GraphResultActivity"
+            android:label="@string/title_activity_graph_result"></activity>
     </application>
 
 </manifest>
