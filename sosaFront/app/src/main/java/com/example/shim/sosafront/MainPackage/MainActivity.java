@@ -15,11 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
-import com.example.shim.sosafront.CameraPackage.SendImageActivity;
+import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
+import com.example.shim.sosafront.HistoryPackage.testtest;
 import com.example.shim.sosafront.LoginPackage.LoginActivity;
 import com.example.shim.sosafront.LoginPackage.SignUpActivity;
 import com.example.shim.sosafront.R;
-import com.example.shim.sosafront.GraphPackage.GraphActivity;
 import com.example.shim.sosafront.UserInfoPackage.UserInfoActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(userInfoIntent);
 
         } else if (id == R.id.nav_share) {
-            Intent sendImageIntent = new Intent(MainActivity.this, SendImageActivity.class);
-            startActivity(sendImageIntent);
+            Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivity(historyIntent);
 
         } else if (id == R.id.nav_send) {
-            Intent graphIntent = new Intent(MainActivity.this, GraphActivity.class);
+            Intent graphIntent = new Intent(MainActivity.this, testtest.class);
             startActivity(graphIntent);
         }
 

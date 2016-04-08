@@ -19,4 +19,6 @@
     <string name="title_activity_user_info">UserInfoActivity</string>
     <string name="title_activity_graph">GraphActivity</string>
     <string name="title_activity_graph_result">GraphResultActivity</string>
+    <string name="title_activity_history_item_click">HistoryItemClickActivity</string>
+    <string name="title_activity_testtest">testtest</string>
 </resources>

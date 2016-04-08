@@ -1111,7 +1111,6 @@ public class GraphActivity extends DemoBase implements OnChartGestureListener, O
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("GET");
-                Log.d("테스트염", "테스트욤 : " +authKey);
                 conn.setRequestProperty("Authorization", " Token " + authKey);
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
