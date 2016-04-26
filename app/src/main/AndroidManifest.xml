@@ -59,8 +59,8 @@
             android:label="@string/title_activity_user_info" />
         <activity
             android:name=".GraphPackage.GraphActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/title_activity_graph" />
+            android:label="@string/title_activity_graph"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".GraphPackage.GraphResultActivity"
             android:label="@string/title_activity_graph_result" />
@@ -73,8 +73,11 @@
             android:label="@string/title_activity_testtest" />
         <activity
             android:name=".StatisticPackage.StatisticActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/title_activity_statistic"></activity>
+            android:label="@string/title_activity_statistic"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UserInfoPackage.ChangeUserInfoActivity"
+            android:label="@string/title_activity_change_user_info"></activity>
     </application>
 
 </manifest>

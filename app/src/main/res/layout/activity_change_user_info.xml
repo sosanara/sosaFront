@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/emailAddressView"
+        android:layout_marginTop="5dp"
+        android:hint="emailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/nameView"
+        android:layout_marginTop="5dp"
+        android:hint="name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/birthView"
+        android:layout_marginTop="5dp"
+        android:hint="birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/GenderView"
+        android:layout_marginTop="5dp"
+        android:hint="gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change UserInfo"
+        android:id="@+id/changeUserInfoBtn"
+        android:layout_marginTop="10dp"
+        android:onClick="changeUserInfoBtn"/>
+
+</LinearLayout>
+

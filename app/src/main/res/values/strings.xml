@@ -22,4 +22,6 @@
     <string name="title_activity_history_item_click">HistoryItemClickActivity</string>
     <string name="title_activity_testtest">testtest</string>
     <string name="title_activity_statistic">StatisticActivity</string>
+    <string name="title_activity_user_info_change_acitivty">UserInfoChangeAcitivty</string>
+    <string name="title_activity_change_user_info">ChangeUserInfoActivity</string>
 </resources>

@@ -2,12 +2,17 @@ package com.example.shim.sosafront.UserInfoPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.LoginPackage.ChangePawdActivity;
+import com.example.shim.sosafront.LoginPackage.LogoutActivity;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -42,7 +47,11 @@ public class UserInfoActivity extends Activity {
     private String userInfoEmail;
 
     private String authKey;
-    DataStore dataStore;
+    private DataStore dataStore;
+
+    private Button userInfoChangeBtn;
+    private Button pswdChangeBtn;
+    private Button logoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +65,41 @@ public class UserInfoActivity extends Activity {
         userInfoNameView = (TextView) findViewById(R.id.userInfoNameView);
         userInfoGenderView = (TextView) findViewById(R.id.userInfoGenderView);
 
+        userInfoChangeBtn = (Button) findViewById(R.id.userInfoChangeBtn);
+        pswdChangeBtn = (Button) findViewById(R.id.pswdChangeBtn);
+        logoutBtn = (Button) findViewById(R.id.logoutBtn);
+
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
 
         new AsynUserInfo().execute();
+
+        userInfoChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveChangeUserInfo = new Intent(UserInfoActivity.this, ChangeUserInfoActivity.class);
+                startActivity(moveChangeUserInfo);
+                UserInfoActivity.this.finish();
+            }
+        });
+
+        pswdChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveChangePawd = new Intent(UserInfoActivity.this, ChangePawdActivity.class);
+                startActivity(moveChangePawd);
+                UserInfoActivity.this.finish();
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveLogout = new Intent(UserInfoActivity.this, LogoutActivity.class);
+                startActivity(moveLogout);
+                UserInfoActivity.this.finish();
+            }
+        });
     }
 
     private class AsynUserInfo extends AsyncTask<String, String, String>
@@ -87,7 +127,6 @@ public class UserInfoActivity extends Activity {
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                Log.d("tmdlsk", "비밀번호 수정 테스트 0 : 접근실패");
                 return "exception";
             }
 

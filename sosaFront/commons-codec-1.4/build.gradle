@@ -1,2 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file('commons-codec-1.4.jar'))
