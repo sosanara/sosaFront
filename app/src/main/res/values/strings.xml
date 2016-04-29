@@ -24,4 +24,17 @@
     <string name="title_activity_statistic">StatisticActivity</string>
     <string name="title_activity_user_info_change_acitivty">UserInfoChangeAcitivty</string>
     <string name="title_activity_change_user_info">ChangeUserInfoActivity</string>
+
+
+    <string name="uri_sign_up">http://113.198.84.37/api/v1/userInfo/history/</string>
+    <string name="uri_login">http://113.198.84.37/rest-auth/login/</string>
+    <string name="uri_logout">http://113.198.84.37/rest-auth/logout/</string>
+    <string name="uri_change_pawd">http://113.198.84.37/rest-auth/password/change/</string>
+    <string name="uri_reset_pawd">http://113.198.84.37/rest-auth/password/reset/confirm/</string>
+    <string name="uri_send_image">http://113.198.84.37/api/v1/picture/</string>
+    <string name="uri_graph">http://113.198.84.37/api/v1/userInfo/graph/</string>
+    <string name="uri_history">http://113.198.84.37/api/v1/userInfo/history/</string>
+    <string name="uri_statistic">http://113.198.84.37/api/v1/userInfo/statistic/</string>
+
+
 </resources>

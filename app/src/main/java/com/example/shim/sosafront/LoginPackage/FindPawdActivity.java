@@ -109,9 +109,9 @@ public class FindPawdActivity extends Activity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("tmdlsk", "비밀번호찾기 테스트1-0 " + query);
-                Log.d("tmdlsk", "비밀번호찾기 테스트1-1 " + writer);
-                Log.d("tmdlsk", "비밀번호찾기 테스트1-2 " + os);
+                Log.d("FindPawdActivityLog", "FindPawdActivityLog1-0 " + query);
+                Log.d("FindPawdActivityLog", "FindPawdActivityLog 1-1 " + writer);
+                Log.d("FindPawdActivityLog", "FindPawdActivityLog 1-2 " + os);
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -128,8 +128,7 @@ public class FindPawdActivity extends Activity {
                     //여기서 로그인 페이지로 이동
                     int response_code = conn.getResponseCode();
 
-                    Log.d("receiveServer", "비밀번호찾기 테스트4-0 " + conn.getResponseCode());
-                    Log.d("receiveServer", "비밀번호찾기 테스트4-1 " + conn.getResponseCode());
+                    Log.d("FindPawdActivityLog", "FindPawdActivityLog 2-0 " + conn.getResponseCode());
 
                     // Check if successful connection made
 
@@ -140,15 +139,15 @@ public class FindPawdActivity extends Activity {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                         StringBuilder result = new StringBuilder();
                         String line;
-                        Log.d("receiveServer", "비밀번호찾기 테스트4-2 " + result.toString());
-                        Log.d("receiveServer", "비밀번호찾기 테스트4-3 " + reader);
+                        Log.d("FindPawdActivityLog", "FindPawdActivityLog 4-2 " + result.toString());
+                        Log.d("FindPawdActivityLog", "FindPawdActivityLog 4-3 " + reader);
 
                         while ((line = reader.readLine()) != null) {
                             result.append(line);
                         }
 
-                        Log.d("receiveServer", "비밀번호찾기 테스트4-4: " + result);
-                        Log.d("receiveServer", "비밀번호찾기 테스트4-5: " + reader);
+                        Log.d("FindPawdActivityLog", "FindPawdActivityLog 4-4 " + result);
+                        Log.d("FindPawdActivityLog", "FindPawdActivityLog 4-5 " + reader);
 
                         // Pass data to onPostExecute method
                         return(result.toString());
@@ -179,7 +178,6 @@ public class FindPawdActivity extends Activity {
 
             if(result.equalsIgnoreCase("true"))
             {
-                Log.d("tmdlsk", "테스트 테스트 테스트");
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */

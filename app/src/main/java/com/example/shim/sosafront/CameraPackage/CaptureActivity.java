@@ -21,11 +21,11 @@ import java.io.FileOutputStream;
 import java.util.Date;
 
 public class CaptureActivity extends Activity {
-    Button button;
+    Button autoCaptureBtn;
     /*Button reTryBtn;
     Button checkResultBtn;*/
 
-    File imgFile;
+    File takePictureImage;
     Bitmap myBitmap;
     ImageView myImage;
     static int pictureNum = 0;
@@ -38,14 +38,14 @@ public class CaptureActivity extends Activity {
         moveTaskToBack(true);
         setContentView(R.layout.activity_capture);
 
-        button = (Button) findViewById(R.id.button);
+        autoCaptureBtn = (Button) findViewById(R.id.autoCaptureBtn);
         /*reTryBtn = (Button) findViewById(R.id.reTryBtn);
         checkResultBtn = (Button) findViewById(R.id.resultCheckBtn);
 
         reTryBtn.setVisibility(View.GONE);
         checkResultBtn.setVisibility(View.GONE);*/
 
-        imgFile = new  File("/sdcard/sosaCamera/IMG.jpg");
+        takePictureImage = new  File("/sdcard/sosaCamera/IMG.jpg");
         myImage = (ImageView) findViewById(R.id.frame);
 
         /*myImage.setImageDrawable(Drawable.createFromPath(
@@ -58,9 +58,9 @@ public class CaptureActivity extends Activity {
 
         myImage.setImageBitmap(bitmap);
 
-        if(imgFile.exists()){
+        if(takePictureImage.exists()){
 
-            myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            myBitmap = BitmapFactory.decodeFile(takePictureImage.getAbsolutePath());
             Matrix m = new Matrix();
             /*m.setRotate(90, (float) myBitmap.getWidth(), (float) myBitmap.getHeight());*/
             m.setRotate(90, (float) myBitmap.getWidth(), (float) myBitmap.getHeight());
@@ -72,19 +72,19 @@ public class CaptureActivity extends Activity {
         }
 
 
-        button.post(new Runnable() {
+        autoCaptureBtn.post(new Runnable() {
             @Override
             public void run() {
-                button.performClick();
+                autoCaptureBtn.performClick();
 
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        autoCaptureBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                button.setVisibility(View.INVISIBLE);
+                autoCaptureBtn.setVisibility(View.INVISIBLE);
                 takeScreenshot();
                 /*scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/hair" + String.valueOf(pictureNum) + ".jpg");*/
                 Log.i("tmdlsk", "test3 " + String.valueOf(pictureNum));
@@ -99,7 +99,8 @@ public class CaptureActivity extends Activity {
                 checkResultBtn.setVisibility(View.VISIBLE);*/
             }
         });
-        button.setVisibility(View.VISIBLE);
+
+        autoCaptureBtn.setVisibility(View.VISIBLE);
 
 
         /*reTryBtn.setOnClickListener(new View.OnClickListener() {

@@ -10,11 +10,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+        <EditText
+            android:id="@+id/loginUserNameView"
+            android:layout_marginTop="5dp"
+            android:hint="username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지울거임"/>
+
         <ImageView
             android:id="@+id/initialImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:text="초기 이미지"
             />
 
         <ImageView
@@ -22,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:text="결과 이미지"
             />
 
     </LinearLayout>

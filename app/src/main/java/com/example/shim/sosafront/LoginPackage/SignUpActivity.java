@@ -91,24 +91,12 @@ public class SignUpActivity extends Activity {
 
         final String age = signUpAgeView.getText().toString();
         final String name = signUpNameView.getText().toString();
-        /*final String first_name = signUpFirstNameView.getText().toString();
-        final String last_name = signUpLastNameView.getText().toString();*/
         final String gender = signUpGenderView.getText().toString();
 
-
-
         //이름 성과 이름으로 나눔
-        final String first_name = "shim";
-        final String last_name = "minho";
-        /*final String first_name = String.valueOf(name.charAt(0));
-        final String last_name = name.substring(1);*/
+        final String first_name = name.substring(0, 1);
+        final String last_name = name.substring(1, name.length());
 
-        /*Log.d("signUpTest", "회원가입 테스트1-1 : " +  first_name);
-        Log.d("signUpTest", "회원가입 테스트1-2 : " +  last_name);*/
-
-
-        // Initialize  AsyncLogin() class with email and password
-        //*new AsyncLogin().execute(email,password);*/
         new AsyncSignUp().execute(username, email, password1, password2, age
                 , first_name, last_name, gender);
 
@@ -171,9 +159,7 @@ public class SignUpActivity extends Activity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("tmdlsk", "테스트1" + query);
-                Log.d("tmdlsk", "테스트2" + writer);
-                Log.d("tmdlsk", "테스트2" + os);
+
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -190,8 +176,7 @@ public class SignUpActivity extends Activity {
                 //여기서 로그인 페이지로 이동
                 int response_code = conn.getResponseCode();
 
-                Log.d("receiveServer", "받는거0-0: " + conn.getResponseCode());
-                Log.d("receiveServer", "받는거0-1: " + conn.getResponseCode());
+                Log.d("SignUpActivityLog", "SignUpActivityLog 0-0 : " + conn.getResponseCode());
 
                 // Check if successful connection made
 
@@ -202,15 +187,14 @@ public class SignUpActivity extends Activity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("receiveServer", "받는거1: " + result.toString());
-                    Log.d("receiveServer", "받는거3: " + reader);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 1 : " + result.toString());
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("receiveServer", "받는거1: " + result.toString());
-                    Log.d("receiveServer", "받는거3: " + reader);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 1-1 : " + result.toString());
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 1-2 : " + reader);
 
                     // Pass data to onPostExecute method
                     return(result.toString());
@@ -231,9 +215,17 @@ public class SignUpActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {  //Background 작업이 끝난 후 UI 작업을 진행
 
+
+            Log.d("SignUpActivityLog", "SignUpActivityLog 2-0 : " + result);
             //this method will be running on UI thread
 
             pdLoading.dismiss();
+
+            if(result.contains("key")) {
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
+                SignUpActivity.this.finish();
+            }
 
             if(result.equalsIgnoreCase("true"))
             {

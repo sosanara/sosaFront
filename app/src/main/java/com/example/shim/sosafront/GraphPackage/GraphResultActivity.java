@@ -31,7 +31,6 @@ import java.net.URLConnection;
 public class GraphResultActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
-
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -50,6 +49,7 @@ public class GraphResultActivity extends Activity {
     String userName;
 
     DownloadTask downloadTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

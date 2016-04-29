@@ -121,8 +121,6 @@ public class HistoryActivity extends Activity {
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
-//                conn.setDoOutput(true);   //이거땜에 GET이 POST로 바뀜
-
                 conn.connect();
 
 

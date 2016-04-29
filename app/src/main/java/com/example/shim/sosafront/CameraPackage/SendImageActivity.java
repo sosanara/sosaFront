@@ -89,6 +89,7 @@ public class SendImageActivity extends Activity {
 
     public void retryImage(View arg0) {
 
+        new File("/sdcard/my/file/is/here.txt").delete();
         Intent cameraIntent = new Intent(SendImageActivity.this, CameraActivity.class);
         startActivity(cameraIntent);
         SendImageActivity.this.finish();
@@ -149,7 +150,6 @@ public class SendImageActivity extends Activity {
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Authorization", " Token " + authKey);
                 conn.setRequestProperty("Connection", "Keep-Alive");
-                //  conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                 conn.setRequestProperty("image", fileName);
 

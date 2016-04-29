@@ -11,15 +11,13 @@ import java.util.ArrayList;
  * Created by shim on 2016-04-20.
  */
 public class StatisticFragmentPagerAdapter extends FragmentStatePagerAdapter {
-    final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] { "유형별", "나이별", "성 별" };
+    final int PAGE_COUNT = 2;
+    private String tabTitles[] = new String[] { "유형별", "나이별"};
     private ArrayList<TypeUserFragment> mFragments;
 
 
     public StatisticFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
-
-
     }
 
     @Override
@@ -31,8 +29,6 @@ public class StatisticFragmentPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-
-
         Log.d("제발제발", "제발제발 : " + position);
         switch (position) {
             case 0: // Fragment # 0 - This will show FirstFragment
@@ -41,8 +37,6 @@ public class StatisticFragmentPagerAdapter extends FragmentStatePagerAdapter {
             case 1: // Fragment # 0 - This will show FirstFragment different title
                 return AgeFragment.newInstance(1);
 
-            case 2: // Fragment # 1 - This will show SecondFragment
-                return GenderFragment.newInstance(2);
             default:
                 return null;
         }

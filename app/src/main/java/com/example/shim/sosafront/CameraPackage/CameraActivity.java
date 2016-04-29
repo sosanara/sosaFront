@@ -226,9 +226,9 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
             }
         });
 
-        Intent intent = new Intent(CameraActivity.this, CaptureActivity.class);
-        startActivity(intent);
-
+        Intent captureIntent = new Intent(CameraActivity.this, CaptureActivity.class);
+        startActivity(captureIntent);
+        CameraActivity.this.finish();
     }
 
     @Override

@@ -37,8 +37,7 @@ public class ChangePawdActivity extends Activity {
     private EditText changePawd2View;
 
     private String authKey;
-
-    DataStore dataStore;
+    private DataStore dataStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +97,6 @@ public class ChangePawdActivity extends Activity {
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                Log.d("tmdlsk", "비밀번호 수정 테스트 0 : 접근실패");
                 return "exception";
             }
 
@@ -127,9 +125,9 @@ public class ChangePawdActivity extends Activity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("ChangePawdLog", "ChangePawdLog 1-0" + query);
-                Log.d("ChangePawdLog", "ChangePawdLog 1-1" + writer);
-                Log.d("ChangePawdLog", "ChangePawdLog 1-2" + os);
+                Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 1-0" + query);
+                Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 1-1" + writer);
+                Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 1-2" + os);
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -147,8 +145,8 @@ public class ChangePawdActivity extends Activity {
                 //여기서 로그인 페이지로 이동
                 int response_code = conn.getResponseCode();
 
-                Log.d("receiveServer", "비밀번호 수정 받는거0-0: " + conn.getResponseCode());
-                Log.d("receiveServer", "비밀번호 수정 받는거0-1: " + conn.getResponseCode());
+                Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 0-0: " + conn.getResponseCode());
+                Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 0-1: " + conn.getResponseCode());
 
                 // Check if successful connection made
 
@@ -159,15 +157,13 @@ public class ChangePawdActivity extends Activity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("receiveServer", "비밀번호 수정 받는거1: " + result.toString());
-                    Log.d("receiveServer", "비밀번호 수정 받는거3: " + reader);
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("receiveServer", "비밀번호 수정 받는거1: " + result.toString());
-                    Log.d("receiveServer", "비밀번호 수정 받는거3: " + reader);
+                    Log.d("ChangePawdActivityLog", "ChangePawdActivityLog1-1: " + result.toString());
+
 
                     // Pass data to onPostExecute method
                     return(result.toString());

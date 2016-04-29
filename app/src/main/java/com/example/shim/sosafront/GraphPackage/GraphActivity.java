@@ -2,7 +2,6 @@ package com.example.shim.sosafront.GraphPackage;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -16,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -55,11 +55,13 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
+    private String authKey;
+    private DataStore dataStore;
 
-    ArrayList<String> graphIndex = new ArrayList<String>();
-    ArrayList<String> graphType = new ArrayList<String>();
-    ArrayList<String> graphCreateDate = new ArrayList<String>();
-    ArrayList<String> graphBirth = new ArrayList<String>();
+    final private ArrayList<String> graphIndex = new ArrayList<String>();
+    final private ArrayList<String> graphType = new ArrayList<String>();
+    final private ArrayList<String> graphCreateDate = new ArrayList<String>();
+    final private ArrayList<String> graphBirth = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,9 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_graph);
+
+        dataStore = new DataStore(this);
+        authKey = dataStore.getValue("key", "");
 
         new AsyncGraph().execute();
 
@@ -102,6 +107,12 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
 
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
+
+        mChart.setDoubleTapToZoomEnabled(false);
+        mChart.setHighlightPerDragEnabled(false);
+        mChart.setHighlightPerTapEnabled(true);
+
+
 
         // set an alternative background color
         // mChart.setBackgroundColor(Color.GRAY);
@@ -208,11 +219,6 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
             }
 
             try {
-
-                SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
-                String authKey = prefs.getString("key", "");
-                authKey = "a6bf78ac14b1845b9f91f193ea4b86e8c0a65002";
-
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection)url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
@@ -235,7 +241,6 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
             }
 
             try {
-                //여기서 로그인 페이지로 이동
                 int response_code = conn.getResponseCode();
 
                 Log.d("GraphLog", "GraphLog 0-0: " + conn.getResponseCode());
@@ -249,20 +254,20 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("GraphLog", "GraphLog 1: " + result.toString());
-                    Log.d("GraphLog", "GraphLog 1-1: " + reader);
+                    Log.d("GraphActivityLog", "GraphActivityLog 1: " + result.toString());
+                    Log.d("GraphActivityLog", "GraphActivityLog 1-1: " + reader);
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("GraphLog", "GraphLog 2: " + result.toString());  // result.toString()
-                    Log.d("GraphLog", "GraphLog 2-1: " + reader);    //java.io.BufferedReader@5015f88
+                    Log.d("GraphActivityLog", "GraphActivityLog 2: " + result.toString());  // result.toString()
+                    Log.d("GraphActivityLog", "GraphActivityLog 2-1: " + reader);    //java.io.BufferedReader@5015f88
 
                     String value = result.toString();
                     JSONObject jsonObject = new JSONObject(value);
 
-                    Log.d("GraphLog", "GraphLog 2-3: " + jsonObject.get("value"));
+                    Log.d("GraphActivityLog", "GraphActivityLog 2-3: " + jsonObject.get("value"));
 
 
 
@@ -273,13 +278,13 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                     while( keys.hasNext() ) {
                         String key = (String)keys.next();
                         graphIndex.add(key);
-                        Log.d("GraphLog", "GraphLog 2-4: " + key);
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-4: " + key);
 
                         JSONObject testJsonObject2 = new JSONObject(String.valueOf(testJsonObject.get(key)));
-                        Log.d("GraphLog", "GraphLog 2-5: " + testJsonObject2);
-                        Log.d("GraphLog", "GraphLog 2-6 type: " + testJsonObject2.getString("type").toString());
-                        Log.d("GraphLog", "GraphLog 2-7 create_date: " + testJsonObject2.getString("create_date").toString());
-                        Log.d("GraphLog", "GraphLog 2-8 birth: " + testJsonObject2.getString("birth").toString());
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-5: " + testJsonObject2);
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-6 type: " + testJsonObject2.getString("type").toString());
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-7 create_date: " + testJsonObject2.getString("create_date").toString());
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-8 birth: " + testJsonObject2.getString("birth").toString());
 
                         graphType.add(testJsonObject2.getString("type").toString());
                         graphCreateDate.add(testJsonObject2.getString("create_date").toString());
@@ -288,10 +293,10 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                     }
 
                     for(int i = 0; i < graphIndex.size(); i++) {
-                        Log.d("GraphLog", "GraphLog 2-9 Index: " + graphIndex.get(i));
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-9 Index: " + graphIndex.get(i));
                     }
 
-                    Log.d("GraphLog", "GraphLog 2-10: " + testJsonObject);
+                    Log.d("GraphActivityLog", "GraphActivityLog 2-10: " + testJsonObject);
 
                     // Pass data to onPostExecute method
                     return(result.toString());
@@ -364,7 +369,7 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
 
     private void setData(int count, float range) {
 
-        Log.d("GraphLog", "GraphLog 4-0: " + graphIndex.size());
+        Log.d("GraphActivityLog", "GraphActivityLog 4-0: " + graphIndex.size());
 
 
         range = 100;
@@ -383,7 +388,7 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
 
             /*float mult = (range + 1);*/
             float mult =  10;
-            float val = i * 6;
+            float val = i * 6;                 //수정 예정 서버에서 받은 탈모비율 적용 예정
             /*float val = (float) (Math.random() * mult) + 3;*/// + (float)
             // ((mult *
             // 0.1) / 10);
@@ -399,7 +404,7 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         set1.enableDashedLine(10f, 5f, 0f);
         set1.enableDashedHighlightLine(10f, 5f, 0f);
         set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
+        set1.setCircleColor(Color.BLUE);
         set1.setLineWidth(1f);
         set1.setCircleRadius(3f);
         set1.setDrawCircleHole(false);
@@ -471,31 +476,27 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
     @Override
     public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
 
+        int k = 0;
 
-
-
-        /*Intent moveMainIntent = new Intent(LineChartActivity1.this, GraphResultActivity.class);
-        //graphIndex 보내면됨
-        moveMainIntent.putExtra("graphIndex", graphIndex.get(mChart.getHighestVisibleXIndex()));  //x축 index값을 보냄
-        startActivity(moveMainIntent);*/
         String xDotString = e.toString().substring(0, 20);
-
-        Log.i("GraphLog", "xDot :" + xDotString);
+        Log.i("GraphActivityLog", "GraphActivityLog 5-1 xDot :" + xDotString);
 
         String xDotNum = xDotString.replaceAll("[^0-9]", "");
+        Log.i("GraphActivityLog", "GraphActivityLog 5-2 xDot :" + xDotNum);
 
-        Log.i("GraphLog", "xDot :" + xDotNum);
+
+
 
         Intent moveMainIntent = new Intent(GraphActivity.this, GraphResultActivity.class);
         //graphIndex 보내면됨
         moveMainIntent.putExtra("graphIndex", graphIndex.get(Integer.parseInt(xDotNum)));  //x축 index값을 보냄
         startActivity(moveMainIntent);
 
-        Log.i("GraphLog", "Entry selected :" + e.toString());
-        Log.i("GraphLog", String.valueOf(mChart.getHighestVisibleXIndex()));
+        Log.i("GraphActivityLog", " GraphActivityLog 5-3 Entry selected :" + e.toString());
+        Log.i("GraphActivityLog",  "GraphActivityLog 5-4 " + String.valueOf(mChart.getHighestVisibleXIndex()));
 
-        Log.i("GraphLog", "low: " + mChart.getLowestVisibleXIndex() + ", high: " + mChart.getHighestVisibleXIndex());
-        Log.i("GraphLog", "xmin: " + mChart.getXChartMin() + ", xmax: " + mChart.getXChartMax() + ", ymin: " + mChart.getYChartMin() + ", ymax: " + mChart.getYChartMax());
+        Log.i("GraphActivityLog", "GraphActivityLog 5-5 low: " + mChart.getLowestVisibleXIndex() + ", high: " + mChart.getHighestVisibleXIndex());
+        Log.i("GraphActivityLog", "GraphActivityLog 5-6 xmin: " + mChart.getXChartMin() + ", xmax: " + mChart.getXChartMax() + ", ymin: " + mChart.getYChartMin() + ", ymax: " + mChart.getYChartMax());
 
     }
 

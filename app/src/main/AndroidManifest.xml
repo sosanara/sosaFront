@@ -63,14 +63,11 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".GraphPackage.GraphResultActivity"
-            android:label="@string/title_activity_graph_result" />
+            android:label="@string/title_activity_graph_result"/>
         <activity android:name=".HistoryPackage.HistoryActivity" />
         <activity
             android:name=".HistoryPackage.HistoryNextPagePakage.HistoryItemClickActivity"
             android:label="@string/title_activity_history_item_click" />
-        <activity
-            android:name=".HistoryPackage.testtest"
-            android:label="@string/title_activity_testtest" />
         <activity
             android:name=".StatisticPackage.StatisticActivity"
             android:label="@string/title_activity_statistic"

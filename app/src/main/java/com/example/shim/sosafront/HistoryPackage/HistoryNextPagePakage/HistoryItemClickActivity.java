@@ -198,7 +198,6 @@ public class HistoryItemClickActivity extends Activity {
         }
     }
 
-
     //Server Connect class
     private class AsyncDeleteClick extends AsyncTask<String, String, String> {
         /*ProgressDialog pdLoading = new ProgressDialog(HistoryItemClickActivity.this);*/
@@ -208,11 +207,6 @@ public class HistoryItemClickActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            //this method will be running on UI thread
-            //*pdLoading.setMessage("\tLoading...");
-            /*pdLoading.setCancelable(false);
-            pdLoading.show();*/
 
         }
 
@@ -249,8 +243,6 @@ public class HistoryItemClickActivity extends Activity {
                         "application/json");
                 conn2.setRequestProperty("Authorization", " Token " + authKey);
                 conn2.setRequestMethod("DELETE");
-
-
 
                 conn2.setDoInput(true);
 
