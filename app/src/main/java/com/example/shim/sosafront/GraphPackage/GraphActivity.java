@@ -275,6 +275,8 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
 
                     Iterator<String> keys = testJsonObject.keys();
 
+
+
                     while( keys.hasNext() ) {
                         String key = (String)keys.next();
                         graphIndex.add(key);
@@ -290,6 +292,35 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                         graphCreateDate.add(testJsonObject2.getString("create_date").toString());
                         graphBirth.add(testJsonObject2.getString("birth").toString());
 
+                    }
+
+                    //오름 차순 정렬(수정 요망)
+
+                    String ascendSortTemp;
+
+                    for (int i = 0; i < graphIndex.size(); i++) {
+                        for (int j = i + 1; j < graphIndex.size(); j++) {
+                            if (Integer.valueOf(graphIndex.get(i)) > Integer.valueOf(graphIndex.get(j))) {
+                                ascendSortTemp = graphIndex.get(i);
+                                graphIndex.set(i, (graphIndex.get(j)));
+                                graphIndex.set(j, ascendSortTemp);
+
+                                ascendSortTemp = graphType.get(i);
+                                graphType.set(i, (graphType.get(j)));
+                                graphType.set(j, ascendSortTemp);
+
+                                ascendSortTemp = graphCreateDate.get(i);
+                                graphCreateDate.set(i, (graphCreateDate.get(j)));
+                                graphCreateDate.set(j, ascendSortTemp);
+
+                                ascendSortTemp = graphBirth.get(i);
+                                graphBirth.set(i, (graphBirth.get(j)));
+                                graphBirth.set(j, ascendSortTemp);
+
+                                /*graphIndex[i] = Integer.valueOf(graphIndex.get(j));
+                                graphIndex[j] = ascendSortTemp;*/
+                            }
+                        }
                     }
 
                     for(int i = 0; i < graphIndex.size(); i++) {
@@ -340,8 +371,6 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         /*getMenuInflater().inflate(R.menu.line, menu);*/
         return true;
     }
-
-
 
     /*@Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

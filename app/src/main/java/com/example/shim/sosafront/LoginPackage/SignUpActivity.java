@@ -62,7 +62,7 @@ public class SignUpActivity extends Activity {
 
         loginTest = (Button) findViewById(R.id.loginTest);
 
-        signUpUserNameView.setText("qwer1234", TextView.BufferType.EDITABLE);
+        signUpUserNameView.setText("", TextView.BufferType.EDITABLE);
         signUpEmailView.setText("qwer1234@naver.com", TextView.BufferType.EDITABLE);
         signUpPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
         signUpPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
@@ -126,10 +126,15 @@ public class SignUpActivity extends Activity {
 
                 url = new URL("http://113.198.84.37/rest-auth/registration/");
 
+
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
+                Log.e("SignUpActivityLog", "SignUpActivityLog 1- 4" + e.getLocalizedMessage());
                 e.printStackTrace();
                 return "exception";
+            } catch (IOException e) {
+                Log.e("SignUpActivityLog", "SignUpActivityLog 1-  5" + e.getLocalizedMessage());
+                e.printStackTrace();
             }
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
@@ -160,6 +165,11 @@ public class SignUpActivity extends Activity {
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
 
+                Log.d("SignUpActivityLog", "SignUpActivityLog 0-1 : " + query);
+                Log.d("SignUpActivityLog", "SignUpActivityLog 0-2 : " + writer);
+                Log.d("SignUpActivityLog", "SignUpActivityLog 0-3 : " + os);
+
+
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -174,15 +184,30 @@ public class SignUpActivity extends Activity {
 
             try {
                 //여기서 로그인 페이지로 이동
+
+                InputStream inputStream = conn.getErrorStream();
+                BufferedReader reader2 = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder result2 = new StringBuilder();
+                String line2;
+                Log.d("SignUpActivityLog", "SignUpActivityLog 1 : " + result2.toString());
+
+                while ((line2 = reader2.readLine()) != null) {
+                    result2.append(line2);
+                }
+
+                Log.d("SignUpActivityLog", "SignUpActivityLog 1-1 : " + result2.toString());
+                Log.d("SignUpActivityLog", "SignUpActivityLog 1-2 : " + reader2);
+                // Pass data to onPostExecute method
+                // Read data sent from server
+
                 int response_code = conn.getResponseCode();
 
-                Log.d("SignUpActivityLog", "SignUpActivityLog 0-0 : " + conn.getResponseCode());
+                Log.d("SignUpActivityLog", "SignUpActivityLog 0-5 : " + conn.getResponseCode());
 
                 // Check if successful connection made
 
-                if (response_code == HttpURLConnection.HTTP_CREATED) {
 
-                    // Read data sent from server
+                if (response_code == HttpURLConnection.HTTP_CREATED) {
                     InputStream input = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
@@ -195,19 +220,37 @@ public class SignUpActivity extends Activity {
 
                     Log.d("SignUpActivityLog", "SignUpActivityLog 1-1 : " + result.toString());
                     Log.d("SignUpActivityLog", "SignUpActivityLog 1-2 : " + reader);
-
                     // Pass data to onPostExecute method
+                    // Read data sent from server
+
+
                     return(result.toString());
 
                 }else{
 
-                    return("unsuccessful");
+                    StringBuilder result = new StringBuilder();
+                    String line;
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2 : " + result.toString());
+
+
+                   Log.d("SignUpActivityLog", "SignUpActivityLog 2-1 : " + result.toString());
+
+                    // Pass data to onPostExecute method
+                    // Read data sent from server
+
+
+                    return(result.toString());
+
+
+               /*     return("unsuccessful");*/
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("SignUpActivityLog", "SignUpActivityLog 2-5" + e.getLocalizedMessage());
+                        e.printStackTrace();
                 return "exception";
             } finally {
+
                 conn.disconnect();
             }
         }
@@ -215,12 +258,13 @@ public class SignUpActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {  //Background 작업이 끝난 후 UI 작업을 진행
 
-
             Log.d("SignUpActivityLog", "SignUpActivityLog 2-0 : " + result);
             //this method will be running on UI thread
 
             pdLoading.dismiss();
 
+
+            //회원가입 성공하면 Key값 Json형식으로 받으면 로그인 페이지 이동
             if(result.contains("key")) {
                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
