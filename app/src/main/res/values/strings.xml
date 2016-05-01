@@ -37,4 +37,9 @@
     <string name="uri_statistic">http://113.198.84.37/api/v1/userInfo/statistic/</string>
 
 
+    <string name="success_sign_up">회원가입 성공</string>
+    <string name="fail_sign_up">회원가입 실패</string>
+    <string name="success_login">로그인 성공</string>
+    <string name="fail_login">로그인 실패</string>
+
 </resources>

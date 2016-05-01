@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -46,6 +45,9 @@ public class LoginActivity extends Activity {
 
     private Button moveFindPassBtn;
     private Button moveSignUpBtn;
+
+    private String errorUsername;
+    private String errorPassword;
 
     DataStore dataStore;
     String authKey;
@@ -199,8 +201,7 @@ public class LoginActivity extends Activity {
                     Log.d("LoginActivityLog", "LoginActivityLog 1 : " + result.toString());  // result.toString()
 
 
-                    SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
+
 
                     try {
 
@@ -217,14 +218,41 @@ public class LoginActivity extends Activity {
                     }
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    /*return(result.toString());*/
+                    return("successful");
 
-                }else{
+                } else {
+                    InputStream errorInputStream = conn.getErrorStream();
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorInputStream));
+                    StringBuilder errorResult = new StringBuilder();
+                    String failLine;
+
+                    while ((failLine = errorReader.readLine()) != null) {
+                        errorResult.append(failLine);
+                    }
+
+                    String serverJsonValue = errorResult.toString();
+                    JSONObject serverJsonObject = new JSONObject(serverJsonValue);
+
+                    Log.d("LoginActivityLog", "LoginActivityLog 2-2 : " + errorResult.toString());
+
+                    if(serverJsonValue.contains("This field may not be blank."))
+                        errorUsername = serverJsonObject.getString("password");
+
+                    if(serverJsonValue.contains("non_field_errors"))
+                        errorPassword = serverJsonObject.getString("non_field_errors");
+
+
+                    Log.d("LoginActivityLog", "LoginActivityLog 2-3 : " + errorUsername);
+                    Log.d("LoginActivityLog", "LoginActivityLog 2-3 : " + errorPassword);
 
                     return("unsuccessful");
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
                 e.printStackTrace();
                 return "exception";
             } finally {
@@ -235,30 +263,22 @@ public class LoginActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
+            Log.d("LoginActivityLog", "LoginActivityLog 3-0 : " + result);
             pdLoading.dismiss();
 
-            if(result.contains(authKey))  //equals랑 같음(대소문자까지)
+            if(result.equals("successful"))  //equals랑 같음(대소문자까지)
             {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-                Log.d("LoginActivityLog", "LoginActivityLog 2 : ");
-                Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_LONG);
-                //다른 화면이동
+                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.success_login), Toast.LENGTH_SHORT).show();
+
                 Intent moveMainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(moveMainIntent);
                 LoginActivity.this.finish();
 
-            }else if (result.equalsIgnoreCase("false")){
-                Log.d("LoginActivityLog", "LoginActivityLog 3 :" );
-                // If username and password does not match display a error message
-                Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_LONG);
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-                Log.d("LoginActivityLog", "LoginActivityLog 3-1 : 화면 이동 실패2" );
-                Toast.makeText(LoginActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);
+            } else {
+                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fail_login), Toast.LENGTH_SHORT).show();
 
             }
+
         }
 
     }

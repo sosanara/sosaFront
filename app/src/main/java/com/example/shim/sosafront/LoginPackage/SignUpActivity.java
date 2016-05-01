@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -43,7 +46,13 @@ public class SignUpActivity extends Activity {
     private EditText signUpNameView;
     private EditText signUpGenderView;
 
-    String testSignUp;
+    private String errorUsername;
+    private String errorEmail;
+    private String errorPassword1;
+    private String errorPassword2;
+    private String errorAge;
+    private String errorName;
+    private String errorGender;
 
 
     @Override
@@ -133,7 +142,7 @@ public class SignUpActivity extends Activity {
                 e.printStackTrace();
                 return "exception";
             } catch (IOException e) {
-                Log.e("SignUpActivityLog", "SignUpActivityLog 1-  5" + e.getLocalizedMessage());
+                Log.e("SignUpActivityLog", "SignUpActivityLog 1-5 : " + e.getLocalizedMessage());
                 e.printStackTrace();
             }
             try {
@@ -166,9 +175,6 @@ public class SignUpActivity extends Activity {
                         new OutputStreamWriter(os, "UTF-8"));
 
                 Log.d("SignUpActivityLog", "SignUpActivityLog 0-1 : " + query);
-                Log.d("SignUpActivityLog", "SignUpActivityLog 0-2 : " + writer);
-                Log.d("SignUpActivityLog", "SignUpActivityLog 0-3 : " + os);
-
 
                 writer.write(query);
                 writer.flush();
@@ -183,74 +189,89 @@ public class SignUpActivity extends Activity {
             }
 
             try {
-                //여기서 로그인 페이지로 이동
-
-                InputStream inputStream = conn.getErrorStream();
-                BufferedReader reader2 = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder result2 = new StringBuilder();
-                String line2;
-                Log.d("SignUpActivityLog", "SignUpActivityLog 1 : " + result2.toString());
-
-                while ((line2 = reader2.readLine()) != null) {
-                    result2.append(line2);
-                }
-
-                Log.d("SignUpActivityLog", "SignUpActivityLog 1-1 : " + result2.toString());
-                Log.d("SignUpActivityLog", "SignUpActivityLog 1-2 : " + reader2);
-                // Pass data to onPostExecute method
-                // Read data sent from server
 
                 int response_code = conn.getResponseCode();
 
-                Log.d("SignUpActivityLog", "SignUpActivityLog 0-5 : " + conn.getResponseCode());
+                Log.d("SignUpActivityLog", "SignUpActivityLog 1-0 : " + conn.getResponseCode());
 
                 // Check if successful connection made
-
-
                 if (response_code == HttpURLConnection.HTTP_CREATED) {
                     InputStream input = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 1 : " + result.toString());
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 1-1 : " + result.toString());
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 1-1 : " + result.toString());
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 1-2 : " + reader);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 1-2 : " + result.toString());
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 1-3 : " + reader);
                     // Pass data to onPostExecute method
                     // Read data sent from server
 
 
-                    return(result.toString());
+                    return(result.toString() + "success");
 
-                }else{
+                } else {
+                    InputStream errorInputStream = conn.getErrorStream();
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorInputStream));
+                    StringBuilder errorResult = new StringBuilder();
+                    String failLine;
 
-                    StringBuilder result = new StringBuilder();
-                    String line;
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2 : " + result.toString());
+                    while ((failLine = errorReader.readLine()) != null) {
+                        errorResult.append(failLine);
+                    }
+
+                    String serverJsonValue = errorResult.toString();
+                    JSONObject serverJsonObject = new JSONObject(serverJsonValue);
+
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-2 : " + errorResult.toString());
+
+                    if(serverJsonValue.contains("username"))
+                        errorUsername = serverJsonObject.getString("username");
+
+                    if(serverJsonValue.contains("email"))
+                        errorEmail = serverJsonObject.getString("email");
+
+                    if(serverJsonValue.contains("password1"))
+                        errorPassword1 = serverJsonObject.getString("password1");
+
+                    if(serverJsonValue.contains("password2"))
+                        errorPassword2 = serverJsonObject.getString("password2");
+
+                    if(serverJsonValue.contains("age"))
+                        errorAge = serverJsonObject.getString("age");
+
+                    if(serverJsonValue.contains("first_name"))
+                        errorName = serverJsonObject.getString("first_name");
+
+                    if(serverJsonValue.contains("last_name"))
+                        errorName = serverJsonObject.getString("last_name");
+
+                    if(serverJsonValue.contains("gender"))
+                        errorGender = serverJsonObject.getString("gender");
+
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorUsername);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorEmail);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorPassword1);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorPassword2);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorAge);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorName);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorGender);
 
 
-                   Log.d("SignUpActivityLog", "SignUpActivityLog 2-1 : " + result.toString());
-
-                    // Pass data to onPostExecute method
-                    // Read data sent from server
-
-
-                    return(result.toString());
-
-
-               /*     return("unsuccessful");*/
+                    return("unsuccessful");
                 }
 
             } catch (IOException e) {
-                Log.e("SignUpActivityLog", "SignUpActivityLog 2-5" + e.getLocalizedMessage());
-                        e.printStackTrace();
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
+                e.printStackTrace();
                 return "exception";
             } finally {
-
                 conn.disconnect();
             }
         }
@@ -258,24 +279,29 @@ public class SignUpActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {  //Background 작업이 끝난 후 UI 작업을 진행
 
-            Log.d("SignUpActivityLog", "SignUpActivityLog 2-0 : " + result);
+            Log.d("SignUpActivityLog", "SignUpActivityLog 3-0 : " + result);
             //this method will be running on UI thread
 
             pdLoading.dismiss();
 
-
-            //회원가입 성공하면 Key값 Json형식으로 받으면 로그인 페이지 이동
-            if(result.contains("key")) {
+            //회원가입 성공
+            if(result.equals("successful")) {
+                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.success_sign_up), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
                 SignUpActivity.this.finish();
             }
 
-            if(result.equalsIgnoreCase("true"))
+            //회원가입 실패
+            else {
+                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fail_sign_up), Toast.LENGTH_SHORT).show();
+            }
+
+           /* if(result.equalsIgnoreCase("true"))
             {
-                /* Here launching another activity when login successful. If you persist login state
+                *//* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
+                 *//*
 
                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -290,7 +316,7 @@ public class SignUpActivity extends Activity {
 
                 Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);
 
-            }
+            }*/
         }
 
     }
