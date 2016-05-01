@@ -193,32 +193,23 @@ public class LoginActivity extends Activity {
 
                     String line;
 
-
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
                     Log.d("LoginActivityLog", "LoginActivityLog 1 : " + result.toString());  // result.toString()
 
-
-
-
                     try {
 
                         String value = result.toString();
                         JSONObject testJson = new JSONObject(value);
                         authKey = (String) testJson.get("key");
-
                         dataStore.put("key", authKey);
-                        /*editor.putString("key", authKey);*/
-                        /*editor.commit();*/
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    // Pass data to onPostExecute method
-                    /*return(result.toString());*/
                     return("successful");
 
                 } else {

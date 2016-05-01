@@ -2,6 +2,7 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,9 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -38,6 +43,10 @@ public class ChangePawdActivity extends Activity {
 
     private String authKey;
     private DataStore dataStore;
+
+    private String errorOldPawd;
+    private String errorNewPawd1;
+    private String errorNewPawd2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +143,6 @@ public class ChangePawdActivity extends Activity {
                 os.close();
                 conn.connect();
 
-
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -164,16 +172,44 @@ public class ChangePawdActivity extends Activity {
 
                     Log.d("ChangePawdActivityLog", "ChangePawdActivityLog1-1: " + result.toString());
 
-
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return("successful");
 
                 }else{
+                    InputStream errorInputStream = conn.getErrorStream();
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorInputStream));
+                    StringBuilder errorResult = new StringBuilder();
+                    String failLine;
+
+                    while ((failLine = errorReader.readLine()) != null) {
+                        errorResult.append(failLine);
+                    }
+
+                    String serverJsonValue = errorResult.toString();
+                    JSONObject serverJsonObject = new JSONObject(serverJsonValue);
+
+                    Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 2-0 : " + errorResult.toString());
+
+                    if(serverJsonValue.contains("old_password"))
+                        errorOldPawd = serverJsonObject.getString("old_password");
+
+                    if(serverJsonValue.contains("new_password1"))
+                        errorNewPawd1 = serverJsonObject.getString("new_password1");
+
+                    if(serverJsonValue.contains("new_password2"))
+                        errorNewPawd2 = serverJsonObject.getString("new_password2");
+
+                    Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 2-1 : " + errorOldPawd);
+                    Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 2-2 : " + errorNewPawd1);
+                    Log.d("ChangePawdActivityLog", "ChangePawdActivityLog 2-3 : " + errorNewPawd2);
 
                     return("unsuccessful");
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
                 e.printStackTrace();
                 return "exception";
             } finally {
@@ -184,29 +220,19 @@ public class ChangePawdActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            //this method will be running on UI thread
+            Log.d("SignUpActivityLog", "SignUpActivityLog 3-0 : " + result);
 
             pdLoading.dismiss();
 
-            if(result.equalsIgnoreCase("true"))
-            {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-
-                /*Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            if(result.equals("successful")) {
+                Toast.makeText(getApplicationContext(), "비밀번호 수정 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChangePawdActivity.this, LoginActivity.class);
                 startActivity(intent);
-                SignUpActivity.this.finish();*/
+                ChangePawdActivity.this.finish();
+            }
 
-            }else if (result.equalsIgnoreCase("false")){
-
-                // If username and password does not match display a error message
-               /* Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);*/
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                /*Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);*/
-
+            else {
+                Toast.makeText(getApplicationContext(), "비밀번호 수정 실패", Toast.LENGTH_SHORT).show();
             }
         }
 

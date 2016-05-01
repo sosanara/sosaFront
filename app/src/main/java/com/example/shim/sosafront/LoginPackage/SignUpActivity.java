@@ -138,13 +138,10 @@ public class SignUpActivity extends Activity {
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
-                Log.e("SignUpActivityLog", "SignUpActivityLog 1- 4" + e.getLocalizedMessage());
                 e.printStackTrace();
                 return "exception";
-            } catch (IOException e) {
-                Log.e("SignUpActivityLog", "SignUpActivityLog 1-5 : " + e.getLocalizedMessage());
-                e.printStackTrace();
             }
+
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection)url.openConnection();
@@ -211,8 +208,7 @@ public class SignUpActivity extends Activity {
                     // Pass data to onPostExecute method
                     // Read data sent from server
 
-
-                    return(result.toString() + "success");
+                    return("successful");
 
                 } else {
                     InputStream errorInputStream = conn.getErrorStream();
@@ -261,7 +257,6 @@ public class SignUpActivity extends Activity {
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorName);
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorGender);
 
-
                     return("unsuccessful");
                 }
 
@@ -284,39 +279,17 @@ public class SignUpActivity extends Activity {
 
             pdLoading.dismiss();
 
-            //회원가입 성공
             if(result.equals("successful")) {
-                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.success_sign_up), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
                 SignUpActivity.this.finish();
             }
 
-            //회원가입 실패
             else {
-                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fail_sign_up), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
             }
 
-           /* if(result.equalsIgnoreCase("true"))
-            {
-                *//* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 *//*
-
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-                SignUpActivity.this.finish();
-
-            }else if (result.equalsIgnoreCase("false")){
-
-                // If username and password does not match display a error message
-                Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);
-
-            }*/
         }
 
     }

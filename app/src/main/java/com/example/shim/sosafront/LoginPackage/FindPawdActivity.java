@@ -11,8 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,6 +39,8 @@ public class FindPawdActivity extends Activity {
 
     private EditText findPassEmailView;
     private Button resetPawdBtn;
+
+    private String errorEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +116,6 @@ public class FindPawdActivity extends Activity {
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
                 Log.d("FindPawdActivityLog", "FindPawdActivityLog1-0 " + query);
-                Log.d("FindPawdActivityLog", "FindPawdActivityLog 1-1 " + writer);
-                Log.d("FindPawdActivityLog", "FindPawdActivityLog 1-2 " + os);
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -150,14 +154,35 @@ public class FindPawdActivity extends Activity {
                         Log.d("FindPawdActivityLog", "FindPawdActivityLog 4-5 " + reader);
 
                         // Pass data to onPostExecute method
-                        return(result.toString());
+                        /*return(result.toString());*/
+                        return("successful");
 
                     }else{
+                        InputStream errorInputStream = conn.getErrorStream();
+                        BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorInputStream));
+                        StringBuilder errorResult = new StringBuilder();
+                        String failLine;
+
+                        while ((failLine = errorReader.readLine()) != null) {
+                            errorResult.append(failLine);
+                        }
+
+                        String serverJsonValue = errorResult.toString();
+                        JSONObject serverJsonObject = new JSONObject(serverJsonValue);
+
+                        Log.d("FindPawdActivityLog", "FindPawdActivityLog 2-2 : " + errorResult.toString());
+                        if(serverJsonValue.contains("email"))
+                            errorEmail = serverJsonObject.getString("email");
+
+                        Log.d("FindPawdActivityLog", "FindPawdActivityLog 2-2 : " + errorEmail);
 
                         return("unsuccessful");
                     }
 
             } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
                 e.printStackTrace();
                 return "exception";
             } finally {
@@ -169,32 +194,18 @@ public class FindPawdActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
+            Log.d("FindPawdActivityLog", "FindPawdActivityLog 3-0 : " + result);
             //this method will be running on UI thread
-
-            Intent resetIntent = new Intent(FindPawdActivity.this, ResetPawdActivity.class);
-            startActivity(resetIntent);
 
             pdLoading.dismiss();
 
-            if(result.equalsIgnoreCase("true"))
-            {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-
-                /*Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-                SignUpActivity.this.finish();*/
-
-            }else if (result.equalsIgnoreCase("false")){
-
-                // If username and password does not match display a error message
-               /* Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);*/
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                /*Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);*/
-
+            if (result.equals("successful")) {
+                Toast.makeText(getApplicationContext(), "이메일 일치합니다.", Toast.LENGTH_SHORT).show();
+                Intent resetIntent = new Intent(FindPawdActivity.this, ResetPawdActivity.class);
+                startActivity(resetIntent);
+                FindPawdActivity.this.finish();
+            } else {
+                Toast.makeText(getApplicationContext(), "일치하지 않은 이메일 입니다.", Toast.LENGTH_SHORT).show();
             }
         }
 

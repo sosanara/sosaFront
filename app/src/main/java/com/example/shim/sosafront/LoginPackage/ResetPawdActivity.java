@@ -2,6 +2,7 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,8 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,6 +40,11 @@ public class ResetPawdActivity extends Activity {
     private EditText resetPawd2View;
     private EditText resetUid;
     private EditText resetToken;
+
+    private String errorToken;
+    private String errorUid;
+    private String errorNewPawd1;
+    private String errorNewPawd2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +126,8 @@ public class ResetPawdActivity extends Activity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("tmdlsk", "리셋 테스트1" + query);
-                Log.d("tmdlsk", "리셋 테스트1-1" + writer);
-                Log.d("tmdlsk", "리셋 테스트1-2" + os);
+                Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 0-1" + query);
+
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -134,8 +143,8 @@ public class ResetPawdActivity extends Activity {
             try {
                 //여기서 로그인 페이지로 이동
                 int response_code = conn.getResponseCode();
-                Log.d("tmdlsk", "리셋 테스트2-1: " + conn.getResponseCode());
-                Log.d("tmdlsk", "리셋 테스트12-2: " + conn.getResponseCode());
+
+                Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 1-0 : " + conn.getResponseCode());
 
                 // Check if successful connection made
 
@@ -146,25 +155,59 @@ public class ResetPawdActivity extends Activity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("receiveServer", "리셋 테스트3-1: " + result.toString());
-                    Log.d("receiveServer", "리셋 테스트3-2: " + reader);
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 1-1 : " + result.toString());
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("receiveServer", "리셋 테스트3-3: " + result.toString());
-                    Log.d("receiveServer", "리셋 테스트3-4: " + reader);
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 1-3: " + result.toString());
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 1-4: " + reader);
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return("successful");
 
                 }else{
+                    InputStream errorInputStream = conn.getErrorStream();
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorInputStream));
+                    StringBuilder errorResult = new StringBuilder();
+                    String failLine;
+
+                    while ((failLine = errorReader.readLine()) != null) {
+                        errorResult.append(failLine);
+                    }
+
+                    String serverJsonValue = errorResult.toString();
+                    JSONObject serverJsonObject = new JSONObject(serverJsonValue);
+
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 2-0 : " + errorResult.toString());
+
+                    if(serverJsonValue.contains("token"))
+                        errorToken = serverJsonObject.getString("token");
+
+                    if(serverJsonValue.contains("uid"))
+                        errorUid = serverJsonObject.getString("uid");
+
+                    if(serverJsonValue.contains("new_password1"))
+                        errorNewPawd1 = serverJsonObject.getString("new_password1");
+
+                    if(serverJsonValue.contains("new_password2"))
+                        errorNewPawd2 = serverJsonObject.getString("new_password2");
+
+
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 2-1 : " + errorToken);
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 2-2 : " + errorUid);
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 2-3 : " + errorNewPawd1);
+                    Log.d("ResetPawdActivityLog", "ResetPawdActivityLog 2-4 : " + errorNewPawd2);
+
 
                     return("unsuccessful");
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
                 e.printStackTrace();
                 return "exception";
             } finally {
@@ -175,29 +218,20 @@ public class ResetPawdActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            //this method will be running on UI thread
+
+            Log.d("ResetPawdActivity", "ResetPawdActivity 3-0 : " + result);
 
             pdLoading.dismiss();
 
-            if(result.equalsIgnoreCase("true"))
-            {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-
-                /*Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            if(result.equals("successful")) {
+                Toast.makeText(getApplicationContext(), "비밀번호 리셋 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ResetPawdActivity.this, LoginActivity.class);
                 startActivity(intent);
-                SignUpActivity.this.finish();*/
+                ResetPawdActivity.this.finish();
+            }
 
-            }else if (result.equalsIgnoreCase("false")){
-
-                // If username and password does not match display a error message
-               /* Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);*/
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                /*Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);*/
-
+            else {
+                Toast.makeText(getApplicationContext(), "비밀번호 리셋 실패", Toast.LENGTH_SHORT).show();
             }
         }
 
