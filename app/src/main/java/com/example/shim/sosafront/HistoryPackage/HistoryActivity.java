@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class HistoryActivity extends Activity {
 
@@ -34,9 +35,13 @@ public class HistoryActivity extends Activity {
 //    private RecyclerView mRecyclerView;
 //    private HistoryAdapter mAdapter;
 
-    public JSONObject json_object;
-    public ArrayList<String> key = new ArrayList<String>();
-    public ArrayList<String> val = new ArrayList<String>();
+    /*private ArrayList<String> key = new ArrayList<String>();
+    private ArrayList<String> val = new ArrayList<String>();*/
+    final private ArrayList<String> Index = new ArrayList<String>();
+    final private ArrayList<String> historyIndex = new ArrayList<String>();
+    final private ArrayList<String> historyImage = new ArrayList<String>();
+    final private ArrayList<String> historyCreateDate = new ArrayList<String>();
+
 //    public String val[] = new String[0];
 
     private ListView list;
@@ -61,8 +66,8 @@ public class HistoryActivity extends Activity {
 
 
     public void onItemClick(int mPosition) {
-        String tempValues = val.get(mPosition);
-        String tempKeys = key.get(mPosition);
+        String tempValues = historyIndex.get(mPosition);
+        String tempKeys = historyImage.get(mPosition);
 
 //        String tempValues = val[mPosition];
         Toast.makeText(HistoryActivity.this,
@@ -121,6 +126,8 @@ public class HistoryActivity extends Activity {
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
+//                conn.setDoOutput(true);   //이거땜에 GET이 POST로 바뀜
+
                 conn.connect();
 
 
@@ -148,34 +155,74 @@ public class HistoryActivity extends Activity {
                         result.append(line);    //서버에서 온 데이터를 계속 붙임
                     }
 
+                    //JSONObject jsonObject = new JSONObject(value);
+
                     String value = result.toString();
-                    JSONObject jo = new JSONObject(value);
-                    String test = jo.getString("value").toString();
+                    JSONObject serverJsonObject = new JSONObject(value);
+                    String serverJsonValue = serverJsonObject.getString("value").toString();
 
-                    json_object = new JSONObject(test);
+                    JSONObject firstJsonObject = new JSONObject(String.valueOf(serverJsonObject.get("value")));
 
-                    json_object.names().length();
-
-                    ArrayList<String> tempKey = new ArrayList<String>();
-                    ArrayList<String> tempVal = new ArrayList<String>();
+                    Iterator<String> keys = firstJsonObject.keys();
 
 
-//                    String [] a = new String[0];
-                    Log.d("sendImage", "sendImage 총 길이 : " + json_object.names().length());
 
-                    for (int i = 0; i < json_object.names().length(); i++) {
-                        String kee = json_object.names().get(i).toString();
-                        String k = IP_ADDRESS + "api/v1/userInfo/history/" + kee;
+                    while( keys.hasNext() ) {
+                        String key = (String)keys.next();
+                        String historyAddressValue = IP_ADDRESS + "api/v1/userInfo/history/" + key;
 
-                        String v = IP_ADDRESS  + json_object.getString(kee);
-//                        val[i] = v;
-                        tempVal.add(v);
-                        tempKey.add(k);
-                        Log.d("key", "keykeykeykeykeykeykeykeykeykeykey : " + k);
-                        Log.d("val", "valvalvalvalvalvalvalvalvalvalval : " + v);
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-0 : " + key);
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-1 : " + historyAddressValue);
+
+                        JSONObject secondJsonObject = new JSONObject(String.valueOf(firstJsonObject.get(key)));
+
+                        String pictureImagePath = IP_ADDRESS  + secondJsonObject.getString("image").toString();
+                        String createData = secondJsonObject.getString("created_data").toString();
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-2 image path : " + pictureImagePath);
+
+                        Index.add(key);
+                        historyIndex.add(pictureImagePath);
+                        historyImage.add(historyAddressValue);
+                        historyCreateDate.add(createData);
                     }
-                    val = tempVal;
-                    key = tempKey;
+
+                    //Index -> historyIndex, historyIndex -> histroydetailPage 변수명 수정
+
+                    //히스토리 시간 오름차순 정렬
+                    String ascendSortTemp;
+
+                    for (int i = 0; i < Index.size(); i++) {
+                        for (int j = i + 1; j < Index.size(); j++) {
+                            if (Integer.valueOf(Index.get(i)) > Integer.valueOf(Index.get(j))) {
+                                ascendSortTemp = Index.get(i);
+                                Index.set(i, (Index.get(j)));
+                                Index.set(j, ascendSortTemp);
+
+                                ascendSortTemp = historyIndex.get(i);
+                                historyIndex.set(i, (historyIndex.get(j)));
+                                historyIndex.set(j, ascendSortTemp);
+
+                                ascendSortTemp = historyImage.get(i);
+                                historyImage.set(i, (historyImage.get(j)));
+                                historyImage.set(j, ascendSortTemp);
+
+                                ascendSortTemp = historyCreateDate.get(i);
+                                historyCreateDate.set(i, (historyCreateDate.get(j)));
+                                historyCreateDate.set(j, ascendSortTemp);
+
+                            }
+                        }
+                    }
+
+
+                    for(int i = 0; i < historyIndex.size(); i++) {
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-5 : " + Index.get(i));
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 : " + historyIndex.get(i));
+                       /* Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 : " + historyImage.get(i));
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-7 : " + historyCreateDate.get(i));*/
+                    }
+
+
 
                     return (result.toString());
 
@@ -199,7 +246,7 @@ public class HistoryActivity extends Activity {
             pdLoading.dismiss();
 
             list = (ListView) findViewById(R.id.list);
-            mAdapter = new HistoryAdapter(act, val);
+            mAdapter = new HistoryAdapter(act, historyIndex);
             list.setAdapter(mAdapter);
 
         }

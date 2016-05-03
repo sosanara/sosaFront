@@ -265,15 +265,15 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                     Log.d("GraphActivityLog", "GraphActivityLog 2-1: " + reader);    //java.io.BufferedReader@5015f88
 
                     String value = result.toString();
-                    JSONObject jsonObject = new JSONObject(value);
+                    JSONObject serverJsonObject = new JSONObject(value);
 
-                    Log.d("GraphActivityLog", "GraphActivityLog 2-3: " + jsonObject.get("value"));
+                    Log.d("GraphActivityLog", "GraphActivityLog 2-3: " + serverJsonObject.get("value"));
 
 
 
-                    JSONObject testJsonObject = new JSONObject(String.valueOf(jsonObject.get("value")));
+                    JSONObject firstJsonObject = new JSONObject(String.valueOf(serverJsonObject.get("value")));
 
-                    Iterator<String> keys = testJsonObject.keys();
+                    Iterator<String> keys = firstJsonObject.keys();
 
 
 
@@ -282,20 +282,19 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                         graphIndex.add(key);
                         Log.d("GraphActivityLog", "GraphActivityLog 2-4: " + key);
 
-                        JSONObject testJsonObject2 = new JSONObject(String.valueOf(testJsonObject.get(key)));
-                        Log.d("GraphActivityLog", "GraphActivityLog 2-5: " + testJsonObject2);
-                        Log.d("GraphActivityLog", "GraphActivityLog 2-6 type: " + testJsonObject2.getString("type").toString());
-                        Log.d("GraphActivityLog", "GraphActivityLog 2-7 create_date: " + testJsonObject2.getString("create_date").toString());
-                        Log.d("GraphActivityLog", "GraphActivityLog 2-8 birth: " + testJsonObject2.getString("birth").toString());
+                        JSONObject secondJsonObject = new JSONObject(String.valueOf(firstJsonObject.get(key)));
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-5: " + secondJsonObject);
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-6 type: " + secondJsonObject.getString("type").toString());
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-7 create_date: " + secondJsonObject.getString("create_date").toString());
+                        Log.d("GraphActivityLog", "GraphActivityLog 2-8 birth: " + secondJsonObject.getString("birth").toString());
 
-                        graphType.add(testJsonObject2.getString("type").toString());
-                        graphCreateDate.add(testJsonObject2.getString("create_date").toString());
-                        graphBirth.add(testJsonObject2.getString("birth").toString());
+                        graphType.add(secondJsonObject.getString("type").toString());
+                        graphCreateDate.add(secondJsonObject.getString("create_date").toString());
+                        graphBirth.add(secondJsonObject.getString("birth").toString());
 
                     }
 
-                    //오름 차순 정렬(수정 요망)
-
+                    //그래프 시간 오름차순 정렬
                     String ascendSortTemp;
 
                     for (int i = 0; i < graphIndex.size(); i++) {
@@ -316,9 +315,6 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                                 ascendSortTemp = graphBirth.get(i);
                                 graphBirth.set(i, (graphBirth.get(j)));
                                 graphBirth.set(j, ascendSortTemp);
-
-                                /*graphIndex[i] = Integer.valueOf(graphIndex.get(j));
-                                graphIndex[j] = ascendSortTemp;*/
                             }
                         }
                     }
@@ -327,7 +323,6 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
                         Log.d("GraphActivityLog", "GraphActivityLog 2-9 Index: " + graphIndex.get(i));
                     }
 
-                    Log.d("GraphActivityLog", "GraphActivityLog 2-10: " + testJsonObject);
 
                     // Pass data to onPostExecute method
                     return(result.toString());

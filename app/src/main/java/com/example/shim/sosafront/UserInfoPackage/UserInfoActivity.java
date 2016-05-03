@@ -214,7 +214,7 @@ public class UserInfoActivity extends Activity {
             userInfoEmailView.setText(userInfoEmail);
             userInfoAgeView.setText(userInfoAge);
             userInfoNameView.setText(userInfoName);
-            userInfoGenderView.setText(userInfoEmail);
+            userInfoGenderView.setText(userInfoGender);
             //this method will be running on UI thread
 
             pdLoading.dismiss();

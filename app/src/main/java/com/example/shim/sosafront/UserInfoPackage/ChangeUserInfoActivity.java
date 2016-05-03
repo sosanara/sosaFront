@@ -2,6 +2,7 @@ package com.example.shim.sosafront.UserInfoPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,9 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.LoginPackage.LoginActivity;
 import com.example.shim.sosafront.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -38,10 +44,15 @@ public class ChangeUserInfoActivity extends Activity {
     private EditText birthView;
     private EditText GenderView;
 
-
     private String authKey;
-
     DataStore dataStore;
+
+    private String errorEmail;
+    private String errorFirstName;
+    private String errorLastName;
+    private String errorBirth;
+    private String errorGender;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +84,14 @@ public class ChangeUserInfoActivity extends Activity {
         final String birth = birthView.getText().toString();
         final String gender = GenderView.getText().toString();
 
-        final String first_name ="민";
-        final String last_name = "호";
+        String first_name = "";
+        String last_name = "";
+        //이름 성과 이름으로 나눔
+
+        if(name.length() >= 1) {
+            first_name = name.substring(0, 1);
+            last_name = name.substring(1, name.length());
+        }
 
 
 
@@ -139,9 +156,9 @@ public class ChangeUserInfoActivity extends Activity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-0" + query);
-                Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-1" + writer);
-                Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-2" + os);
+
+                Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 0-0" + query);
+
                 writer.write(query);
                 writer.flush();
                 writer.close();
@@ -159,8 +176,7 @@ public class ChangeUserInfoActivity extends Activity {
                 //여기서 로그인 페이지로 이동
                 int response_code = conn.getResponseCode();
 
-                Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-3: " + conn.getResponseCode());
-                Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-4: " + conn.getResponseCode());
+                Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-0: " + conn.getResponseCode());
 
                 // Check if successful connection made
 
@@ -171,25 +187,62 @@ public class ChangeUserInfoActivity extends Activity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                     StringBuilder result = new StringBuilder();
                     String line;
-                    Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-5: " + result.toString());
-                    Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-6: " + reader);
+                    Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-1: " + result.toString());
 
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
 
-                    Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-7: " + result.toString());
-                    Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-8: " + reader);
+                    Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-2: " + result.toString());
+                    Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-3: " + reader);
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return("successful");
 
                 }else{
+                    InputStream errorInputStream = conn.getErrorStream();
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorInputStream));
+                    StringBuilder errorResult = new StringBuilder();
+                    String failLine;
+
+                    while ((failLine = errorReader.readLine()) != null) {
+                        errorResult.append(failLine);
+                    }
+
+                    String serverJsonValue = errorResult.toString();
+                    JSONObject serverJsonObject = new JSONObject(serverJsonValue);
+
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-2 : " + errorResult.toString());
+
+                    if(serverJsonValue.contains("username"))
+                        errorEmail = serverJsonObject.getString("username");
+
+                    if(serverJsonValue.contains("email"))
+                        errorFirstName = serverJsonObject.getString("email");
+
+                    if(serverJsonValue.contains("password1"))
+                        errorLastName = serverJsonObject.getString("password1");
+
+                    if(serverJsonValue.contains("password2"))
+                        errorBirth = serverJsonObject.getString("password2");
+
+                    if(serverJsonValue.contains("age"))
+                        errorGender = serverJsonObject.getString("age");
+
+
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorEmail);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-4 : " + errorFirstName);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-5 : " + errorLastName);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-6 : " + errorBirth);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-7 : " + errorGender);
 
                     return("unsuccessful");
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } catch (JSONException e) {
                 e.printStackTrace();
                 return "exception";
             } finally {
@@ -200,30 +253,21 @@ public class ChangeUserInfoActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            //this method will be running on UI thread
+            Log.d("SignUpActivityLog", "SignUpActivityLog 3-0 : " + result);
 
             pdLoading.dismiss();
 
-            if(result.equalsIgnoreCase("true"))
-            {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-
-                /*Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            if(result.equals("successful")) {
+                Toast.makeText(getApplicationContext(), "내정보 수정 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChangeUserInfoActivity.this, LoginActivity.class);
                 startActivity(intent);
-                SignUpActivity.this.finish();*/
-
-            }else if (result.equalsIgnoreCase("false")){
-
-                // If username and password does not match display a error message
-               /* Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);*/
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                /*Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);*/
-
+                ChangeUserInfoActivity.this.finish();
             }
+
+            else {
+                Toast.makeText(getApplicationContext(), "내정보 수정 실패", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
     }

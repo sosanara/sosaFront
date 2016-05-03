@@ -102,9 +102,14 @@ public class SignUpActivity extends Activity {
         final String name = signUpNameView.getText().toString();
         final String gender = signUpGenderView.getText().toString();
 
+        String first_name = "";
+        String last_name = "";
         //이름 성과 이름으로 나눔
-        final String first_name = name.substring(0, 1);
-        final String last_name = name.substring(1, name.length());
+
+        if(name.length() >= 1) {
+            first_name = name.substring(0, 1);
+            last_name = name.substring(1, name.length());
+        }
 
         new AsyncSignUp().execute(username, email, password1, password2, age
                 , first_name, last_name, gender);
@@ -250,12 +255,12 @@ public class SignUpActivity extends Activity {
                         errorGender = serverJsonObject.getString("gender");
 
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorUsername);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorEmail);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorPassword1);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorPassword2);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorAge);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorName);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-3 : " + errorGender);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-4 : " + errorEmail);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-5 : " + errorPassword1);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-6 : " + errorPassword2);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-7 : " + errorAge);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-8 : " + errorName);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-9 : " + errorGender);
 
                     return("unsuccessful");
                 }

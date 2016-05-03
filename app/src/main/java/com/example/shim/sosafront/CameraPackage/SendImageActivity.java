@@ -65,16 +65,14 @@ public class SendImageActivity extends Activity {
         setContentView(R.layout.activity_send_image);
 
         captureImage  = getIntent().getExtras().getString("captureImage");
-        Log.d("sendImage", "sendImage : " + captureImage);
+        Log.d("SendImageActivityLog", "SendImageActivityLog0-0 : " + captureImage);
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
 
         sendImageView = (ImageView) findViewById(R.id.sendImageView);
 
-
         /*resultImageView = (ImageView) findViewById(R.id.resultImageView);
         resultImageView.setVisibility(View.GONE);*/
-
 
         File imgFile = new  File(captureImage);
 
@@ -289,6 +287,7 @@ public class SendImageActivity extends Activity {
 
             //웹사이트에 접속 (사진이 있는 주소로 접근)
             URL Url = new URL("http://113.198.84.37/" + ImagePath);
+            Log.d("SendImageActivity","SendImageActivity 0-0 : " + "http://113.198.84.37/" + ImagePath);
             // 웹사이트에 접속 설정
             URLConnection urlcon = Url.openConnection();
             // 연결하시오
