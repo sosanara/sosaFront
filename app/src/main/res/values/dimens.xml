@@ -8,6 +8,6 @@
     <dimen name="fab_margin">16dp</dimen>
 
 
-    <!--그림자-->
+    <!--delete toolbar shadow-->
     <dimen name="toolbar_elevation">0dp</dimen>
 </resources>

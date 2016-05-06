@@ -28,4 +28,25 @@
     <color name="myMainBackgroundColor">#FFECB3</color>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <color name="toobarBackgroundColor">#2eb74f</color>
+    <color name="toobarTextColor">#ffffff</color>
+    <color name="hintTextColor">#bbbbbb</color>
+
+
+
 </resources>

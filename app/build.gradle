@@ -48,6 +48,8 @@ dependencies {
 
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile ('com.github.ganfra:material-spinner:1.1.1')
 }
 
 

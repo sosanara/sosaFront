@@ -240,7 +240,6 @@ public class HistoryActivity extends Activity {
             }
         }
 
-
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
