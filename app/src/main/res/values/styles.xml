@@ -2,13 +2,12 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/toobarBackgroundColor</item>
-        <item name="colorPrimaryDark">@color/toobarBackgroundColor</item>
-        <item name="colorAccent">@color/toobarBackgroundColor</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/hintTextColor</item>
         <item name="android:windowBackground">@color/myWindowBackground</item>
     </style>
-
 
     <style name="AppTheme.NoActionBar">
         <item name="android:windowNoTitle">true</item>

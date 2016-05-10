@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class ChangePawdActivity extends Activity {
     private EditText changePawd1View;
     private EditText changePawd2View;
 
+    private Button changePawdBtn;
+
     private String authKey;
     private DataStore dataStore;
 
@@ -57,6 +60,7 @@ public class ChangePawdActivity extends Activity {
         oldPawdView = (EditText) findViewById(R.id.oldPawdView);
         changePawd1View = (EditText) findViewById(R.id.changePawd1View);
         changePawd2View = (EditText) findViewById(R.id.changePawd2View);
+        changePawdBtn = (Button) findViewById(R.id.changePawdBtn);
 
         oldPawdView.setText("test12345", TextView.BufferType.EDITABLE);
         changePawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
@@ -64,7 +68,6 @@ public class ChangePawdActivity extends Activity {
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
-
 
     }
 

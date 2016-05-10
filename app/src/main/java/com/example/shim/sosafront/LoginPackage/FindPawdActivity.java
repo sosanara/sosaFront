@@ -52,8 +52,10 @@ public class FindPawdActivity extends AppCompatActivity {
         findPawdBtn =(Button) findViewById(R.id.findPawdBtn);
         emailView = (EditText) findViewById(R.id.emailView);
 
-        Typeface tf=Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Bold.ttf");
+        Typeface tf=Typeface.createFromAsset(getAssets(), "fonts/NotoSansKR-Bold.otf");
         findPawdBtn.setTypeface(tf);
+
+
     }
 
     // Triggers when findPawd Button clicked
