@@ -1,16 +1,17 @@
 package com.example.shim.sosafront.LoginPackage;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
@@ -29,35 +30,36 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
-public class FindPawdActivity extends Activity {
+public class FindPawdActivity extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    private EditText findPassEmailView;
-    private Button resetPawdBtn;
-
+    private EditText emailView;
+    private Button findPawdBtn;
     private String errorEmail;
+
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_pawd);
 
-        // Get Reference to variables
-        findPassEmailView = (EditText) findViewById(R.id.findPassEmailView);
-        findPassEmailView.setText("shim5365@naver.com", TextView.BufferType.EDITABLE);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        findPawdBtn =(Button) findViewById(R.id.findPawdBtn);
+        emailView = (EditText) findViewById(R.id.emailView);
 
-
+        Typeface tf=Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Bold.ttf");
+        findPawdBtn.setTypeface(tf);
     }
 
     // Triggers when findPawd Button clicked
     public void findPawd(View arg0) {
 
-        final String email = findPassEmailView.getText().toString();
+        final String email = emailView.getText().toString();
 
 
         // Initialize  AsyncLogin() class with email and password

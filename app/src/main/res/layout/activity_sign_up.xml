@@ -30,7 +30,7 @@
             android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/toobarTextColor"
+            android:textColor="@color/whiteColor"
             android:text="@string/toolbar_sign_up"
             android:textSize="19.5sp"
             android:gravity="center_horizontal"/>
