@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_sign_up"
-            android:textSize="19.5sp"
+            android:textSize="17.5sp"
             android:gravity="center_horizontal"/>
     </android.support.v7.widget.Toolbar>
 

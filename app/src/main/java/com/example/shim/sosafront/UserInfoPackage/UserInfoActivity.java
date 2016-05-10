@@ -122,7 +122,7 @@ public class UserInfoActivity extends Activity {
         protected String doInBackground(String... params) {
             try {
                 // Enter URL address where your php file resides
-                url = new URL("http://113.198.84.37/api/v1/");
+                url = new URL("http://113.198.84.37/rest-auth/user/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block

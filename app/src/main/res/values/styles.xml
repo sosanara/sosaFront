@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/hintTextColor</item>
+        <item name="android:textColorPrimary">@color/textViewColor</item>
         <item name="android:windowBackground">@color/myWindowBackground</item>
     </style>
 

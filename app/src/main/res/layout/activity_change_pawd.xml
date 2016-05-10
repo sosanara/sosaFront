@@ -21,7 +21,7 @@ android:layout_height="match_parent">
         android:layout_height="match_parent"
         android:textColor="@color/whiteColor"
         android:text="@string/toolbar_change_pawd"
-        android:textSize="19.5sp"
+        android:textSize="17.5sp"
         android:gravity="center_horizontal"/>
 </android.support.v7.widget.Toolbar>
 
@@ -35,6 +35,7 @@ android:layout_height="match_parent">
         android:id="@+id/oldPawdView"
         android:background="@drawable/text_border"
         android:hint="@string/old_pawd"
+        android:textColorHint="@color/hintTextColor"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
@@ -43,12 +44,14 @@ android:layout_height="match_parent">
         android:paddingLeft="18.3dp"
         android:paddingRight="18.3dp"
         android:textSize="16sp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:inputType="textPassword"/>
 
     <EditText
         android:id="@+id/changePawd1View"
         android:background="@drawable/text_border"
         android:hint="@string/new_pawd"
+        android:textColorHint="@color/hintTextColor"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
@@ -57,12 +60,14 @@ android:layout_height="match_parent">
         android:paddingLeft="18.3dp"
         android:paddingRight="18.3dp"
         android:textSize="16sp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:inputType="textPassword"/>
 
     <EditText
         android:id="@+id/changePawd2View"
         android:background="@drawable/text_border"
         android:hint="@string/new_pawd_confirm"
+        android:textColorHint="@color/hintTextColor"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
@@ -71,11 +76,12 @@ android:layout_height="match_parent">
         android:paddingLeft="18.3dp"
         android:paddingRight="18.3dp"
         android:textSize="16sp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/changePawdBtn"
-        android:text="전송"
+        android:text="@string/send"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
