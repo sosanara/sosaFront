@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,9 @@ public class LoginActivity extends Activity {
     private EditText loginUserNameView;
     private EditText loginPawdView;
 
+    private TextView signUp;
+    private TextView findPawd;
+
     private Button moveFindPassBtn;
     private Button moveSignUpBtn;
 
@@ -64,22 +68,18 @@ public class LoginActivity extends Activity {
         loginUserNameView = (EditText) findViewById(R.id.loginUserNameView);
         loginPawdView = (EditText) findViewById(R.id.loginPawdView);
 
-        moveFindPassBtn = (Button) findViewById(R.id.moveFindPass);
-        moveSignUpBtn = (Button) findViewById(R.id.moveSignUp);
+        signUp = (TextView) findViewById(R.id.signUp);
+        findPawd = (TextView) findViewById(R.id.findPawd);
+        /*moveFindPassBtn = (Button) findViewById(R.id.moveFindPass);
+        moveSignUpBtn = (Button) findViewById(R.id.moveSignUp);*/
+
+        signUp.setText(Html.fromHtml("<u>회원가입</u>"), TextView.BufferType.SPANNABLE);
+        findPawd.setText(Html.fromHtml("<u>비밀번호찾기</u>"), TextView.BufferType.SPANNABLE);
 
         loginUserNameView.setText("asdf1234", TextView.BufferType.EDITABLE);
         loginPawdView.setText("asdf1234", TextView.BufferType.EDITABLE);
 
-        moveFindPassBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent moveFindPawd = new Intent(LoginActivity.this, FindPawdActivity.class);
-                startActivity(moveFindPawd);
-
-            }
-        });
-
-        moveSignUpBtn.setOnClickListener(new View.OnClickListener() {
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent moveSignUp = new Intent(LoginActivity.this, SignUpActivity.class);
@@ -88,10 +88,14 @@ public class LoginActivity extends Activity {
             }
         });
 
+        findPawd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveFindPawd = new Intent(LoginActivity.this, FindPawdActivity.class);
+                startActivity(moveFindPawd);
 
-
-
-
+            }
+        });
     }
 
     // Triggers when LOGIN Button clicked

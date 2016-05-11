@@ -172,15 +172,12 @@ public class UserInfoActivity extends Activity {
 
                     String value = result.toString();
                     JSONObject jsonObject = new JSONObject(value);
-                    String test = jsonObject.getString("value").toString();
 
-                    JSONObject subJsonObject = new JSONObject(test);
-
-                    userInfoUserName = subJsonObject.getString("username").toString();
-                    userInfoGender = subJsonObject.getString("gender").toString();
-                    userInfoName = subJsonObject.getString("name").toString();
-                    userInfoAge = subJsonObject.getString("birth").toString();
-                    userInfoEmail = subJsonObject.getString("email").toString();
+                    userInfoUserName = jsonObject.getString("username").toString();
+                    userInfoGender = jsonObject.getString("gender").toString();
+                    userInfoName = jsonObject.getString("first_name").toString() + jsonObject.getString("last_name").toString();
+                    userInfoAge = jsonObject.getString("birth").toString();
+                    userInfoEmail = jsonObject.getString("email").toString();
 
                     Log.d("UserInfoLog", "UserInfoLog 2-1: " + userInfoUserName);
                     Log.d("UserInfoLog", "UserInfoLog 2-2: " + userInfoGender);

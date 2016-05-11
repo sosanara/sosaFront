@@ -40,13 +40,14 @@
     <color name="whiteColor">#ffffff</color>
     <color name="hintTextColor">#bbbbbb</color>
 
+    <color name="btnBorderBlackColor">#4a4a4a</color>
     <color name="textViewColor">#4d4d4d</color>
     <color name="rectBorderColor">#9b9b9b</color>
     <color name="btnBackgoundColor">#d3d3d3</color>
     <color name="btnBorderColor">#40000000</color>
 
     <color name="btnClickShadowColor">#1c8d36</color>
-
+    <color name="subTextColor">#7cce5c</color>
 
 
 

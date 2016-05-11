@@ -1,41 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/loginUserNameView"
-        android:layout_marginTop="5dp"
-        android:hint="username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-    <EditText
-        android:id="@+id/loginPawdView"
-        android:layout_marginTop="5dp"
-        android:hint="password1"
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/loginBtn"
-        android:layout_marginTop="10dp"
-        android:onClick="startLogin"/>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:text="내 머리를 지켜주는"
+            android:layout_width="138dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="25.4dp"
+            android:textSize="17sp"
+            android:textColor="@color/subTextColor"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+        <TextView
+            android:text="SOSANARA"
+            android:layout_width="149.3dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="4.3dp"
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:letterSpacing="0.3"/>
+
+        <EditText
+            android:id="@+id/loginUserNameView"
+            android:background="@drawable/text_border"
+            android:hint="@string/id"
+            android:textColorHint="@color/hintTextColor"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="33.8dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textSize="16sp"
+            android:layout_gravity="center" />
+
+        <EditText
+            android:id="@+id/loginPawdView"
+            android:background="@drawable/text_border"
+            android:hint="@string/pawd"
+            android:textColorHint="@color/hintTextColor"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10.8dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textSize="16sp"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/loginBtn"
+            android:text="@string/login"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textColor="@color/whiteColor"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:onClick="startLogin"
+            android:radius="20.5dp"
+            android:background="@drawable/btn_border_green"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/signUp"
+                    android:layout_width="58dp"
+                    android:layout_height="17dp"
+                    android:layout_marginLeft="52.5dp"
+                    android:layout_marginTop="23.8dp"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:id="@+id/findPawd"
+                    android:layout_width="87dp"
+                    android:layout_height="17dp"
+                    android:layout_marginLeft="110.3dp"
+                    android:layout_marginTop="23.8dp"
+                    android:text="@string/find_password"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -56,6 +125,56 @@
         android:layout_marginTop="10dp" />
 
     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="이메일 주소를 입력해주세요."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="41.5dp"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:textColor="@color/textViewColor"/>
+
+        <EditText
+            android:id="@+id/emailView"
+            android:background="@drawable/text_border"
+            android:hint="@string/email"
+            android:textColorHint="@color/hintTextColor"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="41dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textSize="16sp"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/findPawdBtn"
+            android:text="@string/send"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textColor="@color/whiteColor"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:onClick="findPawd"
+            android:radius="20.5dp"
+            android:background="@drawable/button_border"/>
+    </LinearLayout>-->
 
     <!--android:layout_below="@+id/password"-->
 </LinearLayout>

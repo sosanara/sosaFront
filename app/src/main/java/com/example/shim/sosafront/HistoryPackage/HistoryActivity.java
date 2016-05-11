@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class HistoryActivity extends Activity {
@@ -214,12 +215,18 @@ public class HistoryActivity extends Activity {
                         }
                     }
 
+                    Collections.reverse(Index);
+                    Collections.reverse(historyIndex);
+                    Collections.reverse(historyImage);
+                    Collections.reverse(historyCreateDate);
+
+
 
                     for(int i = 0; i < historyIndex.size(); i++) {
                         Log.d("HistoryActivityLog", "HistoryActivityLog 2-5 : " + Index.get(i));
                         Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 : " + historyIndex.get(i));
-                       /* Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 : " + historyImage.get(i));
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-7 : " + historyCreateDate.get(i));*/
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 : " + historyImage.get(i));
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-7 : " + historyCreateDate.get(i));
                     }
 
 
