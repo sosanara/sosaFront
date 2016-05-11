@@ -47,6 +47,8 @@
     <string name="toolbar_logout">로그아웃</string>
     <string name="toolbar_change_pawd">비밀번호 변경</string>
     <string name="toolbar_find_pawd">비밀번호 찾기</string>
+    <string name="toolbar_user_info">사용자 정보</string>
+    <string name="toolbar_user_info_change">사용자 정보수정</string>
 
 
 

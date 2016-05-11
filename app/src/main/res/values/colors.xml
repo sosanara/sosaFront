@@ -36,7 +36,7 @@
 
 
 
-
+    <color name="textLineColor">#979797</color>
     <color name="whiteColor">#ffffff</color>
     <color name="hintTextColor">#bbbbbb</color>
 

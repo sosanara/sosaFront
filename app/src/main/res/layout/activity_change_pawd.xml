@@ -20,7 +20,7 @@ android:layout_height="match_parent">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="@color/whiteColor"
-        android:text="@string/toolbar_change_pawd"
+        android:text="@string/toolbar_user_info"
         android:textSize="17.5sp"
         android:gravity="center_horizontal"/>
 </android.support.v7.widget.Toolbar>
