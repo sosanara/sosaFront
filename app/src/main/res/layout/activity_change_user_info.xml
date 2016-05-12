@@ -5,7 +5,175 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/whiteColor"
+            android:text="@string/toolbar_user_info_change"
+            android:textSize="17.5sp"
+            android:gravity="center_horizontal"/>
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/userNameView"
+            android:background="@drawable/text_border"
+            android:hint="@string/id"
+            android:textColorHint="@color/hintTextColor"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="19dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textSize="16sp"
+            android:layout_gravity="center" />
+
+        <EditText
+            android:id="@+id/nameView"
+            android:background="@drawable/text_border"
+            android:hint="@string/name"
+            android:textColorHint="@color/hintTextColor"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10.8dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textSize="16sp"
+            android:layout_gravity="center" />
+
+        <EditText
+            android:id="@+id/emailAddressView"
+            android:background="@drawable/text_border"
+            android:hint="@string/email"
+            android:textColorHint="@color/hintTextColor"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10.8dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textSize="16sp"
+            android:layout_gravity="center" />
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10.8dp"
+        android:layout_gravity="center"
+        android:background="@drawable/text_border">
+
+        <RadioGroup
+            android:id="@+id/genderRadioGroup"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:paddingLeft="18.3dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:color = "@color/textViewColor">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="성별"
+                android:color = "@color/hintTextColor"
+                android:layout_gravity="center_vertical"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="43dp"
+                android:id="@+id/maleRadioBtn"
+                android:text="남성"
+                android:textColor="@color/textViewColor"
+                android:color = "#e1e8ee"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33.8dp"
+                android:id="@+id/femaleRadioBtn"
+                android:text="여성"
+                android:textColor="@color/textViewColor"
+                android:color="#e1e8ee"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"/>
+
+            <!--<EditText
+                android:id="@+id/signUpGenderView"
+                android:hint="@string/gender"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10.8dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:paddingBottom="17dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:visibility="gone"/>-->
+        </RadioGroup>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/text_border">
+            <Spinner
+                android:id="@+id/ageSpinner"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:paddingLeft="12.3dp"
+                android:paddingRight="18.3dp"
+                android:text="졸려"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/changeUserInfoBtn"
+            android:text="@string/change_info_completed"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="18.3dp"
+            android:paddingRight="18.3dp"
+            android:textColor="@color/whiteColor"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:onClick="changeUserInfo"
+            android:radius="20.5dp"
+            android:background="@drawable/btn_border_green"/>
+
+    </LinearLayout>
+    <!--<EditText
         android:id="@+id/emailAddressView"
         android:layout_marginTop="5dp"
         android:hint="emailAddress"
@@ -40,7 +208,30 @@
         android:text="Change UserInfo"
         android:id="@+id/changeUserInfoBtn"
         android:layout_marginTop="10dp"
-        android:onClick="changeUserInfoBtn"/>
+        android:onClick="changeUserInfoBtn"/>-->
+
+    <!--<EditText
+        android:id="@+id/birthView"
+        android:layout_marginTop="5dp"
+        android:hint="birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/GenderView"
+        android:layout_marginTop="5dp"
+        android:hint="gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>-->
+    <EditText
+        android:id="@+id/birthView"
+        android:layout_marginTop="5dp"
+        android:hint="birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 </LinearLayout>
 

@@ -8,7 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +34,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ChangeUserInfoActivity extends Activity {
@@ -52,6 +58,14 @@ public class ChangeUserInfoActivity extends Activity {
     private String errorLastName;
     private String errorBirth;
     private String errorGender;
+    private String gender;
+    private String birth;
+
+    private Spinner ageSpinner;
+
+    RadioButton maleRadioBtn;
+    RadioButton femaleRadioBtn;
+    RadioGroup genderRadioGroup;
 
 
     @Override
@@ -62,27 +76,29 @@ public class ChangeUserInfoActivity extends Activity {
         // Get Reference to variables
         emailAddressView = (EditText) findViewById(R.id.emailAddressView);
         nameView = (EditText) findViewById(R.id.nameView);
-        birthView = (EditText) findViewById(R.id.birthView);
-        GenderView = (EditText) findViewById(R.id.GenderView);
+        ageSpinner = (Spinner) findViewById(R.id.ageSpinner);
+
+        genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
+        maleRadioBtn = (RadioButton) findViewById(R.id.maleRadioBtn);
+        femaleRadioBtn = (RadioButton) findViewById(R.id.femaleRadioBtn);
 
         emailAddressView.setText("uiop@naver.com", TextView.BufferType.EDITABLE);
         nameView.setText("mienhwr", TextView.BufferType.EDITABLE);
 
-        birthView.setText("2000", TextView.BufferType.EDITABLE);
-        GenderView.setText("Man", TextView.BufferType.EDITABLE);
+        changeGenderFunc();
 
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
+        initAgeListSpinner();
     }
 
     // Triggers when changePawd Button clicked
-    public void changeUserInfoBtn(View arg0) {
+    public void changeUserInfo(View arg0) {
 
         final String email = emailAddressView.getText().toString();
         final String name = nameView.getText().toString();
-        final String birth = birthView.getText().toString();
-        final String gender = GenderView.getText().toString();
+        birth = ageSpinner.getSelectedItem().toString();
 
         String first_name = "";
         String last_name = "";
@@ -271,5 +287,70 @@ public class ChangeUserInfoActivity extends Activity {
         }
 
     }
+
+    private void initAgeListSpinner() {
+
+        // Custom choices
+        List<CharSequence> choices = new ArrayList<CharSequence>();
+
+
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new InputStreamReader(getAssets().open("ageSpinner/age.txt"), "euc_kr"));
+            String line = in.readLine();
+
+            while (line != null) {
+                /*line = URLEncoder.encode(line, "KSC5601");*/
+                choices.add(line);
+                line = in.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // Create an ArrayAdapter with custom choices
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, choices);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Set the adapter to th spinner
+        ageSpinner.setAdapter(adapter);
+        /*birth = ageSpinner.getSelectedItem().toString();*/
+    }
+
+
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        /*Toast.makeText(this, selectionSpinner.getSelectedItem() + " selected", Toast.LENGTH_SHORT).show();*/
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    void changeGenderFunc() {
+        maleRadioBtn.setChecked(true);
+        gender = "Man";
+        genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                switch (checkedId) {
+                    case R.id.maleRadioBtn:
+                        // do operations specific to this selection
+                        gender = "Man";
+                        break;
+
+                    case R.id.femaleRadioBtn:
+                        // do operations specific to this selection
+                        gender = "Women";
+                        break;
+                }
+            }
+        });
+
+    }
+
 }
 
