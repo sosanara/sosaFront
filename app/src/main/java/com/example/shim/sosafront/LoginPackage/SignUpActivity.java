@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -43,13 +46,15 @@ public class SignUpActivity extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    String username;
-    String email;
-    String password1;
-    String password2;
-    String birth;
-    String name;
-    String gender;
+    private String username;
+    private String email;
+    private String password1;
+    private String password2;
+    private String birth;
+    private String name;
+    private String gender;
+
+    private Spinner ageSpinner;
 
     private String errorUsername;
     private String errorEmail;
@@ -75,21 +80,9 @@ public class SignUpActivity extends AppCompatActivity {
     @Bind(R.id.signUpPawd2View) EditText signUpPawd2View;
     @Bind(R.id.signUpAgeView) EditText signUpAgeView;
     @Bind(R.id.signUpNameView) EditText signUpNameView;
-    @Bind(R.id.signUpGenderView) EditText signUpGenderView;
+    /*@Bind(R.id.signUpGenderView) EditText signUpGenderView;*/
     @Bind(R.id.loginBtn) Button loginBtn;
 
-    String[] SPINNERLIST =
-            {"1910", "1911", "1912", "1913", "1914", "1915", "1916", "1917", "1918", "1919",
-            "1920", "1921", "1922", "1923", "1924", "1925", "1926", "1927", "1928", "1929",
-            "1930", "1931", "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939",
-            "1940", "1941", "1942", "1943", "1944", "1945", "1946", "1947", "1948", "1949",
-            "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959",
-            "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969",
-            "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979",
-            "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989",
-            "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999",
-            "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
-            "2010", "2011", "2012", "2013", "2014", "2015", "2016"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +100,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUpPawd2View = (EditText) findViewById(R.id.signUpPawd2View);
         signUpAgeView = (EditText) findViewById(R.id.signUpAgeView);
         signUpNameView = (EditText) findViewById(R.id.signUpNameView);
-        signUpGenderView= (EditText) findViewById(R.id.signUpGenderView);
+        /*signUpGenderView= (EditText) findViewById(R.id.signUpGenderView);*/
+        ageSpinner = (Spinner) findViewById(R.id.ageSpinner);
 
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
         maleRadioBtn = (RadioButton) findViewById(R.id.maleRadioBtn);
@@ -125,36 +119,9 @@ public class SignUpActivity extends AppCompatActivity {
         signUpNameView.setText("심민호", TextView.BufferType.EDITABLE);
         /*signUpGenderView.setText("Man", TextView.BufferType.EDITABLE);*/
 
-        /*loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });*/
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SPINNERLIST);
+        initAgeListSpinner();
 
-        android_material_design_spinner = (MaterialSpinner) findViewById(R.id.android_material_design_spinner);
-        android_material_design_spinner.setAdapter(adapter);
-        android_material_design_spinner.setHint("출생연도");
-
-        android_material_design_spinner.setSelection(20);
-
-
-
-        /*adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
-        MaterialBetterSpinner materialDesignSpinner = (MaterialBetterSpinner)
-                findViewById(R.id.android_material_design_spinner);
-        materialDesignSpinner.setAdapter(arrayAdapter);
-
-        Editable good = materialDesignSpinner.getText();
-        String name= null;*/
-
-        /*materialDesignSpinner.setSelection(2);*/
     }
 
     public void startSignup(View arg0) {
@@ -163,7 +130,8 @@ public class SignUpActivity extends AppCompatActivity {
         email = signUpEmailView.getText().toString();
         password1 = signUpPawd1View.getText().toString();
         password2 = signUpPawd2View.getText().toString();
-        birth = android_material_design_spinner.getSelectedItem().toString();
+        birth = ageSpinner.getSelectedItem().toString();
+        /*birth = android_material_design_spinner.getSelectedItem().toString();*/
         /*birth = signUpAgeView.getText().toString();*/
         name = signUpNameView.getText().toString();
 
@@ -440,10 +408,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (gender.isEmpty()) {
-            signUpGenderView.setError("enter a valid gender");
+           /* signUpGenderView.setError("enter a valid gender");*/
             valid = false;
         } else {
-            signUpGenderView.setError(null);
+            /*signUpGenderView.setError(null);*/
         }
 
 
@@ -478,5 +446,37 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initAgeListSpinner() {
+
+        // Custom choices
+        List<CharSequence> choices = new ArrayList<CharSequence>();
+
+
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new InputStreamReader(getAssets().open("ageSpinner/age.txt"), "euc_kr"));
+            String line = in.readLine();
+
+            while (line != null) {
+                /*line = URLEncoder.encode(line, "KSC5601");*/
+                choices.add(line);
+                line = in.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // Create an ArrayAdapter with custom choices
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, choices);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Set the adapter to th spinner
+        ageSpinner.setAdapter(adapter);
+        /*birth = ageSpinner.getSelectedItem().toString();*/
     }
 }

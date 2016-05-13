@@ -121,20 +121,6 @@
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"/>
 
-            <!--<EditText
-                android:id="@+id/signUpGenderView"
-                android:hint="@string/gender"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="10.8dp"
-                android:paddingLeft="18.3dp"
-                android:paddingRight="18.3dp"
-                android:paddingBottom="17dp"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:visibility="gone"/>-->
         </RadioGroup>
     </LinearLayout>
 
@@ -150,8 +136,7 @@
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:paddingLeft="12.3dp"
-                android:paddingRight="18.3dp"
-                android:text="졸려"/>
+                android:paddingRight="18.3dp"/>
 
         </LinearLayout>
 
@@ -169,7 +154,6 @@
             android:textSize="16sp"
             android:layout_gravity="center"
             android:onClick="changeUserInfo"
-            android:radius="20.5dp"
             android:background="@drawable/btn_border_green"/>
 
     </LinearLayout>

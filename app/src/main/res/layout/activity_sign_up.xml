@@ -33,7 +33,7 @@
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_sign_up"
             android:textSize="17.5sp"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal" />
     </android.support.v7.widget.Toolbar>
 
     <!--<include
@@ -46,10 +46,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <!--android:background="@drawable/text_border"-->
         <EditText
             android:id="@+id/signUpUserNameView"
             android:hint="@string/id"
@@ -59,15 +55,10 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="29.5dp"
             android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:paddingTop="17dp"
             android:textSize="16sp"
-            android:layout_gravity="center"/>
-        </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/text_border"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/signUpPawd1View"
             android:hint="@string/pawd"
@@ -78,16 +69,10 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="10.8dp"
             android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:paddingTop="17dp"
-            android:paddingBottom="17dp"
             android:textSize="16sp"
-            android:layout_gravity="center"/>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/text_border"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/signUpPawd2View"
             android:hint="@string/confirm_pawd"
@@ -98,15 +83,10 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="10.8dp"
             android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:paddingBottom="17dp"
             android:textSize="16sp"
-            android:layout_gravity="center"/>
-        </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/text_border"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/signUpNameView"
             android:hint="@string/name"
@@ -116,15 +96,10 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="10.8dp"
             android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:paddingBottom="17dp"
             android:textSize="16sp"
-            android:layout_gravity="center"/>
-        </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/text_border"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/signUpEmailView"
             android:hint="@string/email"
@@ -134,33 +109,36 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="10.8dp"
             android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:paddingBottom="17dp"
             android:textSize="16sp"
-            android:layout_gravity="center"/>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/text_border"/>
+
+
+
 
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:layout_marginTop="10.8dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:background="@drawable/text_border">
 
             <RadioGroup
                 android:id="@+id/genderRadioGroup"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:paddingLeft="18.3dp"
-                android:paddingBottom="17dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 android:color = "@color/hintTextColor">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:text="성별"
-                    android:color = "@color/hintTextColor"/>
+                    android:color = "@color/hintTextColor"
+                    android:layout_gravity="center_vertical"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -170,7 +148,8 @@
                     android:text="남성"
                     android:textColor="@color/hintTextColor"
                     android:color = "#e1e8ee"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -179,26 +158,28 @@
                     android:text="여성"
                     android:textColor="@color/hintTextColor"
                     android:color="#e1e8ee"
-                    android:textSize="16sp"/>
-
-                <EditText
-                    android:id="@+id/signUpGenderView"
-                    android:hint="@string/gender"
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="10.8dp"
-                    android:paddingLeft="18.3dp"
-                    android:paddingRight="18.3dp"
-                    android:paddingBottom="17dp"
                     android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:visibility="gone"/>
+                    android:layout_gravity="center_vertical"/>
             </RadioGroup>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/text_border">
+            <Spinner
+                android:id="@+id/ageSpinner"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:paddingLeft="12.3dp"
+                android:paddingRight="18.3dp"/>
+
+        </LinearLayout>
+
+        <!--<LinearLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -219,24 +200,12 @@
                 android:text="@string/birth"
                 android:textColor="@color/hintTextColor"/>
 
-            </LinearLayout>
-
-        <!--<com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/android_material_design_spinner"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10.8dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:hint="@string/birth"
-            android:textColorHint="@color/hintTextColor"
-            app:met_floatingLabel="normal"
-            android:layout_gravity="center"/>-->
+            </LinearLayout>-->
 
 
-        <android.support.v7.widget.AppCompatButton
+
+
+        <Button
             android:text="@string/sign_up_complete"
             android:id="@+id/loginBtn"
             android:layout_marginTop="30dp"

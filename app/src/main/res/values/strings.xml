@@ -41,7 +41,6 @@
     <string name="fail_sign_up">회원가입 실패</string>
     <string name="success_login">로그인 성공</string>
     <string name="fail_login">로그인 실패</string>
-
     <string name="toolbar_sign_up">회원가입</string>
     <string name="toolbar_login">로그인</string>
     <string name="toolbar_logout">로그아웃</string>
@@ -49,16 +48,8 @@
     <string name="toolbar_find_pawd">비밀번호 찾기</string>
     <string name="toolbar_user_info">사용자 정보</string>
     <string name="toolbar_user_info_change">사용자 정보수정</string>
-
-
-
-
-
-
-
-
-
-
+    <string name="toolbar_picture_confirm">사진확인</string>
+    <string name="toolbar_result">결과</string>
 
     <string name="sign_up">회원가입</string>
     <string name="login">로그인</string>
@@ -84,8 +75,13 @@
     <string name="uid">UID</string>
     <string name="token">Token</string>
     <string name="send">전송</string>
+    <string name="retry_take_picture">다시찍기</string>
+    <string name="result_confirm">결과확인</string>
+
+
     <string-array name="birth">
         <item>출생연도</item>
     </string-array>
+    <string name="title_activity_result">ResultActivity</string>
 
 </resources>

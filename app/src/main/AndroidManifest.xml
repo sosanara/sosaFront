@@ -62,7 +62,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".GraphPackage.GraphResultActivity"
-            android:label="@string/title_activity_graph_result"/>
+            android:label="@string/title_activity_graph_result" />
         <activity android:name=".HistoryPackage.HistoryActivity" />
         <activity
             android:name=".HistoryPackage.HistoryNextPagePakage.HistoryItemClickActivity"
@@ -73,7 +73,11 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".UserInfoPackage.ChangeUserInfoActivity"
-            android:label="@string/title_activity_change_user_info"></activity>
+            android:label="@string/title_activity_change_user_info" />
+        <activity
+            android:name=".CameraPackage.ResultActivity"
+            android:label="@string/title_activity_result"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
