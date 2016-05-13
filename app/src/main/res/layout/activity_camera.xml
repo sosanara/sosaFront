@@ -5,33 +5,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0000ff"
+        android:background="@color/colorPrimary"
         >
 
         <RelativeLayout
             android:id="@+id/rl_top"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#4e5051">
+            android:layout_height="50dp">
 
 
             <ImageButton
                 android:id="@+id/ib_camera_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48.2dp"
+                android:layout_height="48.2dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/camera_change" />
-
-            <ImageButton
-                android:id="@+id/ib_camera_flash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/ib_camera_change"
-                android:background="@drawable/camera_flash_auto" />
 
             <ImageButton
                 android:id="@+id/ib_camera_grid"
@@ -39,8 +29,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/ib_camera_flash"
-                android:background="@drawable/camera_grid_normal" />
+                android:layout_toLeftOf="@+id/ib_camera_change"
+                android:background="@drawable/camera_grid_normal"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <SurfaceView
@@ -76,8 +67,7 @@
             android:id="@+id/rl_bottom"
             android:layout_width="match_parent"
             android:layout_height="92dp"
-            android:layout_alignParentBottom="true"
-            android:background="#4e5051">
+            android:layout_alignParentBottom="true">
 
             <ImageButton
                 android:id="@+id/ib_camera_take_picture"
@@ -86,18 +76,6 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/camera_take_picture" />
 
-            <ImageView
-                android:id="@+id/ib_camera_photos"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="17dp"
-                android:background="#FFFFFF"
-                android:maxHeight="38dp"
-                android:maxWidth="38dp"
-                android:padding="1dp"
-                android:scaleType="center" />
         </RelativeLayout>
     </RelativeLayout>
 

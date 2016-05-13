@@ -4,13 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -28,7 +26,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-
 
 import io.values.camera.widget.CameraView;
 import io.values.camera.widget.FocusView;
@@ -49,11 +46,9 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
     private RelativeLayout rlTop;
 
     private ImageButton ib_camera_change;
-    private ImageButton ib_camera_flash;
     private ImageButton ib_camera_grid;
 
     private ImageButton ibTakePicture;
-    private ImageView ibCameraPhotos;
 
     private ImageView imgGrid;
 
@@ -92,7 +87,6 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         initViews();
         imgGrid.setVisibility(View.VISIBLE);
         /*scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");*/
-        showDCIM();
         scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");
 
     }
@@ -100,10 +94,8 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
     private void initViews() {
         rlTop = $(R.id.rl_top);
         ib_camera_change = $(R.id.ib_camera_change);
-        ib_camera_flash = $(R.id.ib_camera_flash);
         ib_camera_grid = $(R.id.ib_camera_grid);
         ibTakePicture = $(R.id.ib_camera_take_picture);
-        ibCameraPhotos = $(R.id.ib_camera_photos);
         imgGrid = $(R.id.img_grid);
     }
 
@@ -124,41 +116,12 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         ImageLoader.getInstance().init(config);
     }
 
-    /**
-     * get first picture DCIM
-     */
 
-    private void showDCIM() {
-        String columns[] = new String[]{
-                MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID, MediaStore.Images.Media.TITLE, MediaStore.Images.Media.DISPLAY_NAME
-        };
-        Cursor cursor = this.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, null);
-        boolean isOK = false;
-        if (cursor != null) {
-            cursor.moveToLast();
-            String path = "";
-            try {
-                while (!isOK) {
-                    int photoIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    path = cursor.getString(photoIndex);
-                    isOK = !(path.indexOf("DCIM/Camera") == -1); //Is thie photo from DCIM folder ?
-                    cursor.moveToPrevious(); //Add this so we don't get an infinite loop if the first image from
-                    //the cursor is not from DCIM
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                cursor.close();
-            }
-            ImageLoader.getInstance().displayImage("file://" + path, ibCameraPhotos, options);
-        }
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
         ib_camera_change.setOnClickListener(this);
-        ib_camera_flash.setOnClickListener(this);
         ib_camera_grid.setOnClickListener(this);
         ibTakePicture.setOnClickListener(this);
     }
@@ -184,9 +147,6 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         switch (v.getId()) {
             case R.id.ib_camera_change:
                 cameraView.changeCamera();
-                break;
-            case R.id.ib_camera_flash:
-                cameraView.changeFlash();
                 break;
 
             /*case R.id.ib_camera_grid:
@@ -233,7 +193,7 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
 
     @Override
     public void onChangeFlashMode(int flashMode) {
-        switch (flashMode) {
+        /*switch (flashMode) {
             case CameraView.FLASH_AUTO:
                 ib_camera_flash.setBackgroundResource(R.drawable.camera_flash_auto);
                 break;
@@ -243,7 +203,7 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
             case CameraView.FLASH_ON:
                 ib_camera_flash.setBackgroundResource(R.drawable.camera_flash_on);
                 break;
-        }
+        }*/
     }
 
     @Override
