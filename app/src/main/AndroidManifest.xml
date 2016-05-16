@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainPackage.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,14 +32,14 @@
         <activity
             android:name=".CameraPackage.CameraActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:label="@string/app_name" />
         <activity
             android:name=".CameraPackage.CaptureActivity"
             android:label="@string/title_activity_capture" />
         <activity
             android:name=".LoginPackage.SignUpActivity"
-            android:label="@string/title_activity_sign_up" />
+            android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginPackage.LoginActivity"
             android:label="@string/title_activity_login" />
@@ -77,7 +78,7 @@
         <activity
             android:name=".CameraPackage.ResultActivity"
             android:label="@string/title_activity_result"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

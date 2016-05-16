@@ -1,33 +1,103 @@
 package com.example.shim.sosafront.MainPackage;
 
+
+/* super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);    // Removes title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setContentView(R.layout.activity_main);*/
+
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
 import com.example.shim.sosafront.GraphPackage.GraphActivity;
 import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
-import com.example.shim.sosafront.LoginPackage.LoginActivity;
-import com.example.shim.sosafront.LoginPackage.SignUpActivity;
 import com.example.shim.sosafront.R;
 import com.example.shim.sosafront.StatisticPackage.StatisticActivity;
-import com.example.shim.sosafront.UserInfoPackage.UserInfoActivity;
 
+public class MainActivity extends AppCompatActivity {
+
+    Button takePictureBtn;
+    ImageButton galleryBtn;
+    ImageButton historyBtn;
+    ImageButton statisticsBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);    // Removes title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*setTheme(android.R.style.Theme_NoTitleBar_Fullscreen);*/
+        /*getSupportActionBar().setDisplayShowTitleEnabled(false);*/
+
+
+
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+        takePictureBtn = (Button) findViewById(R.id.takePictureBtn);
+        galleryBtn = (ImageButton) findViewById(R.id.galleryBtn);
+        historyBtn = (ImageButton) findViewById(R.id.historyBtn);
+        statisticsBtn = (ImageButton) findViewById(R.id.statisticsBtn);
+
+        takePictureBtn.setOnClickListener(menuClick);
+        galleryBtn.setOnClickListener(menuClick);
+        historyBtn.setOnClickListener(menuClick);
+        statisticsBtn.setOnClickListener(menuClick);
+    }
+
+    private View.OnClickListener menuClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()) {  //switch가 if문보다 빠름 몇개 없는데 if문이 나려나?
+                case R.id.takePictureBtn:
+                    Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.galleryBtn:
+                    intent = new Intent(MainActivity.this, HistoryActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.historyBtn:
+                    intent = new Intent(MainActivity.this, GraphActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.statisticsBtn:
+                    intent = new Intent(MainActivity.this, StatisticActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    };
+
+}
+
+
+
+
+
+/*
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -125,3 +195,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 }
+*/

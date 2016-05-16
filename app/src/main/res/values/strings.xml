@@ -77,11 +77,13 @@
     <string name="send">전송</string>
     <string name="retry_take_picture">다시찍기</string>
     <string name="result_confirm">결과확인</string>
+    <string name="take_picture">모발 상태 점검하기</string>
 
 
     <string-array name="birth">
         <item>출생연도</item>
     </string-array>
     <string name="title_activity_result">ResultActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 </resources>
