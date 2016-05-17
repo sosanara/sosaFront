@@ -3,11 +3,10 @@ package com.example.shim.sosafront.GraphPackage;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -31,7 +30,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,6 +67,10 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_graph);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_home_black_24dp);
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
@@ -422,26 +424,31 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals, "x축 : 찍은날짜,  y축 : 탈모 비율");
         // set1.setFillAlpha(110);
-        // set1.setFillColor(Color.RED);
+        /*set1.setFillColor(Color.RED);*/
+       /* set1.setFillColor(Color.BLACK);*/
+
+        set1.setFillColor(Color.parseColor("#2eb74f"));
 
         // set the line to be drawn like this "- - - - - -"
         set1.enableDashedLine(10f, 5f, 0f);
         set1.enableDashedHighlightLine(10f, 5f, 0f);
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLUE);
+        set1.setColor(Color.parseColor("#9b9b9b"));
+        set1.setCircleColor(Color.parseColor("#2eb74f"));
+        /*set1.setColor(Color.BLACK);
+        set1.setCircleColor(Color.BLUE);*/
         set1.setLineWidth(1f);
         set1.setCircleRadius(3f);
         set1.setDrawCircleHole(false);
         set1.setValueTextSize(9f);
         set1.setDrawFilled(true);
 
-        if(Utils.getSDKInt() >= 18) {
+       /* if(Utils.getSDKInt() >= 18) {
             // fill drawable only supported on api level 18 and above
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.graph_backround_red);
             set1.setFillDrawable(drawable);
         } else {
             set1.setFillColor(Color.GREEN);
-        }
+        }*/
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets

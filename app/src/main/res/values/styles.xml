@@ -9,6 +9,17 @@
         <item name="android:windowBackground">@color/myWindowBackground</item>
     </style>
 
+    <style name="homeActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/textViewColor</item>
+        <item name="android:windowBackground">@color/myWindowBackground</item>
+        <item name="android:minWidth">13dp</item>
+        <item name="android:maxWidth">16dp</item>
+        <item name="android:width">16dp</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>

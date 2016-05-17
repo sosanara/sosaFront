@@ -34,8 +34,8 @@ public class GraphResultActivity extends Activity {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    ImageView initialImageView;
-    ImageView resultImageView;
+    ImageView firstImageView;
+    ImageView lastImageView;
 
     String getIndex;
     Bitmap testBitmap;
@@ -56,8 +56,8 @@ public class GraphResultActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_result);
 
-        initialImageView = (ImageView) findViewById(R.id.initialImageView);
-        resultImageView = (ImageView) findViewById(R.id.resultImageView);
+        firstImageView = (ImageView) findViewById(R.id.firstImageView);
+        lastImageView = (ImageView) findViewById(R.id.lastImageView);
 
 
         getIndex = getIntent().getExtras().getString("graphIndex");
@@ -244,7 +244,8 @@ public class GraphResultActivity extends Activity {
             else
                 sendImageView.setImageBitmap(testBitmap);*/
 
-            initialImageView.setImageBitmap(testBitmap);
+            firstImageView.setImageBitmap(testBitmap);
+            lastImageView.setImageBitmap(testBitmap);
 
             bis.close();
 
@@ -287,7 +288,7 @@ public class GraphResultActivity extends Activity {
             bitmap = BitmapFactory.decodeStream(iStream);
 
         }catch(Exception e){
-            Log.d("Exception while downloading url", e.toString());
+            /*Log.d("Exception while downloading url", e.toString());*/
         }finally{
             iStream.close();
         }
@@ -311,10 +312,12 @@ public class GraphResultActivity extends Activity {
             /** Getting a reference to ImageView to display the
              * downloaded image
              */
-            ImageView iView = (ImageView) findViewById(R.id.resultImageView);
+            ImageView firstView = (ImageView) findViewById(R.id.firstImageView);
+            ImageView lastView = (ImageView) findViewById(R.id.lastImageView);
 
             /** Displaying the downloaded image */
-            iView.setImageBitmap(result);
+            firstView.setImageBitmap(result);
+            lastView.setImageBitmap(result);
 
             /** Showing a message, on completion of download process */
             Toast.makeText(getBaseContext(), "Image downloaded successfully", Toast.LENGTH_SHORT).show();

@@ -78,7 +78,6 @@ public class SignUpActivity extends AppCompatActivity {
     @Bind(R.id.signUpEmailView) EditText signUpEmailView;
     @Bind(R.id.signUpPawd1View) EditText signUpPawd1View;
     @Bind(R.id.signUpPawd2View) EditText signUpPawd2View;
-    @Bind(R.id.signUpAgeView) EditText signUpAgeView;
     @Bind(R.id.signUpNameView) EditText signUpNameView;
     /*@Bind(R.id.signUpGenderView) EditText signUpGenderView;*/
     @Bind(R.id.loginBtn) Button loginBtn;
@@ -98,7 +97,6 @@ public class SignUpActivity extends AppCompatActivity {
         signUpEmailView = (EditText) findViewById(R.id.signUpEmailView);
         signUpPawd1View = (EditText) findViewById(R.id.signUpPawd1View);
         signUpPawd2View = (EditText) findViewById(R.id.signUpPawd2View);
-        signUpAgeView = (EditText) findViewById(R.id.signUpAgeView);
         signUpNameView = (EditText) findViewById(R.id.signUpNameView);
         /*signUpGenderView= (EditText) findViewById(R.id.signUpGenderView);*/
         ageSpinner = (Spinner) findViewById(R.id.ageSpinner);
@@ -393,13 +391,13 @@ public class SignUpActivity extends AppCompatActivity {
             signUpPawd2View.setError(null);
         }
 
-        if (birth.isEmpty()) {
+        /*if (birth.isEmpty()) {
             signUpAgeView.setError("enter a valid age");
             valid = false;
         } else {
             signUpAgeView.setError(null);
         }
-
+*/
         if (name.isEmpty()) {
             signUpNameView.setError("enter a valid name");
             valid = false;

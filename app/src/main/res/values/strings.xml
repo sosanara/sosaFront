@@ -50,6 +50,7 @@
     <string name="toolbar_user_info_change">사용자 정보수정</string>
     <string name="toolbar_picture_confirm">사진확인</string>
     <string name="toolbar_result">결과</string>
+    <string name="toolbar_history">히스토리</string>
 
     <string name="sign_up">회원가입</string>
     <string name="login">로그인</string>
@@ -78,6 +79,8 @@
     <string name="retry_take_picture">다시찍기</string>
     <string name="result_confirm">결과확인</string>
     <string name="take_picture">모발 상태 점검하기</string>
+    <string name="bald_type">유형</string>
+    <string name="bald_progress">탈모진행율</string>
 
 
     <string-array name="birth">
