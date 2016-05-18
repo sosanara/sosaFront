@@ -32,9 +32,11 @@
         android:id="@+id/chart1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="22.9dp"
         android:background = "#FFFFFF" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvXMax"
         android:text="this is what?"
         android:layout_width="50dp"
@@ -45,7 +47,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginRight="10dp"
         android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />-->
 
 
 

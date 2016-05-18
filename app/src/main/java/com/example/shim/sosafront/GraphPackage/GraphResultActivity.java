@@ -98,7 +98,7 @@ public class GraphResultActivity extends Activity {
                 // Enter URL address where your php file resides
 
                 Log.d("GraphResult", "GraphResult 0-0-1: " + getIndex);
-                url = new URL("http://113.198.84.37/api/v1/userInfo/graph/" + getIndex);
+                url = new URL("http://113.198.84.37/api/v1/userInfo/history/" + getIndex);
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -116,8 +116,8 @@ public class GraphResultActivity extends Activity {
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("GET");
-                conn.setRequestProperty("Authorization", " Token " + "a6bf78ac14b1845b9f91f193ea4b86e8c0a65002");
-
+                /*conn.setRequestProperty("Authorization", " Token " + "a6bf78ac14b1845b9f91f193ea4b86e8c0a65002");
+*/
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
 

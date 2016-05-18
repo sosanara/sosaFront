@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
@@ -36,11 +37,23 @@ public class SendImageActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
-    public static final int CONNECTION_TIMEOUT=10000;
-    public static final int READ_TIMEOUT=15000;
+    public static final int CONNECTION_TIMEOUT=1000000;
+    public static final int READ_TIMEOUT=1500000;
 
     private ImageView sendImageView;
-    /*private ImageView resultImageView;*/
+
+
+    TextView userNameView;
+    TextView baldTypeView;
+    TextView baldProgressView;
+    ImageView originImageView;
+    ImageView resultImageView;
+
+    String originImagePath;
+    String resultImagePath;
+    String resultType;
+    String userName;
+    String percentage;
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
@@ -52,7 +65,7 @@ public class SendImageActivity extends Activity {
     int maxBufferSize = 1 * 1024 * 1024;
 
     final String uploadFilePath = Environment.getExternalStorageDirectory() + "/sosaCamera/";
-    final String uploadFileName = "img.jpg";
+    String uploadFileName;
     String captureImage;
     String fileName;
     Bitmap testBitmap;
@@ -64,8 +77,11 @@ public class SendImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_image);
 
+
         captureImage  = getIntent().getExtras().getString("captureImage");
         Log.d("SendImageActivityLog", "SendImageActivityLog0-0 : " + captureImage);
+        uploadFileName = captureImage;
+
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
 
@@ -83,6 +99,7 @@ public class SendImageActivity extends Activity {
 
         }
 
+
     }
 
     public void retryImage(View arg0) {
@@ -95,8 +112,12 @@ public class SendImageActivity extends Activity {
     }
 
     public void sendImage(View arg0) {
-
+        setContentView(R.layout.image_result);
         // Initialize  AsyncLogin() class with email and password
+
+        originImageView = (ImageView) findViewById(R.id.originImageView);
+        resultImageView = (ImageView) findViewById(R.id.resultImageView);
+
         new AsyncSendImage().execute();
 
     }
@@ -130,9 +151,9 @@ public class SendImageActivity extends Activity {
             }
 
             try {
-                FileInputStream fileInputStream = new FileInputStream(uploadFilePath + uploadFileName);
+                FileInputStream fileInputStream = new FileInputStream(uploadFileName);
                 DataOutputStream dos = null;
-                fileName = uploadFilePath + uploadFileName;
+                fileName = uploadFileName;
 
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection) url.openConnection();
@@ -155,7 +176,7 @@ public class SendImageActivity extends Activity {
                 dos = new DataOutputStream(conn.getOutputStream());
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
 
-                String filepath = uploadFilePath + uploadFileName;
+                String filepath = uploadFileName;
 
                 dos.writeBytes("Content-Disposition: form-data; name=\"filepath\"" + lineEnd);
                 dos.writeBytes(lineEnd);
@@ -219,17 +240,21 @@ public class SendImageActivity extends Activity {
 
                     JSONObject subJsonObject = new JSONObject(test);
 
-                    String sendImagePath = subJsonObject.getString("image").toString();
-                    String resultImagePath = subJsonObject.getString("result_image").toString();
-                    String resultType = subJsonObject.getString("result_type").toString();
-                    String userName = subJsonObject.getString("user").toString();
+                    originImagePath = subJsonObject.getString("origin_image").toString();
+                    resultImagePath = subJsonObject.getString("change_image").toString();
+                    resultType = subJsonObject.getString("type").toString();
+                    userName = subJsonObject.getString("user").toString();
+                    percentage = subJsonObject.getString("percentage").toString();
 
-                    Log.d("sendImage", "sendImage 받는거 2-2: " + sendImagePath);
-                    Log.d("sendImage", "sendImage 받는거 2-3: " + resultImagePath);
-                    Log.d("sendImage", "sendImage 받는거 2-4: " + resultType);
-                    Log.d("sendImage", "sendImage 받는거 2-5: " + userName);
+                    Log.d("sendImageActivityLog", "sendImageActivityLog 2-2 : " + originImagePath);
+                    Log.d("sendImageActivityLog", "sendImageActivityLog 2-3 : " + resultImagePath);
+                    Log.d("sendImageActivityLog", "sendImageActivityLog 2-4 : " + resultType);
+                    Log.d("sendImageActivityLog", "sendImageActivityLog 2-5 : " + userName);
+                    Log.d("sendImageActivityLog", "sendImageActivityLog 2-6 : " + percentage);
 
-                    displayImageView(resultImagePath);
+
+                    displayImageView(originImagePath, 1);
+                    displayImageView(resultImagePath, 2);
 
                     // Pass data to onPostExecute method
                     return (result.toString());
@@ -250,11 +275,36 @@ public class SendImageActivity extends Activity {
             }
         }
 
-
         @Override
         protected void onPostExecute(String result) {
 
+            userNameView = (TextView) findViewById(R.id.sendImageUserNameView);
+            baldTypeView = (TextView) findViewById(R.id.baldTypeView);
+            baldProgressView = (TextView) findViewById(R.id.baldProgress);
+
             //this method will be running on UI thread
+            Log.d("SendImageActivityLog", "SendImageActivityLog 3-0 : " + result);
+
+            int typeNumber = Integer.parseInt(resultType);
+            switch(typeNumber) {
+                case 0 :
+                    baldTypeView.setText("정상");
+
+                case 1 :
+                    baldTypeView.setText("앞부분");
+
+                case 2 :
+                    baldTypeView.setText("뒷부분");
+
+                case 3 :
+                    baldTypeView.setText("가르마");
+
+                case 4:
+                    baldTypeView.setText("완전탈모");
+            }
+            userNameView.setText(userName + "님의 모발상태");
+            baldProgressView.setText(percentage + "%");
+
 
             pdLoading.dismiss();
 
@@ -282,7 +332,7 @@ public class SendImageActivity extends Activity {
 
     }
 
-    public void displayImageView(String ImagePath) {
+    public void displayImageView(String ImagePath, int i) {
         try {
 
             //웹사이트에 접속 (사진이 있는 주소로 접근)
@@ -305,7 +355,10 @@ public class SendImageActivity extends Activity {
             else
                 sendImageView.setImageBitmap(testBitmap);*/
 
-            sendImageView.setImageBitmap(testBitmap);
+            if(i==1)
+                originImageView.setImageBitmap(testBitmap);
+            else
+                resultImageView.setImageBitmap(testBitmap);
 
             bis.close();
 

@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="360dp"
+            android:layout_height="246.2dp"
+            android:background="@drawable/login_bg"
+            />
+
         <TextView
             android:text="내 머리를 지켜주는"
             android:layout_width="138dp"
@@ -69,7 +76,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10.8dp"
             android:paddingLeft="18.3dp"
             android:paddingRight="18.3dp"
             android:textColor="@color/whiteColor"

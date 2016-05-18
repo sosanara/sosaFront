@@ -76,8 +76,8 @@ public class LoginActivity extends Activity {
         signUp.setText(Html.fromHtml("<u>회원가입</u>"), TextView.BufferType.SPANNABLE);
         findPawd.setText(Html.fromHtml("<u>비밀번호찾기</u>"), TextView.BufferType.SPANNABLE);
 
-        loginUserNameView.setText("asdf1234", TextView.BufferType.EDITABLE);
-        loginPawdView.setText("asdf1234", TextView.BufferType.EDITABLE);
+        loginUserNameView.setText("qwer1234", TextView.BufferType.EDITABLE);
+        loginPawdView.setText("qwer1234", TextView.BufferType.EDITABLE);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -77,7 +77,7 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
 
         new AsyncGraph().execute();
 
-        tvX = (TextView) findViewById(R.id.tvXMax);
+        /*tvX = (TextView) findViewById(R.id.tvXMax);*/
         /*tvY = (TextView) findViewById(R.id.tvYMax);*/
 
         /*mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
@@ -89,10 +89,17 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         mSeekBarY.setOnSeekBarChangeListener(this);
         mSeekBarX.setOnSeekBarChangeListener(this);*/
 
+       /* Paint p = mChart.getPaint(Chart.setPaint());
+        p.setTextSize(...);
+
+        mChart.setPaint(p, Chart.PAINT_VALUES);*/
+
         mChart = (LineChart) findViewById(R.id.chart1);
         mChart.setOnChartGestureListener(this);
         mChart.setOnChartValueSelectedListener(this);
         mChart.setDrawGridBackground(false);
+
+        /*mChart.getXAxis().setTextSize(30);*/
 
         // no description text
         mChart.setDescription("");
@@ -213,7 +220,7 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
             //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
             try {
                 // Enter URL address where your php file resides
-                url = new URL("http://113.198.84.37/api/v1/userInfo/graph/");
+                url = new URL("http://113.198.84.37/api/v1/userInfo/history/");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -402,13 +409,14 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         ArrayList<String> xVals = new ArrayList<String>();
 
         for (int i = 0; i < count; i++) {
-            String graphCreateDateCut =  graphCreateDate.get(i).substring (5 ,10 ) ;// ex) 2016-04-01
-            xVals.add(graphCreateDateCut);  //여기에 찍은 날짜
-
+            String graphCreateDateCut =  graphCreateDate.get(i).substring(5, 10) ;// ex) 2016-04-01
+            String graphCreateDateTransfer = graphCreateDateCut.replace("-", "월");
+            graphCreateDateTransfer = graphCreateDateTransfer + "일";
+            xVals.add(graphCreateDateTransfer);  //여기에 찍은 날짜
         }
 
-
         ArrayList<Entry> yVals = new ArrayList<Entry>();
+
 
         for (int i = 0; i < count; i++) {
 
@@ -422,7 +430,8 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         }
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(yVals, "x축 : 찍은날짜,  y축 : 탈모 비율");
+        /*LineDataSet set1 = new LineDataSet(yVals, "x축 : 찍은날짜,  y축 : 탈모 비율");*/
+        LineDataSet set1 = new LineDataSet(yVals, "");
         // set1.setFillAlpha(110);
         /*set1.setFillColor(Color.RED);*/
        /* set1.setFillColor(Color.BLACK);*/
@@ -437,8 +446,8 @@ public class GraphActivity extends AppCompatActivity implements OnChartGestureLi
         /*set1.setColor(Color.BLACK);
         set1.setCircleColor(Color.BLUE);*/
         set1.setLineWidth(1f);
-        set1.setCircleRadius(3f);
-        set1.setDrawCircleHole(false);
+        set1.setCircleRadius(5);
+        set1.setDrawCircleHole(true);
         set1.setValueTextSize(9f);
         set1.setDrawFilled(true);
 
