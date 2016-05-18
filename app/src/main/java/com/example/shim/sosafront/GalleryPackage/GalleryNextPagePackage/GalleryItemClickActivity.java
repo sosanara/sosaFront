@@ -1,21 +1,25 @@
-package com.example.shim.sosafront.HistoryPackage.HistoryNextPagePakage;
+package com.example.shim.sosafront.GalleryPackage.GalleryNextPagePackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
-import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
+import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +27,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
-public class HistoryItemClickActivity extends Activity {
+public class GalleryItemClickActivity extends Activity {
 
     private static String IP_ADDRESS ;
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -32,15 +37,21 @@ public class HistoryItemClickActivity extends Activity {
 
 
     private static String type;
-    private static String name;
+    private static String original;
+    private static String binary;
+
     private static String created_date;
     private static String success;
 
     private TextView type_textview;
-    private TextView name_textview;
+    private TextView percent_textview;
     private TextView created_date_textview;
+    private ImageView original_image;
+    private ImageView binary_image;
 
-    Activity act = HistoryItemClickActivity.this;
+    Activity act = GalleryItemClickActivity.this;
+
+    Bitmap testBitmap;
 
 //    private RecyclerView mRecyclerView;
 //    private HistoryAdapter mAdapter;
@@ -53,11 +64,16 @@ public class HistoryItemClickActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_item_click);
+
+        setContentView(R.layout.activity_gallery_item_click);
 
         type_textview = (TextView) findViewById(R.id.item_click_type);
-        name_textview = (TextView) findViewById(R.id.item_click_name);
+        percent_textview = (TextView) findViewById(R.id.item_click_percent);
         created_date_textview = (TextView) findViewById(R.id.item_click_created_data);
+
+        original_image = (ImageView) findViewById(R.id.original_image);
+        binary_image = (ImageView) findViewById(R.id.binary_image);
+
 
 
         dataStore = new DataStore(this);
@@ -79,7 +95,7 @@ public class HistoryItemClickActivity extends Activity {
     //다시 갑니다~
     //Server Connect class
     private class AsyncItemClick extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(HistoryItemClickActivity.this);
+        ProgressDialog pdLoading = new ProgressDialog(GalleryItemClickActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
@@ -166,8 +182,30 @@ public class HistoryItemClickActivity extends Activity {
                     json_object = new JSONObject(test);
 
                     type = json_object.getString("type");
-                    name = json_object.getString("name");
                     created_date = json_object.getString("created_date");
+
+                    if(type.equals("0")) {
+                        type = "정상인형";
+                    } else  if(type.equals("1")) {
+                        type = "앞머리형";
+                    } else  if(type.equals("2")) {
+                        type = "뒷머리형";
+                    } else  if(type.equals("3")) {
+                        type = "가르마형";
+                    } else  if(type.equals("4")) {
+                        type = "비정상형";
+                    }
+
+                    String buf[] = created_date.split("-");
+                    String temp = buf[0]+"."+buf[1]+"."+buf[2];
+                    created_date = temp.substring(0,10);
+
+                    original = json_object.getString("name");
+                    binary = json_object.getString("name");
+
+                    displayOriginalImageView(original);
+                    displayBinaryImageView(binary);
+
 
                     return (result.toString());
 
@@ -191,10 +229,8 @@ public class HistoryItemClickActivity extends Activity {
             pdLoading.dismiss();
 
             type_textview.setText(type);
-            name_textview.setText(name);
+            percent_textview.setText(type);
             created_date_textview.setText(created_date);
-
-
         }
     }
 
@@ -226,17 +262,6 @@ public class HistoryItemClickActivity extends Activity {
 
 
             try {
-                //authKey : User가 로그인한 고유의 Key 값.
-
-                /*conn2 = (HttpURLConnection) url.openConnection();
-
-                conn2.setDoOutput(true);
-
-
-                conn2.setRequestProperty("Authorization", " Token " + authKey);
-                conn2.setRequestMethod("DELETE");*/
-
-
 
                 conn2 = (HttpURLConnection) url.openConnection();
                 conn2.setRequestProperty("Content-Type",
@@ -266,25 +291,6 @@ public class HistoryItemClickActivity extends Activity {
 
                 if (response_code == HttpURLConnection.HTTP_NO_CONTENT) { //204리퀘스트 받음
 
-                    /*Toast.makeText(act, "성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-*/
-//                    // Read data sent from server
-//                    InputStream input = conn.getInputStream();
-//                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//                    StringBuilder result = new StringBuilder();
-//                    String line;
-//
-//                    while ((line = reader.readLine()) != null) {
-//                        result.append(line);    //서버에서 온 데이터를 계속 붙임
-//                    }
-//
-//                    String value = result.toString();
-//                    JSONObject jo = new JSONObject(value);
-//                    success = jo.getString("success").toString();
-//                    Log.d("HistoryItemClickLog", "HistoryItemClickLog Success : " + success);
-//
-//                    return (result.toString());
-
                     return ("successful");
                 } else {
                     return ("unsuccessful");
@@ -303,17 +309,63 @@ public class HistoryItemClickActivity extends Activity {
         protected void onPostExecute(String result) {
             /*pdLoading.dismiss();*/
 
-            Intent userInfoIntent = new Intent(HistoryItemClickActivity.this, HistoryActivity.class);
+            Intent userInfoIntent = new Intent(GalleryItemClickActivity.this, GalleryActivity.class);
             startActivity(userInfoIntent);
             finish();
+        }
+    }
+    public void displayOriginalImageView(String ImagePath) {
+        try {
 
-//            if(success.equals("Successful removed History Parts.")) {
-//                Toast.makeText(act, "성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-//                finish();
-//            } else {
-//                Toast.makeText(act, "삭제 실패", Toast.LENGTH_SHORT).show();
-//            }
-            finish();
+            //웹사이트에 접속 (사진이 있는 주소로 접근)
+            URL Url = new URL("http://113.198.84.37/uploads/" + ImagePath);
+            Log.d("SendImageActivity","SendImageActivity 0-0 : " + "http://113.198.84.37/uploads/" + ImagePath);
+            // 웹사이트에 접속 설정
+            URLConnection urlcon = Url.openConnection();
+            // 연결하시오
+            urlcon.connect();
+            // 이미지 길이 불러옴
+            int imagelength = urlcon.getContentLength();
+            // 스트림 클래스를 이용하여 이미지를 불러옴
+            BufferedInputStream bis = new BufferedInputStream(urlcon.getInputStream(), imagelength);
+            // 스트림을 통하여 저장된 이미지를 이미지 객체에 넣어줌
+            testBitmap = BitmapFactory.decodeStream(bis);
+
+
+            original_image.setImageBitmap(testBitmap);
+
+            bis.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void displayBinaryImageView(String ImagePath) {
+        try {
+
+            //웹사이트에 접속 (사진이 있는 주소로 접근)
+            URL Url = new URL("http://113.198.84.37/uploads/" + ImagePath);
+            Log.d("SendImageActivity","SendImageActivity 0-0 : " + "http://113.198.84.37/uploads/" + ImagePath);
+            // 웹사이트에 접속 설정
+            URLConnection urlcon = Url.openConnection();
+            // 연결하시오
+            urlcon.connect();
+            // 이미지 길이 불러옴
+            int imagelength = urlcon.getContentLength();
+            // 스트림 클래스를 이용하여 이미지를 불러옴
+            BufferedInputStream bis = new BufferedInputStream(urlcon.getInputStream(), imagelength);
+            // 스트림을 통하여 저장된 이미지를 이미지 객체에 넣어줌
+            testBitmap = BitmapFactory.decodeStream(bis);
+
+
+            binary_image.setImageBitmap(testBitmap);
+
+            bis.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

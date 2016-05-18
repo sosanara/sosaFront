@@ -1,4 +1,4 @@
-package com.example.shim.sosafront.HistoryPackage;
+package com.example.shim.sosafront.GalleryPackage;
 
 /**
  * Created by Administrator on 2016-04-01.

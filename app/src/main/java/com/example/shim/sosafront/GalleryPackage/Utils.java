@@ -1,4 +1,4 @@
-package com.example.shim.sosafront.HistoryPackage;
+package com.example.shim.sosafront.GalleryPackage;
 
 import java.io.InputStream;
 import java.io.OutputStream;

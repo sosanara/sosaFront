@@ -19,8 +19,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
+import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
 import com.example.shim.sosafront.GraphPackage.GraphActivity;
-import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
 import com.example.shim.sosafront.R;
 import com.example.shim.sosafront.StatisticPackage.StatisticActivity;
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.galleryBtn:
-                    intent = new Intent(MainActivity.this, HistoryActivity.class);
+                    intent = new Intent(MainActivity.this, GalleryActivity.class);
                     startActivity(intent);
                     break;
 
