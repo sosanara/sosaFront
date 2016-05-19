@@ -9,7 +9,6 @@ import android.os.Message;
 import com.example.shim.sosafront.LoginPackage.LoginActivity;
 import com.example.shim.sosafront.R;
 
-
 public class StartScreen extends Activity {
 
     @Override
@@ -24,7 +23,8 @@ public class StartScreen extends Activity {
                 finish();
             }
         };
-        h.sendEmptyMessageDelayed(0, 1500);
+        h.sendEmptyMessageDelayed(0, 1);
+        /*h.sendEmptyMessageDelayed(0, 1500);*/
     }
 }
 

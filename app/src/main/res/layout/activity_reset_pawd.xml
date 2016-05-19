@@ -74,7 +74,7 @@
         <EditText
             android:id="@+id/resetPawd1View"
             android:background="@drawable/text_border"
-            android:hint="@string/old_pawd"
+            android:hint="@string/new_pawd"
             android:textColorHint="@color/hintTextColor"
             android:layout_width="300dp"
             android:layout_height="50dp"
@@ -90,7 +90,7 @@
         <EditText
             android:id="@+id/resetPawd2View"
             android:background="@drawable/text_border"
-            android:hint="@string/new_pawd"
+            android:hint="@string/new_pawd_confirm"
             android:textColorHint="@color/hintTextColor"
             android:layout_width="300dp"
             android:layout_height="50dp"

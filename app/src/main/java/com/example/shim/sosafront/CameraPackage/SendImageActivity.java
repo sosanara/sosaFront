@@ -285,47 +285,34 @@ public class SendImageActivity extends Activity {
             //this method will be running on UI thread
             Log.d("SendImageActivityLog", "SendImageActivityLog 3-0 : " + result);
 
-            int typeNumber = Integer.parseInt(resultType);
-            switch(typeNumber) {
-                case 0 :
-                    baldTypeView.setText("정상");
 
-                case 1 :
-                    baldTypeView.setText("앞부분");
-
-                case 2 :
-                    baldTypeView.setText("뒷부분");
-
-                case 3 :
-                    baldTypeView.setText("가르마");
-
-                case 4:
-                    baldTypeView.setText("완전탈모");
-            }
-            userNameView.setText(userName + "님의 모발상태");
-            baldProgressView.setText(percentage + "%");
 
 
             pdLoading.dismiss();
 
-            if(result.equalsIgnoreCase("true"))
+            if(result.equals("success"))
             {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
+                int typeNumber = Integer.parseInt(resultType);
+                switch(typeNumber) {
+                    case 0 :
+                        baldTypeView.setText("정상");
 
-                /*Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-                SignUpActivity.this.finish();*/
+                    case 1 :
+                        baldTypeView.setText("앞부분");
 
-            }else if (result.equalsIgnoreCase("false")){
+                    case 2 :
+                        baldTypeView.setText("뒷부분");
 
-                // If username and password does not match display a error message
-               /* Toast.makeText(SignUpActivity.this, "Invalid email or password", Toast.LENGTH_LONG);*/
+                    case 3 :
+                        baldTypeView.setText("가르마");
 
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+                    case 4:
+                        baldTypeView.setText("완전탈모");
+                }
+                userNameView.setText(userName + "님의 모발상태");
+                baldProgressView.setText(percentage + "%");
 
-                /*Toast.makeText(SignUpActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG);*/
+            }else {
 
             }
         }

@@ -58,8 +58,12 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
 
     final private ArrayList<String> historyIndex = new ArrayList<String>();
     final private ArrayList<String> historyType = new ArrayList<String>();
+    final private ArrayList<String> historyPercentage = new ArrayList<String>();
     final private ArrayList<String> historyCreateDate = new ArrayList<String>();
     final private ArrayList<String> historyBirth = new ArrayList<String>();
+
+    int cutDot;
+    float [] floatValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,14 +296,16 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
                         Log.d("HistoryActivityLog", "HistoryActivityLog 2-4: " + key);
 
                         JSONObject secondJsonObject = new JSONObject(String.valueOf(firstJsonObject.get(key)));
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-5: " + secondJsonObject);
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 type: " + secondJsonObject.getString("type").toString());
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-7 create_date: " + secondJsonObject.getString("create_date").toString());
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-8 birth: " + secondJsonObject.getString("birth").toString());
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-5 : " + secondJsonObject);
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 type : " + secondJsonObject.getString("type").toString());
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-7 create_date : " + secondJsonObject.getString("create_date").toString());
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-8 birth : " + secondJsonObject.getString("birth").toString());
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-9 percentage : " + secondJsonObject.getString("percentage").toString());
 
                         historyType.add(secondJsonObject.getString("type").toString());
                         historyCreateDate.add(secondJsonObject.getString("create_date").toString());
                         historyBirth.add(secondJsonObject.getString("birth").toString());
+                        historyPercentage.add(secondJsonObject.getString("percentage").toString());
 
                     }
 
@@ -324,13 +330,29 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
                                 ascendSortTemp = historyBirth.get(i);
                                 historyBirth.set(i, (historyBirth.get(j)));
                                 historyBirth.set(j, ascendSortTemp);
+
+                                ascendSortTemp = historyPercentage.get(i);
+                                historyPercentage.set(i, (historyPercentage.get(j)));
+                                historyPercentage.set(j, ascendSortTemp);
                             }
                         }
                     }
 
                     for(int i = 0; i < historyIndex.size(); i++) {
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-9 Index: " + historyIndex.get(i));
+                        if(historyPercentage.get(i).contains("."))
+                            cutDot = historyPercentage.get(i).indexOf(".");
+
+                        historyPercentage.set(i, historyPercentage.get(i).substring(0, cutDot) + ".0");
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-14 historyPercentage: " + historyPercentage.get(i));
                     }
+
+
+
+
+
+
+
+
 
 
                     // Pass data to onPostExecute method
@@ -354,6 +376,7 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
 
         @Override
         protected void onPostExecute(String result) {
+
 
             //여기 처리 생각해야함
 
@@ -418,15 +441,19 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         ArrayList<Entry> yVals = new ArrayList<Entry>();
 
 
+        //여기요
         for (int i = 0; i < count; i++) {
 
+            float yValue = Float.parseFloat(historyPercentage.get(i));
+            /*Log.d("HistoryActivityLog", "HistoryActivityLog 2-14 historyPercentage: " + f );*/
             /*float mult = (range + 1);*/
-            float mult =  10;
-            float val = i * 6;                 //수정 예정 서버에서 받은 탈모비율 적용 예정
-            /*float val = (float) (Math.random() * mult) + 3;*/// + (float)
-            // ((mult *
-            // 0.1) / 10);
-            yVals.add(new Entry(val, i));
+            /*float yValue = 10f;*/
+
+            /*float mult = Float.parseFloat(historyPercentage.get(i));*/
+            /*String deleteDotPercentage =String.format("%.f" , historyPercentage.get(i));
+            float percentage = Float.parseFloat(String.valueOf(deleteDotPercentage)); //수정 예정 서버에서 받은 탈모비율 적용 예정
+            */
+            yVals.add(new Entry(yValue, i));
         }
 
         // create a dataset and give it a type

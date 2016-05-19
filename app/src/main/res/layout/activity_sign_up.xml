@@ -41,6 +41,7 @@
             <EditText
                 android:id="@+id/signUpUserNameView"
                 android:hint="@string/id"
+                android:textColorHint="@color/hintTextColor"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
@@ -54,6 +55,7 @@
             <EditText
                 android:id="@+id/signUpPawd1View"
                 android:hint="@string/pawd"
+                android:textColorHint="@color/hintTextColor"
                 android:inputType="textPassword"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
@@ -68,6 +70,7 @@
             <EditText
                 android:id="@+id/signUpPawd2View"
                 android:hint="@string/confirm_pawd"
+                android:textColorHint="@color/hintTextColor"
                 android:inputType="textPassword"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
@@ -82,6 +85,7 @@
             <EditText
                 android:id="@+id/signUpNameView"
                 android:hint="@string/name"
+                android:textColorHint="@color/hintTextColor"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
@@ -95,6 +99,7 @@
             <EditText
                 android:id="@+id/signUpEmailView"
                 android:hint="@string/email"
+                android:textColorHint="@color/hintTextColor"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
@@ -177,6 +182,7 @@
 
             <Button
                 android:text="@string/sign_up_complete"
+                android:textColorHint="@color/whiteColor"
                 android:id="@+id/loginBtn"
                 android:layout_marginTop="30dp"
                 android:layout_width="300dp"
