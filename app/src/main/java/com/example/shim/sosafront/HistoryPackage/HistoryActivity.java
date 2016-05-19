@@ -15,7 +15,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
-import com.example.shim.sosafront.GraphPackage.MyMarkerView;
 import com.example.shim.sosafront.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -330,7 +329,7 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
                     }
 
                     for(int i = 0; i < historyIndex.size(); i++) {
-                        Log.d("GraphActivityLog", "GraphActivityLog 2-9 Index: " + historyIndex.get(i));
+                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-9 Index: " + historyIndex.get(i));
                     }
 
 
@@ -403,17 +402,17 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
 
     private void setData(int count, float range) {
 
-        Log.d("GraphActivityLog", "GraphActivityLog 4-0: " + historyIndex.size());
+        Log.d("HistoryActivityLog", "HistoryActivityLog 4-0: " + historyIndex.size());
 
 
         range = 100;
         ArrayList<String> xVals = new ArrayList<String>();
 
         for (int i = 0; i < count; i++) {
-            String graphCreateDateCut =  historyCreateDate.get(i).substring(5, 10) ;// ex) 2016-04-01
-            String graphCreateDateTransfer = graphCreateDateCut.replace("-", "월");
-            graphCreateDateTransfer = graphCreateDateTransfer + "일";
-            xVals.add(graphCreateDateTransfer);  //여기에 찍은 날짜
+            String historyCreateDateCut =  historyCreateDate.get(i).substring(5, 10) ;// ex) 2016-04-01
+            String historyCreateDateTransfer = historyCreateDateCut.replace("-", "월");
+            historyCreateDateTransfer = historyCreateDateTransfer + "일";
+            xVals.add(historyCreateDateTransfer);  //여기에 찍은 날짜
         }
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -520,24 +519,24 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         int k = 0;
 
         String xDotString = e.toString().substring(0, 20);
-        Log.i("GraphActivityLog", "GraphActivityLog 5-1 xDot :" + xDotString);
+        Log.i("HistoryActivityLog", "HistoryActivityLog 5-1 xDot :" + xDotString);
 
         String xDotNum = xDotString.replaceAll("[^0-9]", "");
-        Log.i("GraphActivityLog", "GraphActivityLog 5-2 xDot :" + xDotNum);
+        Log.i("HistoryActivityLog", "HistoryActivityLog 5-2 xDot :" + xDotNum);
 
 
 
 
         Intent moveMainIntent = new Intent(HistoryActivity.this, HistoryResultActivity.class);
         //graphIndex 보내면됨
-        moveMainIntent.putExtra("graphIndex", historyIndex.get(Integer.parseInt(xDotNum)));  //x축 index값을 보냄
+        moveMainIntent.putExtra("historyIndex", historyIndex.get(Integer.parseInt(xDotNum)));  //x축 index값을 보냄
         startActivity(moveMainIntent);
 
-        Log.i("GraphActivityLog", " GraphActivityLog 5-3 Entry selected :" + e.toString());
-        Log.i("GraphActivityLog",  "GraphActivityLog 5-4 " + String.valueOf(mChart.getHighestVisibleXIndex()));
+        Log.i("HistoryActivityLog", " HistoryActivityLog 5-3 Entry selected :" + e.toString());
+        Log.i("HistoryActivityLog",  "HistoryActivityLog 5-4 " + String.valueOf(mChart.getHighestVisibleXIndex()));
 
-        Log.i("GraphActivityLog", "GraphActivityLog 5-5 low: " + mChart.getLowestVisibleXIndex() + ", high: " + mChart.getHighestVisibleXIndex());
-        Log.i("GraphActivityLog", "GraphActivityLog 5-6 xmin: " + mChart.getXChartMin() + ", xmax: " + mChart.getXChartMax() + ", ymin: " + mChart.getYChartMin() + ", ymax: " + mChart.getYChartMax());
+        Log.i("HistoryActivityLog", "HistoryActivityLog 5-5 low: " + mChart.getLowestVisibleXIndex() + ", high: " + mChart.getHighestVisibleXIndex());
+        Log.i("HistoryActivityLog", "HistoryActivityLog 5-6 xmin: " + mChart.getXChartMin() + ", xmax: " + mChart.getXChartMax() + ", ymin: " + mChart.getYChartMin() + ", ymax: " + mChart.getYChartMax());
 
     }
 

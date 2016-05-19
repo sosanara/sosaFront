@@ -54,17 +54,17 @@ public class HistoryResultActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph_result);
+        setContentView(R.layout.activity_history_result);
 
         firstImageView = (ImageView) findViewById(R.id.firstImageView);
         lastImageView = (ImageView) findViewById(R.id.lastImageView);
 
 
-        getIndex = getIntent().getExtras().getString("graphIndex");
+        getIndex = getIntent().getExtras().getString("historyIndex");
 
-        Log.d("GraphResult", "GraphResult 0-0-0: " + getIndex);
+        Log.d("HistoryResultLog", "HistoryResultLog 0-0-0: " + getIndex);
 
-        new AsyncGraphResult().execute();
+        new AsyncHistoryResult().execute();
 
         downloadTask = new DownloadTask();
         /*downloadTask.execute("http://113.198.84.37/" + resultImagePath);*/
@@ -72,7 +72,7 @@ public class HistoryResultActivity extends Activity {
 
 
 
-    private class AsyncGraphResult extends AsyncTask<String, String, String>
+    private class AsyncHistoryResult extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(HistoryResultActivity.this);
         HttpURLConnection conn;
@@ -97,7 +97,7 @@ public class HistoryResultActivity extends Activity {
 
                 // Enter URL address where your php file resides
 
-                Log.d("GraphResult", "GraphResult 0-0-1: " + getIndex);
+                Log.d("HistoryResult", "HistoryResult 0-0-1: " + getIndex);
                 url = new URL("http://113.198.84.37/api/v1/userInfo/history/" + getIndex);
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block

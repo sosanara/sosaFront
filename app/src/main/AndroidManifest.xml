@@ -19,6 +19,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".StartScreenPackage.StartScreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".MainPackage.MainActivity"
             android:label="@string/app_name"
@@ -45,11 +56,11 @@
         <activity
             android:name=".LoginPackage.LoginActivity"
             android:label="@string/title_activity_login">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".LoginPackage.FindPawdActivity"
@@ -65,17 +76,8 @@
         <activity
             android:name=".UserInfoPackage.UserInfoActivity"
             android:label="@string/title_activity_user_info" />
-        <activity
-            android:name=".GraphPackage.GraphActivity"
-            android:label="@string/title_activity_graph"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".GraphPackage.GraphResultActivity"
-            android:label="@string/title_activity_graph_result" />
         <activity android:name=".HistoryPackage.HistoryActivity" />
-        <activity
-            android:name=".HistoryPackage.HistoryNextPagePakage.HistoryItemClickActivity"
-            android:label="@string/title_activity_history_item_click" />
+
         <activity
             android:name=".StatisticPackage.StatisticActivity"
             android:label="@string/title_activity_statistic"

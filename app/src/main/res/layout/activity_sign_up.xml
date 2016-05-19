@@ -186,7 +186,8 @@
                 android:paddingTop="17dp"
                 android:paddingBottom="17dp"
                 android:layout_gravity="center"
-                android:onClick="startSignup"/>
+                android:onClick="startSignup"
+                android:background="@drawable/btn_border_grey_to_green"/>
 
 
 

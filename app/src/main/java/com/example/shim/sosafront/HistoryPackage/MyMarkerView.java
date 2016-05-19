@@ -1,4 +1,4 @@
-package com.example.shim.sosafront.GraphPackage;
+package com.example.shim.sosafront.HistoryPackage;
 
 
 import android.content.Context;
