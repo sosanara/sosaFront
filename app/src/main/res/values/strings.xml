@@ -51,6 +51,7 @@
     <string name="toolbar_picture_confirm">사진확인</string>
     <string name="toolbar_result">결과</string>
     <string name="toolbar_history">히스토리</string>
+    <string name="toolbar_statistic">통계</string>
 
     <string name="sign_up">회원가입</string>
     <string name="login">로그인</string>

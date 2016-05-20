@@ -148,8 +148,8 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
 
-        /*Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-*/
+
+
         /*LimitLine ll1 = new LimitLine(100f, "Upper Limit");
         ll1.setLineWidth(4f);
         ll1.enableDashedLine(10f, 10f, 0f);
@@ -171,6 +171,9 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         /*leftAxis.setAxisMaxValue(220f);
         leftAxis.setAxisMinValue(-50f);*/
         //leftAxis.setYOffset(20f);
+        leftAxis.setAxisMaxValue(100f);
+        leftAxis.setAxisMinValue(0f);
+
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(false);
 
@@ -338,19 +341,16 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
                         }
                     }
 
-                    for(int i = 0; i < historyIndex.size(); i++) {
-                        if(historyPercentage.get(i).contains("."))
+                    /*for(int i = 0; i < historyIndex.size(); i++) {
+                        if(historyPercentage.get(i).contains(".")) {
                             cutDot = historyPercentage.get(i).indexOf(".");
+                            historyPercentage.set(i, historyPercentage.get(i).substring(0, cutDot) + ".0");
+                        }
 
-                        historyPercentage.set(i, historyPercentage.get(i).substring(0, cutDot) + ".0");
+                        historyPercentage.set(i, historyPercentage.get(i) + ".0");
+
                         Log.d("HistoryActivityLog", "HistoryActivityLog 2-14 historyPercentage: " + historyPercentage.get(i));
-                    }
-
-
-
-
-
-
+                    }*/
 
 
 

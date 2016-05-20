@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
@@ -61,8 +62,9 @@ public class AgeFragment extends Fragment  {
     private ArrayList<String> typeIndex = new ArrayList<String>();
     private ArrayList<String> ageIndex = new ArrayList<String>();
 
+    private String myAge;
 
-
+    ImageButton typeThreeBtn;
 
     TextView tvX, tvY;
     Typeface tf;
@@ -92,6 +94,8 @@ public class AgeFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPage = getArguments().getInt("page");
+
+
     }
 
     // Inflate the fragment layout we defined above for this fragment
@@ -108,6 +112,7 @@ public class AgeFragment extends Fragment  {
         tvY = (TextView) view.findViewById(R.id.tvYMax);
 
         Log.d("AgeFragment", "AgeFragment 테스트 0-0 : 페이지 = " + mPage);
+
 
         return view;
 
@@ -142,9 +147,7 @@ public class AgeFragment extends Fragment  {
         for (int i = 0; i < count + 1; i++)
             xVals.add(mParties[i % mParties.length]);
 
-        PieDataSet dataSet = new PieDataSet(yVals1, typeIndex.get(2));
-        /*PieDataSet dataSet = new PieDataSet(yVals1, typeIndex.get(2));*/
-        /*PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");*/
+        PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
@@ -153,22 +156,12 @@ public class AgeFragment extends Fragment  {
         ArrayList<Integer> colors = new ArrayList
                 <Integer>();
 
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
+        colors.add(Color.rgb(124,206,92));
+        colors.add(Color.rgb(46,183,79));
+        colors.add(Color.rgb(28,141,54));
+        colors.add(Color.rgb(187,187,187));
+        colors.add(Color.rgb(58,183,190));
+        colors.add(Color.rgb(0,128,139));
 
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);
@@ -284,8 +277,8 @@ public class AgeFragment extends Fragment  {
                     Log.d("AgeFragmentLog", "AgeFragmentLog 2-2: " + valueJsonObject.get("value"));
 
                     JSONObject subTypeJsonObject = new JSONObject(String.valueOf(valueJsonObject.get("value")));
-                    JSONObject allUserTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("all_users_type")));
-                    JSONObject sameAgeTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("same_ages_type")));
+                    JSONObject allUserTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("type")));
+                    JSONObject sameAgeTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("ages")));
 
                     Log.d("AgeFragmentLog", "AgeFragmentLog 2-3: " + subTypeJsonObject.get("all_users_type"));
 
@@ -301,7 +294,7 @@ public class AgeFragment extends Fragment  {
                     ageIndex.add(3, String.valueOf(sameAgeTypeJsonObjectKey.get("3")));
                     ageIndex.add(4, String.valueOf(sameAgeTypeJsonObjectKey.get("4")));
 
-
+                    myAge = String.valueOf(sameAgeTypeJsonObjectKey.get("my_age"));
 
                     for(int i = 0; i < 5; i++) {
                         Log.d("AgeFragmentLog", "AgeFragmentLog 2-5: type: " + typeIndex.get(i));

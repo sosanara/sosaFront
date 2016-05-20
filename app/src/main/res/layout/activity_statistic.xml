@@ -5,29 +5,123 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar_actionbar"
-        layout="@layout/toolbar_default"
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+
+        <TextView
+            android:id="@+id/toolbar_statistic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/whiteColor"
+            android:text="@string/toolbar_statistic"
+            android:textSize="17.5sp"
+            android:gravity="center_horizontal"/>
+    </android.support.v7.widget.Toolbar>
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         app:pstsShouldExpand="true"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="54dp"
         android:textSize="14sp"
-        android:textColor="#000000"
-        app:pstsDividerColor="#a4c639"
-        app:pstsIndicatorColor="#ff0000"
-        app:pstsUnderlineColor="#00bfff"
+        android:textColor="@color/btnBorderBlackColor"
+        app:pstsDividerColor="@color/whiteColor"
+        app:pstsIndicatorColor="@color/colorPrimary"
+        app:pstsUnderlineColor="@color/hintTextColor"
+        app:pstsIndicatorHeight="3.5dp"
+        app:pstsUnderlineHeight="1dp"
         app:pstsTabPaddingLeftRight="14dp">
     </com.astuetz.PagerSlidingTabStrip>
+
+
+    <!--<android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/white">
+
+    </android.support.v4.view.ViewPager>-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white" />
+        android:layout_height="315dp"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/white">
 
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="31.8dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_type_four"/>
+
+            <ImageButton
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_type_one"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="31.8dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_type_two"/>
+
+            <ImageButton
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_type_five"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/typeThreeBtn"
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="31.8dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_type_three"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
+
+
+
+

@@ -34,7 +34,6 @@
             android:id="@+id/sendImageUserNameView"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:text="쑥쑥이님의 모발상태"
             android:textColor="@color/textViewColor"
             android:textSize="18sp"
             android:gravity="center"/>
@@ -84,13 +83,14 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="40.5dp"
                 android:layout_marginLeft="95.6dp"
-                android:layout_marginRight="69dp"
+                android:layout_marginRight="80dp"
                 android:text="@string/bald_progress"
                 android:textColor="@color/textViewColor"
                 android:textSize="17sp"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/resultView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -101,8 +101,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:layout_marginLeft="55.5dp"
-                android:textSize="25sp"/>
+                android:layout_marginLeft="83dp"
+                android:textSize="25sp" />
 
             <!--android:layout_width="92dp"
                 android:layout_height="55dp"-->
@@ -110,11 +110,10 @@
             <TextView
                 android:id="@+id/baldProgress"
                 android:textColor="@color/colorPrimary"
+                android:layout_marginTop="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="78.3dp"
-                android:layout_marginRight="69dp"
+                android:layout_marginLeft="105dp"
                 android:textSize="25sp" />
 
             <!--android:layout_width="78.3dp"

@@ -60,16 +60,14 @@ public class TypeUserFragment extends Fragment  {
 
     private ArrayList<String> typeIndex = new ArrayList<String>();
     private ArrayList<String> ageIndex = new ArrayList<String>();
-
-
-
+    private String myType;
 
     TextView tvX, tvY;
     Typeface tf;
     PieChart mChart;
 
     String[] mParties = new String[] {                                                                                               //수정 타입별, 나이별, 성별 각각 배열 생성
-            "정상", "앞머리형", "뒷머리형", "부분형", "가르마형", "최종형"
+            "정상", "앞머리형", "뒷머리형", "가르마형", "탈모"
     };
 
 
@@ -118,6 +116,7 @@ public class TypeUserFragment extends Fragment  {
 
 
 
+
         /*mChart = (PieChart) view.findViewById(R.id.chart1);
         mChart.setUsePercentValues(true);
         mChart.setDescription("");
@@ -150,12 +149,10 @@ public class TypeUserFragment extends Fragment  {
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
-
+*/
         Legend l = mChart.getLegend();
-        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);*/
+        l.setEnabled(false);
+
 
         Log.d("TypeUserFragment", "TypeUserFragment 테스트 0-0 : 페이지 = " + mPage);
 
@@ -192,7 +189,7 @@ public class TypeUserFragment extends Fragment  {
         for (int i = 0; i < count + 1; i++)
             xVals.add(mParties[i % mParties.length]);
 
-        PieDataSet dataSet = new PieDataSet(yVals1, typeIndex.get(2));
+        PieDataSet dataSet = new PieDataSet(yVals1, "");
         /*PieDataSet dataSet = new PieDataSet(yVals1, typeIndex.get(2));*/
         /*PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");*/
         dataSet.setSliceSpace(3f);
@@ -203,29 +200,19 @@ public class TypeUserFragment extends Fragment  {
         ArrayList<Integer> colors = new ArrayList
                 <Integer>();
 
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
 
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
+        colors.add(Color.rgb(124,206,92));
+        colors.add(Color.rgb(46,183,79));
+        colors.add(Color.rgb(28,141,54));
+        colors.add(Color.rgb(58,183,190));
+        colors.add(Color.rgb(0,128,139));
 
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);
 
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
+        data.setValueTextSize(12f);
         data.setValueTextColor(Color.WHITE);
         /*data.setValueTypeface(tf);*/
         mChart.setData(data);
@@ -334,25 +321,24 @@ public class TypeUserFragment extends Fragment  {
                     Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 2-2: " + valueJsonObject.get("value"));
 
                     JSONObject subTypeJsonObject = new JSONObject(String.valueOf(valueJsonObject.get("value")));
-                    JSONObject allUserTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("all_users_type")));
-                    JSONObject sameAgeTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("same_ages_type")));
-                    JSONObject genderUsersTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("gender_users_type")));
-
-                    Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 2-3: " + subTypeJsonObject.get("all_users_type"));
+                    JSONObject allUserTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("type")));
+                    JSONObject sameAgeTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("ages")));
 
                     typeIndex.add(0, String.valueOf(allUserTypeJsonObjectKey.get("0")));
                     typeIndex.add(1, String.valueOf(allUserTypeJsonObjectKey.get("1")));
                     typeIndex.add(2, String.valueOf(allUserTypeJsonObjectKey.get("2")));
                     typeIndex.add(3, String.valueOf(allUserTypeJsonObjectKey.get("3")));
                     typeIndex.add(4, String.valueOf(allUserTypeJsonObjectKey.get("4")));
+                    typeIndex.add(5, String.valueOf(allUserTypeJsonObjectKey.get("5")));
 
                     ageIndex.add(0, String.valueOf(sameAgeTypeJsonObjectKey.get("0")));
                     ageIndex.add(1, String.valueOf(sameAgeTypeJsonObjectKey.get("1")));
                     ageIndex.add(2, String.valueOf(sameAgeTypeJsonObjectKey.get("2")));
                     ageIndex.add(3, String.valueOf(sameAgeTypeJsonObjectKey.get("3")));
                     ageIndex.add(4, String.valueOf(sameAgeTypeJsonObjectKey.get("4")));
+                    ageIndex.add(5, String.valueOf(sameAgeTypeJsonObjectKey.get("5")));
 
-
+                    myType =String.valueOf(allUserTypeJsonObjectKey.get("my_type"));
 
                     for(int i = 0; i < 5; i++) {
                         Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 2-5: type: " + typeIndex.get(i));
@@ -383,9 +369,10 @@ public class TypeUserFragment extends Fragment  {
 
             pdLoading.dismiss();
 
-            mChart.setUsePercentValues(true);
+            mChart.setUsePercentValues(false);
             mChart.setDescription("");
             mChart.setExtraOffsets(5, 10, 5, 5);
+            /*mChart.setExtraOffsets(5, 10, 5, 5);*/
 
             mChart.setDragDecelerationFrictionCoef(0.95f);
             mChart.setCenterText(generateCenterSpannableText());
@@ -399,7 +386,7 @@ public class TypeUserFragment extends Fragment  {
             mChart.setHoleRadius(58f);
             mChart.setTransparentCircleRadius(61f);
 
-            mChart.setDrawCenterText(true);
+            mChart.setDrawCenterText(false);
 
             mChart.setRotationAngle(0);
             // enable rotation of the chart by touch
@@ -410,16 +397,16 @@ public class TypeUserFragment extends Fragment  {
             // add a selection listener
             mChart.setOnChartValueSelectedListener(this);
 
-            setData(5, 100);
+            setData(4, 100);
 
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
             // mChart.spin(2000, 0, 360);
 
-            Legend l = mChart.getLegend();
+            /*Legend l = mChart.getLegend();
             l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
             l.setXEntrySpace(7f);
             l.setYEntrySpace(0f);
-            l.setYOffset(0f);
+            l.setYOffset(0f);*/
 
         }
 

@@ -144,7 +144,7 @@ public class CaptureActivity extends Activity {
 
             FileOutputStream outputStream = new FileOutputStream(imageFile);
             int quality = 100;
-            /*bitmap = Bitmap.createScaledBitmap(bitmap, 720, 960, true);*/
+            bitmap = Bitmap.createScaledBitmap(bitmap, 540, 960, true);
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
             outputStream.flush();
             outputStream.close();

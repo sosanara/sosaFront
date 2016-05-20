@@ -22,7 +22,7 @@ import com.example.shim.sosafront.CameraPackage.CameraActivity;
 import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
 import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
 import com.example.shim.sosafront.R;
-import com.example.shim.sosafront.StatisticPackage.StatisticActivity;
+import com.example.shim.sosafront.UserInfoPackage.UserInfoActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,9 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            switch(v.getId()) {  //switch가 if문보다 빠름 몇개 없는데 if문이 나려나?
+            Intent intent;
+
+            switch(v.getId()) {
                 case R.id.takePictureBtn:
-                    Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                    intent = new Intent(MainActivity.this, CameraActivity.class);
                     startActivity(intent);
                     break;
 
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.statisticsBtn:
-                    intent = new Intent(MainActivity.this, StatisticActivity.class);
+                    intent = new Intent(MainActivity.this, UserInfoActivity.class);
                     startActivity(intent);
                     break;
             }

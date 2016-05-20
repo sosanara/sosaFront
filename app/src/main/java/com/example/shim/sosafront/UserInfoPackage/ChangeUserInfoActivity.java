@@ -53,6 +53,9 @@ public class ChangeUserInfoActivity extends Activity {
     private String authKey;
     DataStore dataStore;
 
+
+    private String userName;
+
     private String errorEmail;
     private String errorFirstName;
     private String errorLastName;
@@ -60,6 +63,7 @@ public class ChangeUserInfoActivity extends Activity {
     private String errorGender;
     private String gender;
     private String birth;
+    private TextView userNameView;
 
     private Spinner ageSpinner;
 
@@ -73,7 +77,11 @@ public class ChangeUserInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_user_info);
 
-        // Get Reference to variables
+        // Get Reference to variablesT
+
+        userName = getIntent().getExtras().getString("userName");
+
+        userNameView = (TextView) findViewById(R.id.userNameView);
         emailAddressView = (EditText) findViewById(R.id.emailAddressView);
         nameView = (EditText) findViewById(R.id.nameView);
         ageSpinner = (Spinner) findViewById(R.id.ageSpinner);
@@ -82,8 +90,9 @@ public class ChangeUserInfoActivity extends Activity {
         maleRadioBtn = (RadioButton) findViewById(R.id.maleRadioBtn);
         femaleRadioBtn = (RadioButton) findViewById(R.id.femaleRadioBtn);
 
-        emailAddressView.setText("uiop@naver.com", TextView.BufferType.EDITABLE);
-        nameView.setText("mienhwr", TextView.BufferType.EDITABLE);
+        userNameView.setText(userName);
+        /*emailAddressView.setText("uiop@naver.com", TextView.BufferType.EDITABLE);
+        nameView.setText("mienhwr", TextView.BufferType.EDITABLE);*/
 
         changeGenderFunc();
 
@@ -208,6 +217,9 @@ public class ChangeUserInfoActivity extends Activity {
                     while ((line = reader.readLine()) != null) {
                         result.append(line);
                     }
+
+                    String value = result.toString();
+                    JSONObject jsonObject = new JSONObject(value);
 
                     Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-2: " + result.toString());
                     Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 1-3: " + reader);

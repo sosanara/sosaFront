@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
+import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
 import com.example.shim.sosafront.R;
+import com.example.shim.sosafront.StatisticPackage.StatisticActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +40,9 @@ import java.net.URLConnection;
 public class SendImageActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
+    ImageButton galleryBtn;
+    ImageButton historyBtn;
+    ImageButton statisticsBtn;
 
     public static final int CONNECTION_TIMEOUT=1000000;
     public static final int READ_TIMEOUT=1500000;
@@ -112,11 +119,18 @@ public class SendImageActivity extends Activity {
     }
 
     public void sendImage(View arg0) {
-        setContentView(R.layout.image_result);
         // Initialize  AsyncLogin() class with email and password
-
+        setContentView(R.layout.image_result);
         originImageView = (ImageView) findViewById(R.id.originImageView);
         resultImageView = (ImageView) findViewById(R.id.resultImageView);
+
+        galleryBtn = (ImageButton) findViewById(R.id.galleryBtn);
+        historyBtn = (ImageButton) findViewById(R.id.historyBtn);
+        statisticsBtn = (ImageButton) findViewById(R.id.statisticsBtn);
+
+        userNameView = (TextView) findViewById(R.id.sendImageUserNameView);
+        baldTypeView = (TextView) findViewById(R.id.baldTypeView);
+        baldProgressView = (TextView) findViewById(R.id.baldProgress);
 
         new AsyncSendImage().execute();
 
@@ -126,6 +140,8 @@ public class SendImageActivity extends Activity {
         ProgressDialog pdLoading = new ProgressDialog(SendImageActivity.this);
         HttpURLConnection conn;
         URL url = null;
+
+
 
         @Override
         protected void onPreExecute() {
@@ -141,6 +157,7 @@ public class SendImageActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             try {
+
                 // Enter URL address where your php file resides
                 url = new URL("http://113.198.84.37/api/v1/picture/");
 
@@ -278,21 +295,73 @@ public class SendImageActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
+            /*galleryBtn = (ImageButton) findViewById(R.id.galleryBtn);
+            historyBtn = (ImageButton) findViewById(R.id.historyBtn);
+            statisticsBtn = (ImageButton) findViewById(R.id.statisticsBtn);
+
             userNameView = (TextView) findViewById(R.id.sendImageUserNameView);
             baldTypeView = (TextView) findViewById(R.id.baldTypeView);
-            baldProgressView = (TextView) findViewById(R.id.baldProgress);
+            baldProgressView = (TextView) findViewById(R.id.baldProgress);*/
 
             //this method will be running on UI thread
             Log.d("SendImageActivityLog", "SendImageActivityLog 3-0 : " + result);
 
 
 
+            galleryBtn.setOnClickListener(menuClick);
+            historyBtn.setOnClickListener(menuClick);
+            statisticsBtn.setOnClickListener(menuClick);
+
+            int typeNumber = Integer.parseInt(resultType);
+            switch(typeNumber) {
+                case 0 :
+                    baldTypeView.setText("정상");
+                    break;
+
+                case 1 :
+                    baldTypeView.setText("앞부분");
+                    break;
+
+                case 2 :
+                    baldTypeView.setText("뒷부분");
+                    break;
+
+                case 3 :
+                    baldTypeView.setText("가르마");
+                    break;
+
+                case 4:
+                    baldTypeView.setText("완전탈모");
+                    break;
+
+                default:
+                    baldTypeView.setText("에러");
+            }
+
+
+            Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + percentage);
+
+            if(percentage.contains(".")) {
+                int cutDot = percentage.indexOf(".");
+                String cutPercentage = percentage.substring(0, cutDot);
+                baldProgressView.setText(cutPercentage + "%");
+                Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + cutPercentage + "%");
+            }
+
+            else
+                baldProgressView.setText(percentage + "%");
+
+
+            userNameView.setText(userName + "님의 모발상태");
+
+            /*displayImageView(originImagePath, 1);
+            displayImageView(resultImagePath, 2);*/
 
             pdLoading.dismiss();
 
             if(result.equals("success"))
             {
-                int typeNumber = Integer.parseInt(resultType);
+                /*int typeNumber = Integer.parseInt(resultType);
                 switch(typeNumber) {
                     case 0 :
                         baldTypeView.setText("정상");
@@ -310,7 +379,7 @@ public class SendImageActivity extends Activity {
                         baldTypeView.setText("완전탈모");
                 }
                 userNameView.setText(userName + "님의 모발상태");
-                baldProgressView.setText(percentage + "%");
+                baldProgressView.setText(percentage + "%");*/
 
             }else {
 
@@ -321,6 +390,7 @@ public class SendImageActivity extends Activity {
 
     public void displayImageView(String ImagePath, int i) {
         try {
+
 
             //웹사이트에 접속 (사진이 있는 주소로 접근)
             URL Url = new URL("http://113.198.84.37/" + ImagePath);
@@ -353,5 +423,36 @@ public class SendImageActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
+
+    private View.OnClickListener menuClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent;
+            switch(v.getId()) {  //switch가 if문보다 빠름 몇개 없는데 if문이 나려나?
+                case R.id.takePictureBtn:
+                    intent = new Intent(SendImageActivity.this, CameraActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.galleryBtn:
+                    intent = new Intent(SendImageActivity.this, GalleryActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.historyBtn:
+                    intent = new Intent(SendImageActivity.this, HistoryActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.statisticsBtn:
+                    intent = new Intent(SendImageActivity.this, StatisticActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    };
 }

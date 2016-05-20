@@ -31,7 +31,6 @@ public class StatisticActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
 
         /*new AsyncStatistic().execute();*/
 

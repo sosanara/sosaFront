@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
@@ -57,8 +56,8 @@ public class ResetPawdActivity extends Activity {
         resetUid = (EditText) findViewById(R.id.resetUid);
         resetToken = (EditText) findViewById(R.id.resetToken);
 
-        resetPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
-        resetPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
+        /*resetPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
+        resetPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);*/
 
     }
 

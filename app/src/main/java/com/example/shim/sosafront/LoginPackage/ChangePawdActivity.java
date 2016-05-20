@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
@@ -62,9 +61,9 @@ public class ChangePawdActivity extends Activity {
         changePawd2View = (EditText) findViewById(R.id.changePawd2View);
         changePawdBtn = (Button) findViewById(R.id.changePawdBtn);
 
-        oldPawdView.setText("test12345", TextView.BufferType.EDITABLE);
+        /*oldPawdView.setText("test12345", TextView.BufferType.EDITABLE);
         changePawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
-        changePawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
+        changePawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);*/
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");

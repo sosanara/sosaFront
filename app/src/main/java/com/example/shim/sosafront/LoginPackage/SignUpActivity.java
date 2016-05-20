@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
@@ -108,13 +107,13 @@ public class SignUpActivity extends AppCompatActivity {
 
         maleRadioBtn.setChecked(true);
         changeGenderFunc();
-        signUpUserNameView.setText("", TextView.BufferType.EDITABLE);
+        /*signUpUserNameView.setText("", TextView.BufferType.EDITABLE);
         signUpEmailView.setText("qwer1234@naver.com", TextView.BufferType.EDITABLE);
         signUpPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
-        signUpPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);
+        signUpPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);*/
 
         /*signUpAgeView.setText("1992", TextView.BufferType.EDITABLE);*/
-        signUpNameView.setText("심민호", TextView.BufferType.EDITABLE);
+        /*signUpNameView.setText("심민호", TextView.BufferType.EDITABLE);*/
         /*signUpGenderView.setText("Man", TextView.BufferType.EDITABLE);*/
 
 

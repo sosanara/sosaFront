@@ -30,11 +30,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <EditText
+        <TextView
             android:id="@+id/userNameView"
             android:background="@drawable/text_border"
-            android:hint="@string/id"
-            android:textColorHint="@color/hintTextColor"
+            android:textColor="@color/textViewColor"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
@@ -43,7 +42,7 @@
             android:paddingLeft="18.3dp"
             android:paddingRight="18.3dp"
             android:textSize="16sp"
-            android:layout_gravity="center" />
+            android:gravity="center_vertical"/>
 
         <EditText
             android:id="@+id/nameView"

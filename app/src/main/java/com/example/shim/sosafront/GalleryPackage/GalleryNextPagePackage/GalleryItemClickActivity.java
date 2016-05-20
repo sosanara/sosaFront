@@ -37,8 +37,9 @@ public class GalleryItemClickActivity extends Activity {
 
 
     private static String type;
-    private static String original;
-    private static String binary;
+    private static String originImage;
+    private static String binaryImage;
+    private static String percentage;
 
     private static String created_date;
     private static String success;
@@ -200,11 +201,11 @@ public class GalleryItemClickActivity extends Activity {
                     String temp = buf[0]+"."+buf[1]+"."+buf[2];
                     created_date = temp.substring(0,10);
 
-                    original = json_object.getString("name");
-                    binary = json_object.getString("name");
+                    originImage = json_object.getString("name");
+                    binaryImage = json_object.getString("name");
 
-                    displayOriginalImageView(original);
-                    displayBinaryImageView(binary);
+                    displayOriginalImageView(originImage);
+                    displayBinaryImageView(binaryImage);
 
 
                     return (result.toString());
