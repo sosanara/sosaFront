@@ -2,7 +2,10 @@ package com.example.shim.sosafront.HistoryPackage;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -74,7 +79,18 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_home_black_24dp);
+
+        Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
+        Drawable resizeHome = resize(home);
+        toolbar.setNavigationIcon(resizeHome);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
@@ -310,6 +326,7 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
                         historyBirth.add(secondJsonObject.getString("birth").toString());
                         historyPercentage.add(secondJsonObject.getString("percentage").toString());
 
+
                     }
 
                     //그래프 시간 오름차순 정렬
@@ -440,11 +457,11 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-
         //여기요
         for (int i = 0; i < count; i++) {
 
-            float yValue = Float.parseFloat(historyPercentage.get(i));
+            String cutDotHistoryPercentage = String.format("%.3f", Float.parseFloat(historyPercentage.get(i)));
+            float yValue = Float.parseFloat(cutDotHistoryPercentage);
             /*Log.d("HistoryActivityLog", "HistoryActivityLog 2-14 historyPercentage: " + f );*/
             /*float mult = (range + 1);*/
             /*float yValue = 10f;*/
@@ -570,5 +587,11 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
     @Override
     public void onNothingSelected() {
         Log.i("Nothing selected", "Nothing selected.");
+    }
+
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 96, 77, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
     }
 }

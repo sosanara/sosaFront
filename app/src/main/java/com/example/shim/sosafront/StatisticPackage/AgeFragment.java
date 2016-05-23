@@ -7,10 +7,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +25,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,8 +54,11 @@ public class AgeFragment extends Fragment  {
     private String authKey;
     private DataStore dataStore;
 
-    private ArrayList<String> typeIndex = new ArrayList<String>();
     private ArrayList<String> ageIndex = new ArrayList<String>();
+    private ArrayList<Float> agePercent = new ArrayList<Float>();
+    private ArrayList<String> agePercentString = new ArrayList<String>();
+
+    private int ageSum = 0;
 
     private String myAge;
 
@@ -71,7 +69,7 @@ public class AgeFragment extends Fragment  {
     PieChart mChart;
 
     String[] mParties = new String[] {                                                                                               //수정 타입별, 나이별, 성별 각각 배열 생성
-            "19세 이하" ,"20~29세", "30~39세", "40~49세", "50~59세", "60세 이상"
+            "20대 미만" ,"20대", "30대", "40대", "50대", "60대 이상"
     };
 
 
@@ -139,7 +137,8 @@ public class AgeFragment extends Fragment  {
         // drawn above each other.
         for (int i = 0; i < count + 1; i++) {
             /*yVals1.add(new Entry((float) (Math.random() * mult) + mult / 5, i));*/
-            yVals1.add(new Entry(20, i));                                                                                   //수정 서버에서 받은값 여기에 저장
+            if(agePercent.get(i) > 0.0)
+                yVals1.add(new Entry(agePercent.get(i), i));                                                                                   //수정 서버에서 받은값 여기에 저장
         }
 
         ArrayList<String> xVals = new ArrayList<String>();
@@ -179,7 +178,7 @@ public class AgeFragment extends Fragment  {
         mChart.invalidate();
     }
 
-    private SpannableString generateCenterSpannableText() {
+    /*private SpannableString generateCenterSpannableText() {
 
         SpannableString s = new SpannableString("Gender\ndeveloped by Minho Shim");
         s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
@@ -189,10 +188,7 @@ public class AgeFragment extends Fragment  {
         s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
         s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
         return s;
-    }
-
-
-
+    }*/
 
     private class AsyncStatistic extends AsyncTask<String, String, String> implements OnChartValueSelectedListener {
         ProgressDialog pdLoading = new ProgressDialog(getActivity());
@@ -273,32 +269,20 @@ public class AgeFragment extends Fragment  {
 
                     String value = result.toString();
                     JSONObject valueJsonObject = new JSONObject(value);
-
                     Log.d("AgeFragmentLog", "AgeFragmentLog 2-2: " + valueJsonObject.get("value"));
 
                     JSONObject subTypeJsonObject = new JSONObject(String.valueOf(valueJsonObject.get("value")));
-                    JSONObject allUserTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("type")));
                     JSONObject sameAgeTypeJsonObjectKey = new JSONObject(String.valueOf(subTypeJsonObject.get("ages")));
-
-                    Log.d("AgeFragmentLog", "AgeFragmentLog 2-3: " + subTypeJsonObject.get("all_users_type"));
-
-                    typeIndex.add(0, String.valueOf(allUserTypeJsonObjectKey.get("0")));
-                    typeIndex.add(1, String.valueOf(allUserTypeJsonObjectKey.get("1")));
-                    typeIndex.add(2, String.valueOf(allUserTypeJsonObjectKey.get("2")));
-                    typeIndex.add(3, String.valueOf(allUserTypeJsonObjectKey.get("3")));
-                    typeIndex.add(4, String.valueOf(allUserTypeJsonObjectKey.get("4")));
 
                     ageIndex.add(0, String.valueOf(sameAgeTypeJsonObjectKey.get("0")));
                     ageIndex.add(1, String.valueOf(sameAgeTypeJsonObjectKey.get("1")));
                     ageIndex.add(2, String.valueOf(sameAgeTypeJsonObjectKey.get("2")));
                     ageIndex.add(3, String.valueOf(sameAgeTypeJsonObjectKey.get("3")));
                     ageIndex.add(4, String.valueOf(sameAgeTypeJsonObjectKey.get("4")));
+                    ageIndex.add(5, String.valueOf(sameAgeTypeJsonObjectKey.get("5")));
 
-                    myAge = String.valueOf(sameAgeTypeJsonObjectKey.get("my_age"));
-
-                    for(int i = 0; i < 5; i++) {
-                        Log.d("AgeFragmentLog", "AgeFragmentLog 2-5: type: " + typeIndex.get(i));
-                        Log.d("AgeFragmentLog", "AgeFragmentLog 2-5: age" + ageIndex.get(i));
+                    for(int i=0; i<ageIndex.size(); i++) {
+                        Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 2-2: " + ageIndex.get(i));
                     }
 
                     // Pass data to onPostExecute method
@@ -330,7 +314,7 @@ public class AgeFragment extends Fragment  {
             mChart.setExtraOffsets(5, 10, 5, 5);
 
             mChart.setDragDecelerationFrictionCoef(0.95f);
-            mChart.setCenterText(generateCenterSpannableText());
+            /*mChart.setCenterText(generateCenterSpannableText());*/
 
             mChart.setDrawHoleEnabled(true);
             mChart.setHoleColor(Color.WHITE);
@@ -352,6 +336,16 @@ public class AgeFragment extends Fragment  {
             // add a selection listener
             mChart.setOnChartValueSelectedListener(this);
 
+            for(int i = 0; i<ageIndex.size(); i++) {
+                ageSum += Integer.parseInt(ageIndex.get(i));
+            }
+
+            for(int i = 0; i<ageIndex.size(); i++) {
+                agePercentString.add(i, String.valueOf(Float.parseFloat(ageIndex.get(i)) / ageSum * 100));
+                agePercent.add(i, Float.parseFloat(ageIndex.get(i)) / ageSum * 100);
+                Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 테스트 3-2 : 페이지 = " + agePercent.get(i));
+            }
+
             setData(5, 100);
 
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
@@ -362,7 +356,6 @@ public class AgeFragment extends Fragment  {
             l.setXEntrySpace(7f);
             l.setYEntrySpace(0f);
             l.setYOffset(0f);
-
         }
 
 

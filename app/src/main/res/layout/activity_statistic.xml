@@ -41,16 +41,7 @@
     </com.astuetz.PagerSlidingTabStrip>
 
 
-    <!--<android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
-        android:background="@android:color/white">
-
-    </android.support.v4.view.ViewPager>-->
-
-    <android.support.v4.view.ViewPager
+   <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="315dp"
@@ -60,66 +51,286 @@
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
+        android:id="@+id/typeImgLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="31.8dp"
+                android:background="@drawable/btn_type_one">
+
+                <TextView
+                    android:id="@+id/typeOneView"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_type_two">
+
+                <TextView
+                    android:id="@+id/typeTwoView"
+                    android:text="0.0%"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="31.8dp"
+                android:background="@drawable/btn_type_three">
+
+                <TextView
+                    android:id="@+id/typeThreeView"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_type_four">
+
+                <TextView
+                    android:id="@+id/typeFourView"
+                    android:text="0.0%"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="31.8dp"
+                android:background="@drawable/btn_type_five">
+
+                <TextView
+                    android:id="@+id/typeFiveView"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_type_two">
+
+                <TextView
+                    android:id="@+id/typeSixView"
+                    android:text="0.0%"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"
+                    android:visibility="gone"/>
+            </LinearLayout>-->
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ageImgLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            
+            <LinearLayout
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="31.8dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/btn_type_four"/>
+                android:background="@drawable/btn_age_one">
 
-            <ImageButton
+                <TextView
+                    android:id="@+id/ageOneView"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/btn_type_one"/>
+                android:background="@drawable/btn_age_four">
+
+                <TextView
+                    android:id="@+id/ageFourView"
+                    android:text="0.0%"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+            </LinearLayout>
+            
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
-            <ImageButton
+            <LinearLayout
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="31.8dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/btn_type_two"/>
+                android:background="@drawable/btn_age_two">
 
-            <ImageButton
+                <TextView
+                    android:id="@+id/ageTwoView"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/btn_type_five"/>
+                android:background="@drawable/btn_age_five">
+
+                <TextView
+                    android:id="@+id/ageFiveView"
+                    android:text="0.0%"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
-            <ImageButton
-                android:id="@+id/typeThreeBtn"
+            <LinearLayout
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="31.8dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/btn_type_three"/>
+                android:background="@drawable/btn_age_three">
 
+                <TextView
+                    android:id="@+id/ageThreeView"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="143.3dp"
+                android:layout_height="30.8dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_age_six">
+
+                <TextView
+                    android:id="@+id/ageSixView"
+                    android:text="0.0%"
+                    android:textSize="12sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="50.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="104dp"
+                    android:paddingRight="13.5dp"/>
+            </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
+
+
 </LinearLayout>
 
 

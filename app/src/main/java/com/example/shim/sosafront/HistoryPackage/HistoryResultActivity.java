@@ -2,17 +2,16 @@ package com.example.shim.sosafront.HistoryPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -31,33 +30,57 @@ import java.net.URLConnection;
 public class HistoryResultActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
-    public static final int CONNECTION_TIMEOUT=10000;
-    public static final int READ_TIMEOUT=15000;
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
 
-    ImageView firstImageView;
-    ImageView lastImageView;
+    private ImageView firstImageView;
+    private ImageView beforeImageView;
+    private ImageView currentImageView;
 
-    String getIndex;
-    Bitmap testBitmap;
-    /*String authKey;
-    DataStore dataStore;*/
+    private TextView firstPercentView;
+    private TextView beforePercentView;
+    private TextView currentPercentView;
+    private TextView firstCreateDateView;
+    private TextView beforeCreateDateView;
+    private TextView currentCreateDateView;
+
+    private String getIndex;
+    private Bitmap testBitmap;
+    private String authKey;
+    private DataStore dataStore;
 
 
-    String sendImagePath;
-    String resultImagePath;
-    String resultType;
-    String userName;
+    private String firstImagePath;
+    private String beforeImagePath;
+    private String currentImagePath;
+    private String currentPercent;
+    private String firstPercent;
+    private String beforePercent;
+    private String currentCreateDate;
+    private String firstCreateDate;
+    private String beforeCreateDate;
+    private String resultType;
+    private String userName;
 
-    DownloadTask downloadTask;
-
+    private int firstTakePicture = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_result);
 
-        firstImageView = (ImageView) findViewById(R.id.firstImageView);
-        lastImageView = (ImageView) findViewById(R.id.lastImageView);
+
+        firstPercentView = (TextView) findViewById(R.id.firstPercentView);
+        beforePercentView = (TextView) findViewById(R.id.beforePercentView);
+        currentPercentView = (TextView) findViewById(R.id.currentPercentView);
+
+        firstCreateDateView = (TextView) findViewById(R.id.firstCreateDateView);
+        beforeCreateDateView = (TextView) findViewById(R.id.beforeCreateDateView);
+        currentCreateDateView = (TextView) findViewById(R.id.currentCreateDateView);
+
+        /*firstImageView = (ImageView) findViewById(R.id.firstImageView);
+        beforeImageView = (ImageView) findViewById(R.id.beforeImageView);
+        currentImageView = (ImageView) findViewById(R.id.currentImageView);*/
 
 
         getIndex = getIntent().getExtras().getString("historyIndex");
@@ -66,14 +89,14 @@ public class HistoryResultActivity extends Activity {
 
         new AsyncHistoryResult().execute();
 
-        downloadTask = new DownloadTask();
         /*downloadTask.execute("http://113.198.84.37/" + resultImagePath);*/
+
+        dataStore = new DataStore(this);
+        authKey = dataStore.getValue("key", "");
     }
 
 
-
-    private class AsyncHistoryResult extends AsyncTask<String, String, String>
-    {
+    private class AsyncHistoryResult extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(HistoryResultActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -82,18 +105,21 @@ public class HistoryResultActivity extends Activity {
         protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
             super.onPreExecute();
 
+            firstImageView = (ImageView) findViewById(R.id.firstImageView);
+            beforeImageView = (ImageView) findViewById(R.id.beforeImageView);
+            currentImageView = (ImageView) findViewById(R.id.currentImageView);
+
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
 
         }
+
         @Override
         protected String doInBackground(String... params) {  //프로그레스 다이얼로그 자동 종료 및 에러메시지 토스트보여줌
             //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
             try {
-
-
 
                 // Enter URL address where your php file resides
 
@@ -108,16 +134,13 @@ public class HistoryResultActivity extends Activity {
             try {
 
 
-
-
-
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("GET");
-                /*conn.setRequestProperty("Authorization", " Token " + "a6bf78ac14b1845b9f91f193ea4b86e8c0a65002");
-*/
+                conn.setRequestProperty("Authorization", " Token " + authKey);
+
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
 
@@ -155,29 +178,90 @@ public class HistoryResultActivity extends Activity {
                     Log.d("HistoryResultLog", "HistoryResultLog 2-1: " + reader);    //java.io.BufferedReader@5015f88
 
                     String value = result.toString();
-                    JSONObject jsonObject = new JSONObject(value);
-                    String test = jsonObject.getString("value").toString();
 
-                    JSONObject subJsonObject = new JSONObject(test);
+                    /*JSONObject serverJsonObject = new JSONObject(value);*/
+                    JSONObject serverJsonObject = new JSONObject(value);
 
-                    sendImagePath = subJsonObject.getString("image").toString();
-                    resultImagePath = subJsonObject.getString("result_image").toString();
-                    resultType = subJsonObject.getString("result_type").toString();
-                    userName = subJsonObject.getString("user").toString();
+                    /*String test = jsonObject.getString("value").toString();*/
 
-                    Log.d("HistoryResultLog", "HistoryResultLog 2-2: " + sendImagePath);
-                    Log.d("HistoryResultLog", "HistoryResultLog 2-3: " + resultImagePath);
-                    Log.d("HistoryResultLog", "HistoryResultLog 2-4: " + resultType);
-                    Log.d("HistoryResultLog", "HistoryResultLog 2-5: " + userName);
+                    JSONObject subJsonObject = new JSONObject(String.valueOf(serverJsonObject.get("value")));
+                    JSONObject currentJsonObject = new JSONObject(String.valueOf(subJsonObject.get("current")));
 
-                    /*displayImageView(resultImagePath);*/
+                    if (String.valueOf(serverJsonObject.get("value")).contains("first") || String.valueOf(serverJsonObject.get("value")).contains("before")) {
+                        JSONObject firstJsonObject = new JSONObject(String.valueOf(subJsonObject.get("first")));
+                        JSONObject beforeJsonObject = new JSONObject(String.valueOf(subJsonObject.get("before")));
 
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-1: " + String.valueOf(serverJsonObject.get("value")));
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-2: " + subJsonObject);
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-3: " + currentJsonObject);
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-4: " + firstJsonObject);
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-5: " + beforeJsonObject);
+
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-6-1: " + currentJsonObject.getString("origin_image").toString());
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-6-2: " + currentJsonObject.getString("percentage").toString());
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-6-3: " + currentJsonObject.getString("created_date").toString());
+
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-7-1: " + firstJsonObject.getString("origin_image").toString());
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-7-2: " + firstJsonObject.getString("percentage").toString());
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-7-3: " + firstJsonObject.getString("created_date").toString());
+
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-8-1: " + beforeJsonObject.getString("origin_image").toString());
+                        Log.d("HistoryResultLog", "HifirstImageViewstoryResultLog 2-8-2: " + beforeJsonObject.getString("percentage").toString());
+                        Log.d("HistoryResultLog", "HistoryResultLog 2-8-3: " + beforeJsonObject.getString("created_date").toString());
+
+                        firstImagePath = firstJsonObject.getString("origin_image").toString();
+                        firstPercent = firstJsonObject.getString("percentage").toString();
+                        firstCreateDate =  firstJsonObject.getString("created_date").toString();
+                        beforeImagePath = beforeJsonObject.getString("origin_image").toString();
+                        beforePercent = beforeJsonObject.getString("percentage").toString();
+                        beforeCreateDate = beforeJsonObject.getString("created_date").toString();
+
+                        displayImageView(firstImagePath, 1);
+                        displayImageView(beforeImagePath, 2);
+                        firstTakePicture = 1;
+                    }
+
+                    currentImagePath = currentJsonObject.getString("origin_image").toString();
+                    currentPercent = currentJsonObject.getString("percentage").toString();
+                    currentCreateDate =currentJsonObject.getString("created_date").toString();
+                    displayImageView(currentImagePath, 3);
+
+
+                    if(firstPercent == null && beforePercent == null) {
+                        currentCreateDate =  currentCreateDate.substring(0, 10);// ex) 2016-04-01
+                        currentPercent = String.format("%.2f", Double.parseDouble(currentPercent)) + "%";
+                        if(!currentPercent.contains("-"))
+                            currentPercent = "+" + currentPercent;
+                    }
+
+                    else {
+                        firstCreateDate =  firstCreateDate.substring(0, 10);
+                        beforeCreateDate =  firstCreateDate.substring(0, 10);
+                        currentCreateDate =  firstCreateDate.substring(0, 10);
+
+                        firstPercent = String.format("%.2f", Double.parseDouble(firstPercent)) + "%";
+                        beforePercent = String.format("%.2f", Double.parseDouble(beforePercent)) + "%";
+                        currentPercent = String.format("%.2f", Double.parseDouble(currentPercent)) + "%";
+
+                        if(!firstPercent.contains("-"))
+                            firstPercent = "+" + firstPercent;
+
+
+                        if(!beforePercent.contains("-"))
+                            beforePercent = "+" + beforePercent;
+
+
+                        if(!currentPercent.contains("-"))
+                            currentPercent = "+" + currentPercent;
+
+
+                    }
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return (result.toString());
 
-                }else{
+                } else {
 
-                    return("unsuccessful");
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -194,24 +278,28 @@ public class HistoryResultActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            //여기 처리 생각해야함
+            Log.d("HistoryResultLog", "HistoryResultLog 3-1 : " + result);
 
-            /*downloadTask.execute("http://113.198.84.37/" + resultImagePath);*/
-
-            if(isNetworkAvailable()){
-                /** Getting a reference to Edit text containing url */
-
-                /** Creating a new non-ui thread task */
-                DownloadTask downloadTask = new DownloadTask();
-
-                /** Starting the task created above */
-                Log.d("HistoryResultLog", "HistoryResultLog 3-1" + resultImagePath);
-                downloadTask.execute("http://113.198.84.37/" + resultImagePath);
-                Log.d("HistoryResultLog", "HistoryResultLog 3-2" + resultImagePath);
-            }else{
-                Toast.makeText(getBaseContext(), "Network is not Available", Toast.LENGTH_SHORT).show();
+            if(firstTakePicture == 0) {
+                Drawable drawable = getResources().getDrawable(R.drawable.history_no_image);
+                firstImageView.setImageDrawable(drawable);
+                beforeImageView.setImageDrawable(drawable);
+                firstPercentView.setText("");
+                beforePercentView.setText("");
+                firstCreateDateView.setText("");
+                beforeCreateDateView.setText("");
             }
 
+            else {
+                firstPercentView.setText(firstPercent);
+                beforePercentView.setText(beforePercent);
+                firstCreateDateView.setText(firstCreateDate);
+                beforeCreateDateView.setText(beforeCreateDate);
+            }
+
+
+            currentPercentView.setText(currentPercent);
+            currentCreateDateView.setText((currentCreateDate));
 
 
             pdLoading.dismiss();
@@ -219,14 +307,13 @@ public class HistoryResultActivity extends Activity {
 
     }
 
-    public void displayImageView(String ImagePath) {
+    public void displayImageView(String ImagePath, int i) {
         try {
+
 
             //웹사이트에 접속 (사진이 있는 주소로 접근)
             URL Url = new URL("http://113.198.84.37/" + ImagePath);
-
-            Log.d("HistoryResultLog", "HistoryResultLog 4-1: " + "http://113.198.84.37/" + ImagePath);
-
+            Log.d("HistoryResultLog","HistoryResultLog 0-0 : " + "http://113.198.84.37/" + ImagePath);
             // 웹사이트에 접속 설정
             URLConnection urlcon = Url.openConnection();
             // 연결하시오
@@ -244,8 +331,12 @@ public class HistoryResultActivity extends Activity {
             else
                 sendImageView.setImageBitmap(testBitmap);*/
 
-            firstImageView.setImageBitmap(testBitmap);
-            lastImageView.setImageBitmap(testBitmap);
+            if(i==1)
+                firstImageView.setImageBitmap(testBitmap);
+            else if(i==2)
+                beforeImageView.setImageBitmap(testBitmap);
+            else
+                currentImageView.setImageBitmap(testBitmap);
 
             bis.close();
 
@@ -253,75 +344,7 @@ public class HistoryResultActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
-    private boolean isNetworkAvailable(){
-        boolean available = false;
-        /** Getting the system's connectivity service */
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        /** Getting active network interface  to get the network's status */
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        if(networkInfo !=null && networkInfo.isAvailable())
-            available = true;
-
-        /** Returning the status of the network */
-        return available;
-    }
-
-    private Bitmap downloadUrl(String strUrl) throws IOException{
-        Bitmap bitmap=null;
-        InputStream iStream = null;
-        try{
-            URL url = new URL(strUrl);
-            /** Creating an http connection to communcate with url */
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            /** Connecting to url */
-            urlConnection.connect();
-
-            /** Reading data from url */
-            iStream = urlConnection.getInputStream();
-
-            /** Creating a bitmap from the stream returned from the url */
-            bitmap = BitmapFactory.decodeStream(iStream);
-
-        }catch(Exception e){
-            /*Log.d("Exception while downloading url", e.toString());*/
-        }finally{
-            iStream.close();
-        }
-        return bitmap;
-    }
-
-    private class DownloadTask extends AsyncTask<String, Integer, Bitmap>{
-        Bitmap bitmap = null;
-        @Override
-        protected Bitmap doInBackground(String... url) {
-            try{
-                bitmap = downloadUrl(url[0]);
-            }catch(Exception e){
-                Log.d("Background Task",e.toString());
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            /** Getting a reference to ImageView to display the
-             * downloaded image
-             */
-            ImageView firstView = (ImageView) findViewById(R.id.firstImageView);
-            ImageView lastView = (ImageView) findViewById(R.id.lastImageView);
-
-            /** Displaying the downloaded image */
-            firstView.setImageBitmap(result);
-            lastView.setImageBitmap(result);
-
-            /** Showing a message, on completion of download process */
-            Toast.makeText(getBaseContext(), "Image downloaded successfully", Toast.LENGTH_SHORT).show();
-        }
     }
 
 

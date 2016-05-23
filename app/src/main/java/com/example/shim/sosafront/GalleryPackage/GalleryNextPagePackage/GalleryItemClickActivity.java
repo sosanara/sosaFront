@@ -43,6 +43,7 @@ public class GalleryItemClickActivity extends Activity {
 
     private static String created_date;
     private static String success;
+    private static String userName;
 
     private TextView type_textview;
     private TextView percent_textview;
@@ -199,10 +200,13 @@ public class GalleryItemClickActivity extends Activity {
 
                     String buf[] = created_date.split("-");
                     String temp = buf[0]+"."+buf[1]+"."+buf[2];
-                    created_date = temp.substring(0,10);
+                    created_date = temp.substring(0, 10);
 
-                    originImage = json_object.getString("name");
-                    binaryImage = json_object.getString("name");
+                    originImage = json_object.getString("origin_image_name");
+                    binaryImage = json_object.getString("change_image_name");
+                    percentage = json_object.getString("percentage");
+                    userName = json_object.getString("user");
+
 
                     displayOriginalImageView(originImage);
                     displayBinaryImageView(binaryImage);

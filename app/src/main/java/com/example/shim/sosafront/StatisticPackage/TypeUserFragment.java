@@ -59,16 +59,23 @@ public class TypeUserFragment extends Fragment  {
     private DataStore dataStore;
 
     private ArrayList<String> typeIndex = new ArrayList<String>();
-    private ArrayList<String> ageIndex = new ArrayList<String>();
+    private ArrayList<Float> typePercent = new ArrayList<Float>();
+    private ArrayList<String> typePercentString = new ArrayList<String>();
     private String myType;
+    private int typeNum = 0;
+    private int typeSum = 0;
+
+    private int intentFlag = 0;
 
     TextView tvX, tvY;
     Typeface tf;
     PieChart mChart;
 
     String[] mParties = new String[] {                                                                                               //수정 타입별, 나이별, 성별 각각 배열 생성
-            "정상", "앞머리형", "뒷머리형", "가르마형", "탈모"
+            "Normal", "Forward", "Backward", "Karma", "Bald"
     };
+
+    static int sendTypeData = 0;
 
 
 
@@ -92,9 +99,6 @@ public class TypeUserFragment extends Fragment  {
         mPage = getArguments().getInt("page");
 
 
-
-        String strtext = getActivity().getIntent().getStringExtra("GOOD");
-        Log.d("test", "실행순서2" + strtext + "authKey");
 
     }
 
@@ -164,10 +168,7 @@ public class TypeUserFragment extends Fragment  {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
     }
-
-
 
 
     private void setData(int count, float range) {
@@ -179,10 +180,20 @@ public class TypeUserFragment extends Fragment  {
         // IMPORTANT: In a PieChart, no values (Entry) should have the same
         // xIndex (even if from different DataSets), since no values can be
         // drawn above each other.
+
+        int sum = 0;
+
+        for(int i = 0; i<typeIndex.size(); i++)
+            sum += Integer.parseInt(typeIndex.get(i));
+
+
         for (int i = 0; i < count + 1; i++) {
-            /*yVals1.add(new Entry((float) (Math.random() * mult) + mult / 5, i));*/
-            yVals1.add(new Entry(20, i));                                                                                   //수정 서버에서 받은값 여기에 저장
+            if(typePercent.get(i) > 0.0)
+                yVals1.add(new Entry(typePercent.get(i), i));
+
+            /*yVals1.add(new Entry(20, i));      */                                                                            //수정 서버에서 받은값 여기에 저장
         }
+
 
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -201,11 +212,11 @@ public class TypeUserFragment extends Fragment  {
                 <Integer>();
 
 
-        colors.add(Color.rgb(124,206,92));
-        colors.add(Color.rgb(46,183,79));
-        colors.add(Color.rgb(28,141,54));
-        colors.add(Color.rgb(58,183,190));
-        colors.add(Color.rgb(0,128,139));
+        colors.add(Color.rgb(77, 175, 181));
+        colors.add(Color.rgb(46, 183, 79));
+        colors.add(Color.rgb(28, 141, 54));
+        colors.add(Color.rgb(124, 206, 92));
+        colors.add(Color.rgb(168, 208, 225));
 
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);
@@ -329,21 +340,25 @@ public class TypeUserFragment extends Fragment  {
                     typeIndex.add(2, String.valueOf(allUserTypeJsonObjectKey.get("2")));
                     typeIndex.add(3, String.valueOf(allUserTypeJsonObjectKey.get("3")));
                     typeIndex.add(4, String.valueOf(allUserTypeJsonObjectKey.get("4")));
-                    typeIndex.add(5, String.valueOf(allUserTypeJsonObjectKey.get("5")));
 
-                    ageIndex.add(0, String.valueOf(sameAgeTypeJsonObjectKey.get("0")));
+                    for(int i=0; i<typeIndex.size(); i++) {
+                        Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 2-2: " + typeIndex.get(i));
+                    }
+                    /*ageIndex.add(0, String.valueOf(sameAgeTypeJsonObjectKey.get("0")));
                     ageIndex.add(1, String.valueOf(sameAgeTypeJsonObjectKey.get("1")));
                     ageIndex.add(2, String.valueOf(sameAgeTypeJsonObjectKey.get("2")));
                     ageIndex.add(3, String.valueOf(sameAgeTypeJsonObjectKey.get("3")));
                     ageIndex.add(4, String.valueOf(sameAgeTypeJsonObjectKey.get("4")));
-                    ageIndex.add(5, String.valueOf(sameAgeTypeJsonObjectKey.get("5")));
+                    ageIndex.add(5, String.valueOf(sameAgeTypeJsonObjectKey.get("5")));*/
 
                     myType =String.valueOf(allUserTypeJsonObjectKey.get("my_type"));
 
-                    for(int i = 0; i < 5; i++) {
+
+                   /* onValueSelected*/
+                  /*  for(int i = 0; i < 5; i++) {
                         Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 2-5: type: " + typeIndex.get(i));
                         Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 2-6: age" + ageIndex.get(i));
-                    }
+                    }*/
 
                     // Pass data to onPostExecute method
                     return(result.toString());
@@ -397,9 +412,39 @@ public class TypeUserFragment extends Fragment  {
             // add a selection listener
             mChart.setOnChartValueSelectedListener(this);
 
+            for(int i = 0; i<typeIndex.size(); i++) {
+                typeSum += Integer.parseInt(typeIndex.get(i));
+            }
+
+            Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 테스트 3-1 : 페이지 = " + typeSum);
+
+            for(int i = 0; i<typeIndex.size(); i++) {
+                typePercentString.add(i, String.valueOf(Float.parseFloat(typeIndex.get(i)) / typeSum * 100));
+                typePercent.add(i, Float.parseFloat(typeIndex.get(i)) / typeSum * 100);
+                Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 테스트 3-2 : 페이지 = " + typePercent.get(i));
+            }
+
+
+
             setData(4, 100);
 
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+
+
+            /*if(intentFlag == 0) {
+                Intent intent = new Intent(getActivity(), StatisticActivity.class);
+                intent.putExtra("typePercentOne", Float.toString(Float.parseFloat(typePercentString.get(0))));
+                *//*intent.putExtra("typePercentTwo", typePercent.get(1));
+                intent.putExtra("typePercentThree", typePercent.get(2));
+                intent.putExtra("typePercentFour", typePercent.get(3));
+                intent.putExtra("typePercentFive", typePercent.get(4));*//*
+                startActivity(intent);
+                sendTypeData++;
+
+                intentFlag = 1;
+            }*/
+
+
             // mChart.spin(2000, 0, 360);
 
             /*Legend l = mChart.getLegend();
@@ -408,6 +453,12 @@ public class TypeUserFragment extends Fragment  {
             l.setYEntrySpace(0f);
             l.setYOffset(0f);*/
 
+            /*onValueSelected(Entry, myType+"val")
+*/
+
+
+           /* onValueSelected("Entry, xIndex: " + myType +" val (sum): 25.0"+", 0, h : Highlight, xIndex: " + myType + ", dataSetIndex: 0" + ", stackIndex (only stacked barentry): -1");
+        */
         }
 
 
@@ -419,6 +470,12 @@ public class TypeUserFragment extends Fragment  {
             Log.i("VAL SELECTED",
                     "Value: " + e.getVal() + ", xIndex: " + e.getXIndex()
                             + ", DataSet index: " + dataSetIndex);
+            Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 4-0 e : "
+                    + e);
+            Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 4-1 " +
+                    "dataSetIndex : " + dataSetIndex);
+            Log.d("TypeUserFragmentLog", "TypeUserFragmentLog 4-2 h :" +
+                    "h : " + h);
         }
 
         @Override

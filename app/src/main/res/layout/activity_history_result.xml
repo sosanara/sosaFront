@@ -15,11 +15,11 @@
         android:background="?attr/colorPrimary">
 
         <TextView
-            android:id="@+id/toolbar_result"
+            android:id="@+id/toolbar_history_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/whiteColor"
-            android:text="@string/toolbar_result"
+            android:text="@string/toolbar_history_detail"
             android:textSize="17.5sp"
             android:gravity="center_horizontal"/>
 
@@ -30,19 +30,58 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:text="쑥쑥이님의 모발상태"
-            android:textColor="@color/textViewColor"
-            android:textSize="18sp"
-            android:gravity="center"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/black14Color"/>
+            <ImageView
+                android:id="@+id/currentImageView"
+                android:layout_width="157.8dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="25.3dp"
+                android:layout_marginLeft="19.8dp" />
 
+            <LinearLayout
+                android:layout_width="157.8dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="24.8dp"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical"
+                android:background="@drawable/history_result">
+
+                <TextView
+                    android:text="@string/bald_progress"
+                    android:textSize="18sp"
+                    android:textColor="@color/textViewColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="55.8dp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/currentPercentView"
+                    android:text="100.0%"
+                    android:textSize="27sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14.3dp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/currentCreateDateView"
+                    android:text="2016.05.08"
+                    android:textSize="14sp"
+                    android:textColor="@color/rectBorderColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13.5dp"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,17 +90,18 @@
 
             <ImageView
                 android:id="@+id/firstImageView"
-                android:layout_width="157.8dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="18.8dp"
-                android:layout_marginLeft="19.8dp" />
+                android:layout_width="116.9dp"
+                android:layout_height="150.dp"
+                android:layout_marginTop="39.8dp"
+                android:layout_marginLeft="50.5dp" />
 
             <ImageView
-                android:id="@+id/lastImageView"
-                android:layout_width="157.8dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="18.8dp"
-                android:layout_marginRight="19.8dp" />
+                android:id="@+id/beforeImageView"
+                android:layout_width="116.9dp"
+                android:layout_height="150.dp"
+                android:layout_marginTop="39.8dp"
+                android:layout_marginLeft="25.1dp"
+                android:layout_marginRight="50.6dp" />
 
         </LinearLayout>
 
@@ -71,24 +111,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="31.5dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="85.6dp"
-                android:text="@string/bald_type"
-                android:textColor="@color/textViewColor"
-                android:textSize="17sp"/>
+                android:layout_width="62.8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22.6dp"
+                android:layout_marginLeft="77.5dp"
+                android:text="@string/first_contrast"
+                android:textSize="17sp"
+                android:textColor="@color/textViewColor"/>
 
             <TextView
-                android:layout_width="78.3dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="95.6dp"
-                android:layout_marginRight="69dp"
-                android:text="@string/bald_progress"
-                android:textColor="@color/textViewColor"
-                android:textSize="17sp"/>
+                android:layout_width="62.8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22.6dp"
+                android:layout_marginLeft="79.3dp"
+                android:layout_marginRight="77.8dp"
+                android:text="@string/before_contrast"
+                android:textSize="17sp"
+                android:textColor="@color/textViewColor"/>
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,61 +137,65 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/baldType"
-                android:text="가르마형"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="92dp"
-                android:layout_height="55dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="55.5dp"
-                android:textSize="25sp"/>
+                android:id="@+id/firstPercentView"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="65dp"
+                android:text="+100.0%"
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
-                android:id="@+id/baldProgress"
-                android:text="32%"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="78.3dp"
-                android:layout_height="55dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="78.3dp"
-                android:layout_marginRight="69dp"
-                android:textSize="25sp" />
+                android:id="@+id/beforePercentView"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="47dp"
+                android:layout_marginRight="65dp"
+                android:text="-100.0%"
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimary"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/galleryBtn"
-                android:layout_width="99.8dp"
-                android:layout_height="103.9dp"
-                android:layout_marginTop="53.5dp"
-                android:layout_marginLeft="26dp"
-                android:background="@drawable/main_gallery"/>
+            <TextView
+                android:id="@+id/firstCreateDateView"
+                android:layout_width="69.3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="75.3dp"
+                android:text="2016.02.14"
+                android:textSize="13.5sp"
+                android:textColor="@color/rectBorderColor"/>
 
-            <ImageButton
-                android:id="@+id/historyBtn"
-                android:layout_width="99.3dp"
-                android:layout_height="114.6dp"
-                android:layout_marginTop="43dp"
-                android:layout_marginLeft="4.5dp"
-                android:background="@drawable/main_history"/>
-
-            <ImageButton
-                android:id="@+id/statisticsBtn"
-                android:layout_width="99.8dp"
-                android:layout_height="101.8dp"
-                android:layout_marginTop="56dp"
-                android:layout_marginLeft="4.9dp"
-                android:background="@drawable/main_statistics"/>
+            <TextView
+                android:id="@+id/beforeCreateDateView"
+                android:layout_width="69.3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="74.5dp"
+                android:layout_marginRight="75.3dp"
+                android:text="2016.02.14"
+                android:textSize="13.5sp"
+                android:textColor="@color/rectBorderColor"/>
 
         </LinearLayout>
-
+        
+        <!--<Button
+            android:layout_width=""
+            android:layout_height="" />-->
 
     </LinearLayout>
+    
+    
+
+
 
 
 

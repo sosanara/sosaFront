@@ -23,8 +23,8 @@ public class StartScreen extends Activity {
                 finish();
             }
         };
-        /*h.sendEmptyMessageDelayed(0, 1);*/
-        h.sendEmptyMessageDelayed(0, 1500);
+       h.sendEmptyMessageDelayed(0, 1);
+       /* h.sendEmptyMessageDelayed(0, 2500);*/
     }
 }
 

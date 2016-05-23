@@ -212,8 +212,14 @@ public class UserInfoActivity extends Activity {
             userInfoEmailView.setText(userInfoEmail);
             userInfoAgeView.setText(userInfoAge);
             userInfoNameView.setText(userInfoName);
-            userInfoGenderView.setText(userInfoGender);
-            //this method will be running on UI thread
+
+            if(userInfoGender.contains("Man"))
+                userInfoGenderView.setText("남성");
+
+            else
+                userInfoGenderView.setText("여성");
+
+             //this method will be running on UI thread
 
             pdLoading.dismiss();
 

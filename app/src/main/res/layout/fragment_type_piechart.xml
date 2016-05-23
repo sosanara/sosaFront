@@ -2,47 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <!--<com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/seekBar1" />-->
-
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/chart1"
-            android:layout_width="300dp"
-            android:layout_height="300dp" />
-
-
-
-
-
-    <!--<TextView
-        android:id="@+id/tvXMax"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekBar1"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="10dp"
-        android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvYMax"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekBar2"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="10dp"
-        android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />-->
-
-
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="25dp"
+            android:layout_above="@+id/firstLinerLayout" />
+        </LinearLayout>
 
 </LinearLayout>

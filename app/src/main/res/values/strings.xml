@@ -51,6 +51,7 @@
     <string name="toolbar_picture_confirm">사진확인</string>
     <string name="toolbar_result">결과</string>
     <string name="toolbar_history">히스토리</string>
+    <string name="toolbar_history_detail">히스토리 상세보기</string>
     <string name="toolbar_statistic">통계</string>
 
     <string name="sign_up">회원가입</string>
@@ -79,17 +80,19 @@
     <string name="send">전송</string>
     <string name="retry_take_picture">다시찍기</string>
     <string name="result_confirm">결과확인</string>
-    <string name="take_picture">모발 상태 점검하기</string>
+    <string name="take_picture">두발 상태 점검하기</string>
     <string name="bald_type">유형</string>
     <string name="bald_progress">탈모진행율</string>
-    <string name="toolbar_gallary_click">갤러리 상세보기</string>
-    <string name="toolbar_gallary">갤러리</string>
-
+    <string name="toolbar_gallary_click">사진첩 상세보기</string>
+    <string name="toolbar_gallary">사진첩</string>
+    <string name="first_contrast">최초대비</string>
+    <string name="before_contrast">이전대비</string>
 
     <string-array name="birth">
         <item>출생연도</item>
     </string-array>
     <string name="title_activity_result">ResultActivity</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_font">FontActivity</string>
 
 </resources>
