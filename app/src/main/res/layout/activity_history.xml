@@ -27,32 +27,43 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart1"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="22.9dp"
+                android:background = "@color/whiteColor" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/networkCheckLayout"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="21dp"
-            android:layout_marginBottom="22.9dp"
-            android:background = "@color/whiteColor" />
+            android:background="@drawable/network_disconnect"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="474dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="다시 시도하기"
+                android:id="@+id/networkCheckBtn"
+                android:onClick="networkCheck"
+                />
     </LinearLayout>
-
-
-    <!--<TextView
-        android:id="@+id/tvXMax"
-        android:text="this is what?"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekBar1"
-        android:layout_alignParentRight="true"
-
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="10dp"
-        android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />-->
-
-
-
+</FrameLayout>
 </LinearLayout>

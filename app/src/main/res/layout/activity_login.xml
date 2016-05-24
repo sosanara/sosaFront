@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -114,4 +118,28 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/networkCheckLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/network_disconnect"
+        android:visibility="gone"
+        >
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="474dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="다시 시도하기"
+            android:id="@+id/networkCheckBtn"
+            android:onClick="networkCheck"
+            />
+    </LinearLayout>
+</FrameLayout>
+
 </LinearLayout>

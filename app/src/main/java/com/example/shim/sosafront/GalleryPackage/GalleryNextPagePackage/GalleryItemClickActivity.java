@@ -2,11 +2,14 @@ package com.example.shim.sosafront.GalleryPackage.GalleryNextPagePackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +17,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
@@ -35,6 +40,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class GalleryItemClickActivity extends AppCompatActivity {
+
+    private LinearLayout networkCheckLayout;
 
     private static String IP_ADDRESS ;
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -95,6 +102,7 @@ public class GalleryItemClickActivity extends AppCompatActivity {
         baldProgressView = (TextView) findViewById(R.id.baldProgressView);
         createDateView = (TextView) findViewById(R.id.createDateView);*/
 
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         original_image = (ImageView) findViewById(R.id.original_image);
         binary_image = (ImageView) findViewById(R.id.binary_image);
 
@@ -105,6 +113,16 @@ public class GalleryItemClickActivity extends AppCompatActivity {
         IP_ADDRESS = intent.getStringExtra("url");
 
         new AsyncItemClick().execute();
+    }
+
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
     }
 
     public void delete_image(View v) {
@@ -127,6 +145,18 @@ public class GalleryItemClickActivity extends AppCompatActivity {
             baldProgressView = (TextView) findViewById(R.id.baldProgressView);
             createDateView = (TextView) findViewById(R.id.createDateView);
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

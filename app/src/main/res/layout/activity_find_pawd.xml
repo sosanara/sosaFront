@@ -25,53 +25,77 @@
             android:gravity="center_horizontal"/>
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:text="이메일 주소를 입력해주세요."
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="41.5dp"
-            android:paddingTop="17dp"
-            android:paddingBottom="17dp"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:textColor="@color/textViewColor"/>
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/emailView"
-            android:background="@drawable/text_border"
-            android:hint="@string/email"
-            android:textColorHint="@color/hintTextColor"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="41dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:textSize="16sp"
-            android:layout_gravity="center" />
+            <TextView
+                android:text="이메일 주소를 입력해주세요."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="41.5dp"
+                android:paddingTop="17dp"
+                android:paddingBottom="17dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="@color/textViewColor"/>
 
-        <Button
-            android:id="@+id/findPawdBtn"
-            android:text="@string/send"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:textColor="@color/whiteColor"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:onClick="findPawd"
-            android:radius="20.5dp"
-            android:background="@drawable/button_border"/>
-    </LinearLayout>
+            <EditText
+                android:id="@+id/emailView"
+                android:background="@drawable/text_border"
+                android:hint="@string/email"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="41dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
 
+            <Button
+                android:id="@+id/findPawdBtn"
+                android:text="@string/send"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textColor="@color/whiteColor"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:onClick="findPawd"
+                android:radius="20.5dp"
+                android:background="@drawable/button_border"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/networkCheckLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/network_disconnect"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="474dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="다시 시도하기"
+                android:id="@+id/networkCheckBtn"
+                android:onClick="networkCheck"
+                />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

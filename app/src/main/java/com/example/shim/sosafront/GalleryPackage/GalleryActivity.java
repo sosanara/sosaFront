@@ -2,10 +2,13 @@ package com.example.shim.sosafront.GalleryPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.GalleryPackage.GalleryNextPagePackage.GalleryItemClickActivity;
@@ -35,6 +40,8 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class GalleryActivity extends AppCompatActivity {
+
+    private LinearLayout networkCheckLayout;
 
     private static final String IP_ADDRESS = "http://113.198.84.37/";
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -62,6 +69,7 @@ public class GalleryActivity extends AppCompatActivity {
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
 
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
@@ -78,6 +86,16 @@ public class GalleryActivity extends AppCompatActivity {
         });
 
         new AsyncGallery().execute();
+    }
+
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
     }
 
 
@@ -101,6 +119,18 @@ public class GalleryActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

@@ -5,99 +5,122 @@ android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolBar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
-
-    <TextView
-        android:id="@+id/toolbar_title"
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/whiteColor"
-        android:text="@string/toolbar_user_info"
-        android:textSize="17.5sp"
-        android:gravity="center_horizontal"/>
-</android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/whiteColor"
+            android:text="@string/toolbar_user_info"
+            android:textSize="17.5sp"
+            android:gravity="center_horizontal"/>
+    </android.support.v7.widget.Toolbar>
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/oldPawdView"
-        android:background="@drawable/text_border"
-        android:hint="@string/old_pawd"
-        android:textColorHint="@color/hintTextColor"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="27.5dp"
-        android:paddingLeft="18.3dp"
-        android:paddingRight="18.3dp"
-        android:textSize="16sp"
-        android:layout_gravity="center"
-        android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/oldPawdView"
+                android:background="@drawable/text_border"
+                android:hint="@string/old_pawd"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="27.5dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:inputType="textPassword"/>
 
-    <EditText
-        android:id="@+id/changePawd1View"
-        android:background="@drawable/text_border"
-        android:hint="@string/new_pawd"
-        android:textColorHint="@color/hintTextColor"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10.8dp"
-        android:paddingLeft="18.3dp"
-        android:paddingRight="18.3dp"
-        android:textSize="16sp"
-        android:layout_gravity="center"
-        android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/changePawd1View"
+                android:background="@drawable/text_border"
+                android:hint="@string/new_pawd"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10.8dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:inputType="textPassword"/>
 
-    <EditText
-        android:id="@+id/changePawd2View"
-        android:background="@drawable/text_border"
-        android:hint="@string/new_pawd_confirm"
-        android:textColorHint="@color/hintTextColor"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10.8dp"
-        android:paddingLeft="18.3dp"
-        android:paddingRight="18.3dp"
-        android:textSize="16sp"
-        android:layout_gravity="center"
-        android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/changePawd2View"
+                android:background="@drawable/text_border"
+                android:hint="@string/new_pawd_confirm"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10.8dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:inputType="textPassword"/>
 
-    <Button
-        android:id="@+id/changePawdBtn"
-        android:text="@string/send"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="18.3dp"
-        android:paddingRight="18.3dp"
-        android:textColor="@color/whiteColor"
-        android:textSize="16sp"
-        android:layout_gravity="center"
-        android:onClick="changePawd"
-        android:background="@drawable/button_border"/>
+            <Button
+                android:id="@+id/changePawdBtn"
+                android:text="@string/send"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textColor="@color/whiteColor"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:onClick="changePawd"
+                android:background="@drawable/button_border"/>
 
-    <!--android:background="@color/btnBackgoundColor"-->
-</LinearLayout>
+            <!--android:background="@color/btnBackgoundColor"-->
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/networkCheckLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/network_disconnect"
+            android:visibility="gone"
+            >
 
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="474dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="다시 시도하기"
+                android:id="@+id/networkCheckBtn"
+                android:onClick="networkCheck"
+                />
+        </LinearLayout>
+    </FrameLayout>
 <!--android:layout_below="@+id/password"-->
 </LinearLayout>
 

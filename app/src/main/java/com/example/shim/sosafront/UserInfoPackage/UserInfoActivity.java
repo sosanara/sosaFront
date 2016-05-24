@@ -2,13 +2,18 @@ package com.example.shim.sosafront.UserInfoPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.LoginPackage.ChangePawdActivity;
@@ -29,6 +34,7 @@ import java.net.URL;
 
 public class UserInfoActivity extends Activity {
 
+    private LinearLayout networkCheckLayout;
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
     public static final int CONNECTION_TIMEOUT=10000;
@@ -58,7 +64,7 @@ public class UserInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        // Get Reference to variables
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         userInfoUserNameView = (TextView) findViewById(R.id.userInfoUserNameView);
         userInfoEmailView = (TextView) findViewById(R.id.userInfoEmailView);
         userInfoAgeView = (TextView) findViewById(R.id.userInfoAgeView);
@@ -112,6 +118,18 @@ public class UserInfoActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

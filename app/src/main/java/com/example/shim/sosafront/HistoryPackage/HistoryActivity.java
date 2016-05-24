@@ -1,11 +1,14 @@
 package com.example.shim.sosafront.HistoryPackage;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +18,10 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.MainPackage.MainActivity;
@@ -51,6 +56,7 @@ import java.util.Iterator;
 
 public class HistoryActivity extends AppCompatActivity implements OnChartGestureListener, OnChartValueSelectedListener {
 
+    private LinearLayout networkCheckLayout;
     private LineChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
@@ -77,6 +83,7 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_history);
 
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
@@ -222,6 +229,16 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         // mChart.invalidate();
     }
 
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
+    }
+
     private class AsyncHistory extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(HistoryActivity.this);
@@ -231,6 +248,18 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         @Override
         protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

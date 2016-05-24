@@ -27,100 +27,126 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:text="   받은 이메일을 확인하신 후 UID와 Token을 입력해주세요."
-            android:layout_width="205.5dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="41.5dp"
-            android:textSize="16sp"
-            android:layout_gravity="center" />
+            <TextView
+                android:text="   받은 이메일을 확인하신 후 UID와 Token을 입력해주세요."
+                android:layout_width="205.5dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="41.5dp"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
 
-        <EditText
-            android:id="@+id/resetUid"
-            android:background="@drawable/text_border"
-            android:hint="@string/uid"
-            android:textColorHint="@color/hintTextColor"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="32dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:textSize="16sp"
-            android:layout_gravity="center"/>
+            <EditText
+                android:id="@+id/resetUid"
+                android:background="@drawable/text_border"
+                android:hint="@string/uid"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="32dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"/>
 
-        <EditText
-            android:id="@+id/resetToken"
-            android:background="@drawable/text_border"
-            android:hint="@string/token"
-            android:textColorHint="@color/hintTextColor"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10.8dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:textSize="16sp"
-            android:layout_gravity="center"/>
-
-
-        <EditText
-            android:id="@+id/resetPawd1View"
-            android:background="@drawable/text_border"
-            android:hint="@string/new_pawd"
-            android:textColorHint="@color/hintTextColor"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10.8dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/resetPawd2View"
-            android:background="@drawable/text_border"
-            android:hint="@string/new_pawd_confirm"
-            android:textColorHint="@color/hintTextColor"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10.8dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/resetToken"
+                android:background="@drawable/text_border"
+                android:hint="@string/token"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10.8dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"/>
 
 
-        <Button
-            android:id="@+id/resetPawdBtn"
-            android:text="@string/send"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="18.3dp"
-            android:paddingRight="18.3dp"
-            android:textColor="@color/whiteColor"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:onClick="resetPawd"
-            android:background="@drawable/button_border"/>
+            <EditText
+                android:id="@+id/resetPawd1View"
+                android:background="@drawable/text_border"
+                android:hint="@string/new_pawd"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10.8dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:inputType="textPassword" />
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/resetPawd2View"
+                android:background="@drawable/text_border"
+                android:hint="@string/new_pawd_confirm"
+                android:textColorHint="@color/hintTextColor"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10.8dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:inputType="textPassword"/>
+
+
+            <Button
+                android:id="@+id/resetPawdBtn"
+                android:text="@string/send"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="18.3dp"
+                android:paddingRight="18.3dp"
+                android:textColor="@color/whiteColor"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:onClick="resetPawd"
+                android:background="@drawable/button_border"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/networkCheckLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/network_disconnect"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="474dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="다시 시도하기"
+                android:id="@+id/networkCheckBtn"
+                android:onClick="networkCheck"
+                />
+        </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>
 
 

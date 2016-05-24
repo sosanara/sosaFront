@@ -10,7 +10,10 @@ package com.example.shim.sosafront.MainPackage;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
@@ -43,6 +47,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
+    private LinearLayout networkCheckLayout;
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
 
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         takePictureBtn = (Button) findViewById(R.id.takePictureBtn);
         galleryBtn = (ImageButton) findViewById(R.id.galleryBtn);
         historyBtn = (ImageButton) findViewById(R.id.historyBtn);
@@ -99,6 +105,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

@@ -3,7 +3,10 @@ package com.example.shim.sosafront.LoginPackage;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class LoginActivity extends Activity {
+
+    private LinearLayout networkCheckLayout;
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
@@ -74,7 +80,7 @@ public class LoginActivity extends Activity {
         dataStore = new DataStore(this);
 
 
-        // Get Reference to variables
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         loginUserNameView = (EditText) findViewById(R.id.loginUserNameView);
         loginPawdView = (EditText) findViewById(R.id.loginPawdView);
 
@@ -108,6 +114,16 @@ public class LoginActivity extends Activity {
         });
     }
 
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
+    }
+
     // Triggers when LOGIN Button clicked
     public void startLogin(View arg0) {
 
@@ -128,6 +144,18 @@ public class LoginActivity extends Activity {
         @Override
         protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

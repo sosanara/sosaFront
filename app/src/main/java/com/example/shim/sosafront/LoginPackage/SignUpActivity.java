@@ -1,7 +1,10 @@
 package com.example.shim.sosafront.LoginPackage;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -41,6 +45,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private LinearLayout networkCheckLayout;
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
@@ -91,7 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        // Get Reference to variables
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         signUpUserNameView = (EditText) findViewById(R.id.signUpUserNameView);
         signUpEmailView = (EditText) findViewById(R.id.signUpEmailView);
         signUpPawd1View = (EditText) findViewById(R.id.signUpPawd1View);
@@ -155,6 +160,18 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {  //Background 작업 시작전에 UI 작업을 진행
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

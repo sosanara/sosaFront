@@ -2,10 +2,13 @@ package com.example.shim.sosafront.StatisticPackage;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
@@ -37,6 +41,7 @@ import java.util.ArrayList;
 
 public class StatisticActivity extends AppCompatActivity {
 
+    private LinearLayout networkCheckLayout;
     Toolbar toolbar;
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
@@ -89,6 +94,7 @@ public class StatisticActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolBar);
 
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         typeImgLayout = (LinearLayout) findViewById(R.id.typeImgLayout);
         ageImgLayout = (LinearLayout) findViewById(R.id.ageImgLayout);
 
@@ -202,6 +208,18 @@ public class StatisticActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

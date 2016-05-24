@@ -22,20 +22,46 @@
             android:textSize="17.5sp"/>
     </android.support.v7.widget.Toolbar>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
 
-        android:paddingTop="8.5dp"
-        android:paddingLeft="8.5dp"
-        android:paddingRight="2dp"
-        android:paddingBottom="3.9dp"
-        android:background="#f1f1f1"
-        >
+            android:paddingTop="8.5dp"
+            android:paddingLeft="8.5dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="3.9dp"
+            android:background="#f1f1f1"
+            >
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+
+
+        <LinearLayout
+            android:id="@+id/networkCheckLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/network_disconnect"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="474dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="다시 시도하기"
+                android:id="@+id/networkCheckBtn"
+                android:onClick="networkCheck"
+                />
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

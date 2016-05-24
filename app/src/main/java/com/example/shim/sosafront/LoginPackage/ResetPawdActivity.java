@@ -2,13 +2,17 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
@@ -30,6 +34,7 @@ import java.net.URL;
 
 public class ResetPawdActivity extends Activity {
 
+    private LinearLayout networkCheckLayout;
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
     public static final int CONNECTION_TIMEOUT=10000;
@@ -50,7 +55,7 @@ public class ResetPawdActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_pawd);
 
-        // Get Reference to variables
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         resetPawd1View = (EditText) findViewById(R.id.resetPawd1View);
         resetPawd2View = (EditText) findViewById(R.id.resetPawd2View);
         resetUid = (EditText) findViewById(R.id.resetUid);
@@ -59,6 +64,16 @@ public class ResetPawdActivity extends Activity {
         /*resetPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
         resetPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);*/
 
+    }
+
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
     }
 
     // Triggers when changePawd Button clicked
@@ -83,6 +98,18 @@ public class ResetPawdActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

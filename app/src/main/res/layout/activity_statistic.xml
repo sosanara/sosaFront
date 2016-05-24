@@ -206,7 +206,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
-            
+
             <LinearLayout
                 android:id="@+id/ageLayoutOne"
                 android:layout_width="143.3dp"
@@ -244,7 +244,7 @@
                     android:layout_marginLeft="104dp"
                     android:paddingRight="13.5dp"/>
             </LinearLayout>
-            
+
         </LinearLayout>
 
         <LinearLayout

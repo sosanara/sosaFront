@@ -22,120 +22,147 @@
             android:textSize="17.5sp" />
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/createDateView"
-        android:gravity="center"
-        android:textSize="18sp"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:text="----------------"
-        android:textColor="#4d4d4d" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black14Color"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="#fff"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_marginTop="18.5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/createDateView"
             android:gravity="center"
-
+            android:textSize="18sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="54dp"
+            android:text="----------------"
+            android:textColor="#4d4d4d" />
 
-            <ImageView
-                android:id="@+id/original_image"
-                android:layout_marginRight="2.5dp"
-                android:layout_width="157.5dp"
-                android:layout_height="200dp"/>
-
-            <ImageView
-                android:id="@+id/binary_image"
-                android:layout_marginLeft="2.5dp"
-                android:layout_width="157.5dp"
-                android:layout_height="200dp"/>
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black14Color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40.5dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="#fff"
             android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="31.5dp"
-                    android:layout_height="20dp"
-                    android:textSize="17sp"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="93.1dp"
-                    android:text="유형"
-                    android:textColor="#4d4d4d" />
+                android:layout_marginTop="18.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:textSize="17sp"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="87.1dp"
-                    android:text="탈모 진행률"
-                    android:textColor="#4d4d4d" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/original_image"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_width="157.5dp"
+                    android:layout_height="200dp"/>
+
+                <ImageView
+                    android:id="@+id/binary_image"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_width="157.5dp"
+                    android:layout_height="200dp"/>
             </LinearLayout>
+
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginTop="13dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40.5dp"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/baldTypeView"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="----------------"
-                    android:textSize="25sp"
-                    android:layout_marginLeft="63dp"
-                    android:textColor="#2eb74f" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="31.5dp"
+                        android:layout_height="20dp"
+                        android:textSize="17sp"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="93.1dp"
+                        android:text="유형"
+                        android:textColor="#4d4d4d" />
 
-                <TextView
-                    android:id="@+id/baldProgressView"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="17sp"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="87.1dp"
+                        android:text="탈모 진행률"
+                        android:textColor="#4d4d4d" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="13dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="45dp"
-                    android:text="---------------"
-                    android:textSize="25sp"
-                    android:textColor="#2eb74f" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/baldTypeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="----------------"
+                        android:textSize="25sp"
+                        android:layout_marginLeft="63dp"
+                        android:textColor="#2eb74f" />
+
+                    <TextView
+                        android:id="@+id/baldProgressView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="45dp"
+                        android:text="---------------"
+                        android:textSize="25sp"
+                        android:textColor="#2eb74f" />
+                </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="95.8dp"
+                android:layout_marginBottom="35.5dp"
+                android:layout_marginLeft="30.3dp"
+                android:layout_marginRight="29.8dp"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:onClick="delete_image"
+                android:text="삭제"
+
+                />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="95.8dp"
-            android:layout_marginBottom="35.5dp"
-            android:layout_marginLeft="30.3dp"
-            android:layout_marginRight="29.8dp"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:onClick="delete_image"
-            android:text="삭제"
 
-            />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/networkCheckLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/network_disconnect"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="474dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="다시 시도하기"
+                android:id="@+id/networkCheckBtn"
+                android:onClick="networkCheck"
+                />
+        </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>

@@ -1,11 +1,14 @@
 package com.example.shim.sosafront.HistoryPackage;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.MainPackage.MainActivity;
@@ -35,6 +39,7 @@ import java.net.URLConnection;
 
 public class HistoryResultActivity extends AppCompatActivity {
 
+    private LinearLayout networkCheckLayout;
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
@@ -79,8 +84,7 @@ public class HistoryResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_result);
 
-
-
+        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         firstPercentView = (TextView) findViewById(R.id.firstPercentView);
         beforePercentView = (TextView) findViewById(R.id.beforePercentView);
         currentPercentView = (TextView) findViewById(R.id.currentPercentView);
@@ -129,6 +133,16 @@ public class HistoryResultActivity extends AppCompatActivity {
         });
     }
 
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
+    }
+
 
     private class AsyncHistoryResult extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(HistoryResultActivity.this);
@@ -138,6 +152,18 @@ public class HistoryResultActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
             super.onPreExecute();
+
+            ConnectivityManager manager =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()){
+                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             firstImageView = (ImageView) findViewById(R.id.firstImageView);
             beforeImageView = (ImageView) findViewById(R.id.beforeImageView);

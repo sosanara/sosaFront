@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.util.Date;
 
 public class CaptureActivity extends Activity {
+
     Button autoCaptureBtn;
     /*Button reTryBtn;
     Button checkResultBtn;*/

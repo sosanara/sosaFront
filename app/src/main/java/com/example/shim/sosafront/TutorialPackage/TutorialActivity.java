@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
 import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 
 public class TutorialActivity extends Activity implements GestureDetector.OnGestureListener {
+    private LinearLayout networkCheckLayout;
     protected GestureDetector gestureScanner;
     protected ViewFlipper vf;
     private static final int SWIPE_MIN_DISTANCE = 120;
