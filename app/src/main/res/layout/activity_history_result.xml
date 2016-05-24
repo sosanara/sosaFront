@@ -61,8 +61,8 @@
 
                 <TextView
                     android:id="@+id/currentPercentView"
-                    android:text="100.0%"
-                    android:textSize="27sp"
+                    android:text="+100.00%"
+                    android:textSize="30sp"
                     android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

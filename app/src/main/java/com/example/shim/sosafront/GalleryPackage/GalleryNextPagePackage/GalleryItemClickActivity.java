@@ -70,14 +70,12 @@ public class GalleryItemClickActivity extends Activity {
 
         setContentView(R.layout.activity_gallery_item_click);
 
-        baldTypeView = (TextView) findViewById(R.id.baldTypeView);
+        /*baldTypeView = (TextView) findViewById(R.id.baldTypeView);
         baldProgressView = (TextView) findViewById(R.id.baldProgressView);
-        createDateView = (TextView) findViewById(R.id.createDateView);
+        createDateView = (TextView) findViewById(R.id.createDateView);*/
 
         original_image = (ImageView) findViewById(R.id.original_image);
         binary_image = (ImageView) findViewById(R.id.binary_image);
-
-
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
@@ -104,6 +102,9 @@ public class GalleryItemClickActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
+            baldTypeView = (TextView) findViewById(R.id.baldTypeView);
+            baldProgressView = (TextView) findViewById(R.id.baldProgressView);
+            createDateView = (TextView) findViewById(R.id.createDateView);
             super.onPreExecute();
 
             //this method will be running on UI thread
@@ -117,6 +118,7 @@ public class GalleryItemClickActivity extends Activity {
         protected String doInBackground(String... params) {
 
             try {
+
                 // Enter URL address where your php file resides
                 Log.d("HistoryClickLog", "HistoryClickLog 0-0: " + IP_ADDRESS + "/");
                 url = new URL(IP_ADDRESS+"/");
@@ -160,6 +162,7 @@ public class GalleryItemClickActivity extends Activity {
             }
 
             try {
+
                 //Data를 받음
                 int response_code = conn.getResponseCode();
 
@@ -239,9 +242,11 @@ public class GalleryItemClickActivity extends Activity {
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
 
+            percent = String.format("%.2f", Double.parseDouble(percent)) + "%";
+
             createDateView.setText(createDate);
             baldTypeView.setText(myType);
-            baldProgressView.setText(percent + "%");
+            baldProgressView.setText(percent);
 
         }
     }
@@ -314,6 +319,7 @@ public class GalleryItemClickActivity extends Activity {
                 conn2.disconnect();
             }
         }
+
 
 
         @Override
