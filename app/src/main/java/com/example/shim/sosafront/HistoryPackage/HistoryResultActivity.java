@@ -1,17 +1,23 @@
 package com.example.shim.sosafront.HistoryPackage;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -27,7 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class HistoryResultActivity extends Activity {
+public class HistoryResultActivity extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -43,6 +49,10 @@ public class HistoryResultActivity extends Activity {
     private TextView firstCreateDateView;
     private TextView beforeCreateDateView;
     private TextView currentCreateDateView;
+    private TextView onlyOneDataView;
+
+    private LinearLayout compareCreateDateLayout;
+    private LinearLayout comparePercentLayout;
 
     private String getIndex;
     private Bitmap testBitmap;
@@ -70,18 +80,17 @@ public class HistoryResultActivity extends Activity {
         setContentView(R.layout.activity_history_result);
 
 
+
         firstPercentView = (TextView) findViewById(R.id.firstPercentView);
         beforePercentView = (TextView) findViewById(R.id.beforePercentView);
         currentPercentView = (TextView) findViewById(R.id.currentPercentView);
-
         firstCreateDateView = (TextView) findViewById(R.id.firstCreateDateView);
         beforeCreateDateView = (TextView) findViewById(R.id.beforeCreateDateView);
         currentCreateDateView = (TextView) findViewById(R.id.currentCreateDateView);
+        onlyOneDataView = (TextView) findViewById(R.id.onlyOneDataView);
 
-        /*firstImageView = (ImageView) findViewById(R.id.firstImageView);
-        beforeImageView = (ImageView) findViewById(R.id.beforeImageView);
-        currentImageView = (ImageView) findViewById(R.id.currentImageView);*/
-
+        compareCreateDateLayout = (LinearLayout) findViewById(R.id.compareCreateDateLayout);
+        comparePercentLayout = (LinearLayout) findViewById(R.id.comparePercentLayout);
 
         getIndex = getIntent().getExtras().getString("historyIndex");
 
@@ -93,6 +102,31 @@ public class HistoryResultActivity extends Activity {
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
+
+
+        currentPercentView.invalidate();
+        currentCreateDateView.invalidate();
+        comparePercentLayout.invalidate();
+        compareCreateDateLayout.invalidate();
+        firstPercentView.invalidate();
+        beforePercentView.invalidate();
+        firstCreateDateView.invalidate();
+        beforeCreateDateView.invalidate();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+        Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
+        Drawable resizeHome = resize(home);
+        toolbar.setNavigationIcon(resizeHome);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HistoryResultActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 
@@ -115,6 +149,21 @@ public class HistoryResultActivity extends Activity {
             pdLoading.show();
 
         }
+
+
+        /*protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(String.valueOf(values));
+            Log.i("makemachine", "onProgressUpdate(): " + String.valueOf(values[0]));
+
+            firstPercentView.setText("");
+            beforePercentView.setText("");
+            currentPercentView.setText("");
+            firstCreateDateView.setText("");
+            beforeCreateDateView.setText("");
+            currentCreateDateView.setText("");
+            onlyOneDataView.setText("");
+
+        }*/
 
         @Override
         protected String doInBackground(String... params) {  //프로그레스 다이얼로그 자동 종료 및 에러메시지 토스트보여줌
@@ -230,8 +279,7 @@ public class HistoryResultActivity extends Activity {
                     if(firstPercent == null && beforePercent == null) {
                         currentCreateDate =  currentCreateDate.substring(0, 10);// ex) 2016-04-01
                         currentPercent = String.format("%.2f", Double.parseDouble(currentPercent)) + "%";
-                        if(!currentPercent.contains("-"))
-                            currentPercent = "+" + currentPercent;
+
                     }
 
                     else {
@@ -246,14 +294,8 @@ public class HistoryResultActivity extends Activity {
                         if(!firstPercent.contains("-"))
                             firstPercent = "+" + firstPercent;
 
-
                         if(!beforePercent.contains("-"))
                             beforePercent = "+" + beforePercent;
-
-
-                        if(!currentPercent.contains("-"))
-                            currentPercent = "+" + currentPercent;
-
 
                     }
                     // Pass data to onPostExecute method
@@ -277,17 +319,29 @@ public class HistoryResultActivity extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
-
+            super.onPostExecute(result);
             Log.d("HistoryResultLog", "HistoryResultLog 3-1 : " + result);
 
             if(firstTakePicture == 0) {
                 Drawable drawable = getResources().getDrawable(R.drawable.history_no_image);
                 firstImageView.setImageDrawable(drawable);
                 beforeImageView.setImageDrawable(drawable);
-                firstPercentView.setText("");
+
+                onlyOneDataView.setVisibility(View.VISIBLE);
+                comparePercentLayout.setVisibility(View.GONE);
+                compareCreateDateLayout.setVisibility(View.GONE);
+                /*firstPercentView.setText("");
                 beforePercentView.setText("");
                 firstCreateDateView.setText("");
-                beforeCreateDateView.setText("");
+                beforeCreateDateView.setText("");*/
+
+
+
+               /* onlyOneDataView.setVisibility(View.VISIBLE);
+                firstPercentView.setVisibility(View.GONE);
+                beforePercentView.setVisibility(View.GONE);
+                firstCreateDateView.setVisibility(View.GONE);
+                beforeCreateDateView.setVisibility(View.GONE);*/
             }
 
             else {
@@ -296,13 +350,20 @@ public class HistoryResultActivity extends Activity {
                 firstCreateDateView.setText(firstCreateDate);
                 beforeCreateDateView.setText(beforeCreateDate);
             }
-
-
             currentPercentView.setText(currentPercent);
             currentCreateDateView.setText((currentCreateDate));
 
-
             pdLoading.dismiss();
+
+            currentPercentView.invalidate();
+            currentCreateDateView.invalidate();
+            comparePercentLayout.invalidate();
+            compareCreateDateLayout.invalidate();
+            firstPercentView.invalidate();
+            beforePercentView.invalidate();
+            firstCreateDateView.invalidate();
+            beforeCreateDateView.invalidate();
+
         }
 
     }
@@ -347,6 +408,11 @@ public class HistoryResultActivity extends Activity {
 
     }
 
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 96, 77, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
 
 }
 

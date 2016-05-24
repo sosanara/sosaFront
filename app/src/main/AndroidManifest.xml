@@ -95,7 +95,8 @@
         <activity
             android:name=".DialogPackage.TypeDialog"
             android:label="@string/title_activity_type_dialog"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".TutorialPackage.TutorialActivity"></activity>
     </application>
 
 </manifest>

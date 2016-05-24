@@ -20,10 +20,10 @@
             android:id="@+id/toolbar_statistic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="118dp"
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_statistic"
-            android:textSize="17.5sp"
-            android:gravity="center_horizontal"/>
+            android:textSize="17.5sp" />
     </android.support.v7.widget.Toolbar>
 
     <com.astuetz.PagerSlidingTabStrip

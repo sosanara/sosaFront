@@ -18,6 +18,7 @@ import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -107,6 +108,9 @@ public class AgeFragment extends Fragment  {
         mChart = (PieChart) view.findViewById(R.id.chart1);
         tvX = (TextView) view.findViewById(R.id.tvXMax);
         tvY = (TextView) view.findViewById(R.id.tvYMax);
+
+        Legend l = mChart.getLegend();
+        l.setEnabled(false);
 
         Log.d("AgeFragment", "AgeFragment 테스트 0-0 : 페이지 = " + mPage);
 

@@ -5,8 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
+import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -29,7 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class GalleryItemClickActivity extends Activity {
+public class GalleryItemClickActivity extends AppCompatActivity {
 
     private static String IP_ADDRESS ;
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -67,8 +72,24 @@ public class GalleryItemClickActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_gallery_item_click);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+        Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
+        Drawable resizeHome = resize(home);
+        toolbar.setNavigationIcon(resizeHome);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GalleryItemClickActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
 
         /*baldTypeView = (TextView) findViewById(R.id.baldTypeView);
         baldProgressView = (TextView) findViewById(R.id.baldProgressView);
@@ -384,5 +405,11 @@ public class GalleryItemClickActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 96, 77, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
     }
 }

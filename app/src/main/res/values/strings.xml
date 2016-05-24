@@ -87,6 +87,7 @@
     <string name="toolbar_gallary">사진첩</string>
     <string name="first_contrast">최초대비</string>
     <string name="before_contrast">이전대비</string>
+    <string name="notCompareData">비교할 데이터가 없습니다.</string>
 
     <string-array name="birth">
         <item>출생연도</item>

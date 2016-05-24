@@ -2,6 +2,10 @@ package com.example.shim.sosafront.StatisticPackage;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.DialogPackage.TypeDialog;
+import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -32,7 +37,7 @@ import java.util.ArrayList;
 
 public class StatisticActivity extends AppCompatActivity {
 
-    Toolbar mToolbar;
+    Toolbar toolbar;
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -77,11 +82,12 @@ public class StatisticActivity extends AppCompatActivity {
 
     TypeDialog typeDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
+
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
 
         typeImgLayout = (LinearLayout) findViewById(R.id.typeImgLayout);
         ageImgLayout = (LinearLayout) findViewById(R.id.ageImgLayout);
@@ -107,8 +113,21 @@ public class StatisticActivity extends AppCompatActivity {
 
         typeLayoutOne = (LinearLayout) findViewById(R.id.typeLayoutOne);
 
+
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
+
+        Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
+        Drawable resizeHome = resize(home);
+        toolbar.setNavigationIcon(resizeHome);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StatisticActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -340,4 +359,10 @@ public class StatisticActivity extends AppCompatActivity {
         }
 
     };
+
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 96, 77, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
 }

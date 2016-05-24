@@ -7,21 +7,19 @@
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/app_bar"
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        android:background="?attr/colorPrimary">
 
         <TextView
-            android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="110dp"
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_gallary"
-            android:textSize="17.5sp"
-            android:gravity="center_horizontal"/>
+            android:textSize="17.5sp"/>
     </android.support.v7.widget.Toolbar>
 
 

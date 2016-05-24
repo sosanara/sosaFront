@@ -50,6 +50,6 @@
     <color name="subTextColor">#7cce5c</color>
     <color name="black14Color">#24000000</color>
 
-
+    <color name="notCompareColor">#f3f3f3</color>
 
 </resources>

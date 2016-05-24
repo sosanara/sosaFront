@@ -394,7 +394,6 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         @Override
         protected void onPostExecute(String result) {
 
-
             //여기 처리 생각해야함
 
             setData(historyIndex.size(), 100);
