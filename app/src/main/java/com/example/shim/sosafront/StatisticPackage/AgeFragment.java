@@ -18,7 +18,6 @@ import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -146,7 +145,7 @@ public class AgeFragment extends Fragment  {
         for (int i = 0; i < count + 1; i++)
             xVals.add(mParties[i % mParties.length]);
 
-        PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
+        PieDataSet dataSet = new PieDataSet(yVals1, "");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
@@ -351,11 +350,11 @@ public class AgeFragment extends Fragment  {
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
             // mChart.spin(2000, 0, 360);
 
-            Legend l = mChart.getLegend();
+           /* Legend l = mChart.getLegend();
             l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
             l.setXEntrySpace(7f);
             l.setYEntrySpace(0f);
-            l.setYOffset(0f);
+            l.setYOffset(0f);*/
         }
 
 
@@ -373,9 +372,6 @@ public class AgeFragment extends Fragment  {
         public void onNothingSelected() {
             Log.i("PieChart", "nothing selected");
         }
-
-
-
 
     }
 

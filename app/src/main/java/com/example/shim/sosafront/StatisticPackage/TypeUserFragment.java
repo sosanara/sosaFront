@@ -190,7 +190,6 @@ public class TypeUserFragment extends Fragment  {
         for (int i = 0; i < count + 1; i++) {
             if(typePercent.get(i) > 0.0)
                 yVals1.add(new Entry(typePercent.get(i), i));
-
             /*yVals1.add(new Entry(20, i));      */                                                                            //수정 서버에서 받은값 여기에 저장
         }
 

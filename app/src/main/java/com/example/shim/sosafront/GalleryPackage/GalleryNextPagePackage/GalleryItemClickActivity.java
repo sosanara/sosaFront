@@ -36,29 +36,30 @@ public class GalleryItemClickActivity extends Activity {
     public static final int READ_TIMEOUT = 15000;
 
 
-    private static String type;
+    /*private static String type;
     private static String originImage;
     private static String binaryImage;
-    private static String percentage;
+    private static String percentage;*/
 
     private static String created_date;
     private static String success;
-    private static String userName;
 
-    private TextView type_textview;
-    private TextView percent_textview;
-    private TextView created_date_textview;
+    private TextView baldTypeView;
+    private TextView baldProgressView;
+    private TextView createDateView;
     private ImageView original_image;
     private ImageView binary_image;
+
+    private String firstImagePath;
+    private String changeImagePath;
+    private String myType;
+    private String percent;
+    private String userName;
+    private String createDate;
 
     Activity act = GalleryItemClickActivity.this;
 
     Bitmap testBitmap;
-
-//    private RecyclerView mRecyclerView;
-//    private HistoryAdapter mAdapter;
-
-    public JSONObject json_object;
 
     String authKey;
     DataStore dataStore;
@@ -69,9 +70,9 @@ public class GalleryItemClickActivity extends Activity {
 
         setContentView(R.layout.activity_gallery_item_click);
 
-        type_textview = (TextView) findViewById(R.id.item_click_type);
-        percent_textview = (TextView) findViewById(R.id.item_click_percent);
-        created_date_textview = (TextView) findViewById(R.id.item_click_created_data);
+        baldTypeView = (TextView) findViewById(R.id.baldTypeView);
+        baldProgressView = (TextView) findViewById(R.id.baldProgressView);
+        createDateView = (TextView) findViewById(R.id.createDateView);
 
         original_image = (ImageView) findViewById(R.id.original_image);
         binary_image = (ImageView) findViewById(R.id.binary_image);
@@ -118,7 +119,7 @@ public class GalleryItemClickActivity extends Activity {
             try {
                 // Enter URL address where your php file resides
                 Log.d("HistoryClickLog", "HistoryClickLog 0-0: " + IP_ADDRESS + "/");
-                url = new URL(IP_ADDRESS);
+                url = new URL(IP_ADDRESS+"/");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -162,7 +163,7 @@ public class GalleryItemClickActivity extends Activity {
                 //Data를 받음
                 int response_code = conn.getResponseCode();
 
-                Log.d("HistoryClickLog", "HistoryClickLog 2-0: " + conn.getResponseCode());
+                Log.d("HistoryClickLog", "HistoryClickLog 2-0 : " + conn.getResponseCode());
                 // Check if successful connection made
 
                 if (response_code == HttpURLConnection.HTTP_OK) {
@@ -178,38 +179,43 @@ public class GalleryItemClickActivity extends Activity {
                     }
 
                     String value = result.toString();
-                    JSONObject jo = new JSONObject(value);
-                    String test = jo.getString("value").toString();
+                    Log.d("HistoryClickLog", "HistoryClickLog 2-0: " + value);
+                    JSONObject serverJsonObject = new JSONObject(value);
+                    JSONObject subJsonObject = new JSONObject(String.valueOf(serverJsonObject.get("value")));
+                    Log.d("HistoryClickLog", "HistoryClickLog 2-1: " + subJsonObject);
+                    firstImagePath = subJsonObject.getString("origin_image_name").toString();
+                    changeImagePath = subJsonObject.getString("change_image_name").toString();
+                    myType = subJsonObject.getString("type").toString();
+                    percent = subJsonObject.getString("percentage").toString();
+                    userName = subJsonObject.getString("user").toString();
+                    createDate = subJsonObject.getString("created_date").toString();
 
-                    json_object = new JSONObject(test);
+                    Log.d("HistoryClickLog", "HistoryClickLog 2-1: " + firstImagePath);
+                    Log.d("HistoryClickLog", "HistoryClickLog 2-2: " + changeImagePath);
+                    Log.d("HistoryClickLog", "HistoryClickLog 2-3: " + myType);
+                    Log.d("HistoryClickLog", "HistoryClickLog 2-4: " + percent);
+                    Log.d("HistoryClickLog", "HistoryClickLog 2-5: " + userName);
 
-                    type = json_object.getString("type");
-                    created_date = json_object.getString("created_date");
-
-                    if(type.equals("0")) {
-                        type = "정상인형";
-                    } else  if(type.equals("1")) {
-                        type = "앞머리형";
-                    } else  if(type.equals("2")) {
-                        type = "뒷머리형";
-                    } else  if(type.equals("3")) {
-                        type = "가르마형";
-                    } else  if(type.equals("4")) {
-                        type = "비정상형";
+                    if(myType.equals("0")) {
+                        myType = "Normal";
+                    } else  if(myType.equals("1")) {
+                        myType = "Forward";
+                    } else  if(myType.equals("2")) {
+                        myType = "Backward";
+                    } else  if(myType.equals("3")) {
+                        myType = "Karma";
+                    } else  if(myType.equals("4")) {
+                        myType = "Bald";
                     }
 
-                    String buf[] = created_date.split("-");
+                    String buf[] = createDate.split("-");
                     String temp = buf[0]+"."+buf[1]+"."+buf[2];
-                    created_date = temp.substring(0, 10);
-
-                    originImage = json_object.getString("origin_image_name");
-                    binaryImage = json_object.getString("change_image_name");
-                    percentage = json_object.getString("percentage");
-                    userName = json_object.getString("user");
+                    createDate = temp.substring(0, 10);
 
 
-                    displayOriginalImageView(originImage);
-                    displayBinaryImageView(binaryImage);
+
+                    displayOriginalImageView(firstImagePath);
+                    displayBinaryImageView(changeImagePath);
 
 
                     return (result.toString());
@@ -233,9 +239,10 @@ public class GalleryItemClickActivity extends Activity {
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
 
-            type_textview.setText(type);
-            percent_textview.setText(type);
-            created_date_textview.setText(created_date);
+            createDateView.setText(createDate);
+            baldTypeView.setText(myType);
+            baldProgressView.setText(percent + "%");
+
         }
     }
 
@@ -295,7 +302,6 @@ public class GalleryItemClickActivity extends Activity {
 
 
                 if (response_code == HttpURLConnection.HTTP_NO_CONTENT) { //204리퀘스트 받음
-
                     return ("successful");
                 } else {
                     return ("unsuccessful");

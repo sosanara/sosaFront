@@ -315,23 +315,23 @@ public class SendImageActivity extends Activity {
             int typeNumber = Integer.parseInt(resultType);
             switch(typeNumber) {
                 case 0 :
-                    baldTypeView.setText("정상");
+                    baldTypeView.setText("Normal");
                     break;
 
                 case 1 :
-                    baldTypeView.setText("앞부분");
+                    baldTypeView.setText("Forward");
                     break;
 
                 case 2 :
-                    baldTypeView.setText("뒷부분");
+                    baldTypeView.setText("Backward");
                     break;
 
                 case 3 :
-                    baldTypeView.setText("가르마");
+                    baldTypeView.setText("Karma");
                     break;
 
                 case 4:
-                    baldTypeView.setText("완전탈모");
+                    baldTypeView.setText("Bald");
                     break;
 
                 default:

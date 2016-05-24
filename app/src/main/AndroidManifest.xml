@@ -92,6 +92,10 @@
         <activity android:name=".GalleryPackage.GalleryActivity" />
         <activity android:name=".GalleryPackage.GalleryNextPagePackage.GalleryItemClickActivity" />
         <activity android:name=".HistoryPackage.HistoryResultActivity" />
+        <activity
+            android:name=".DialogPackage.TypeDialog"
+            android:label="@string/title_activity_type_dialog"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

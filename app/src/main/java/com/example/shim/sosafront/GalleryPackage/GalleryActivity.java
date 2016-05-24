@@ -34,9 +34,9 @@ public class GalleryActivity extends Activity {
     public static final int READ_TIMEOUT = 15000;
 
     final private ArrayList<String> Index = new ArrayList<String>();
-    final private ArrayList<String> historyIndex = new ArrayList<String>();
-    final private ArrayList<String> historyImage = new ArrayList<String>();
-    final private ArrayList<String> historyCreateDate = new ArrayList<String>();
+    final private ArrayList<String> galleryIndex = new ArrayList<String>();
+    final private ArrayList<String> galleryImage = new ArrayList<String>();
+    final private ArrayList<String> galleryCreateDate = new ArrayList<String>();
 
     private RecyclerView list;
     private GalleryAdapter mAdapter;
@@ -54,13 +54,13 @@ public class GalleryActivity extends Activity {
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
 
-        new AsyncHistory().execute();
+        new AsyncGallery().execute();
     }
 
 
     public void onItemClick(int mPosition) {
-        String tempValues = historyIndex.get(mPosition);
-        String tempKeys = historyImage.get(mPosition);
+        String tempValues = galleryIndex.get(mPosition);
+        String tempKeys = galleryImage.get(mPosition);
 
         Intent goItemClickActivity = new Intent(this, GalleryItemClickActivity.class);
         goItemClickActivity.putExtra("url", tempKeys);
@@ -70,7 +70,7 @@ public class GalleryActivity extends Activity {
 
 
     //Server Connect class
-    private class AsyncHistory extends AsyncTask<String, String, String> {
+    private class AsyncGallery extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(GalleryActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -96,7 +96,7 @@ public class GalleryActivity extends Activity {
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                Log.d("HistoryActivity", "HistoryActivity Connection Test : 접근실패");
+                Log.d("GalleryLog", "GalleryLog Connection Test : 접근실패");
                 return "exception";
             }
 
@@ -156,21 +156,21 @@ public class GalleryActivity extends Activity {
 
                     while( keys.hasNext() ) {
                         String key = (String)keys.next();
-                        String historyAddressValue = IP_ADDRESS + "api/v1/userInfo/history/" + key;
+                        String galleryLogAddressValue = IP_ADDRESS + "api/v1/userInfo/gallery/" + key;
 
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-0 : " + key);
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-1 : " + historyAddressValue);
+                        Log.d("GalleryLog", "GalleryLog 2-0 : " + key);
+                        Log.d("GalleryLog", "GalleryLog 2-1 : " + galleryLogAddressValue);
 
                         JSONObject secondJsonObject = new JSONObject(String.valueOf(firstJsonObject.get(key)));
 
                         String pictureImagePath = IP_ADDRESS  + secondJsonObject.getString("origin_image").toString();
                         String createData = secondJsonObject.getString("created_data").toString();
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-2 image path : " + pictureImagePath);
+                        Log.d("GalleryLog", "GalleryLog 2-2 image path : " + pictureImagePath);
 
                         Index.add(key);
-                        historyIndex.add(pictureImagePath);
-                        historyImage.add(historyAddressValue);
-                        historyCreateDate.add(createData);
+                        galleryIndex.add(pictureImagePath);
+                        galleryImage.add(galleryLogAddressValue);
+                        galleryCreateDate.add(createData);
                     }
 
                     //Index -> historyIndex, historyIndex -> histroydetailPage 변수명 수정
@@ -185,29 +185,29 @@ public class GalleryActivity extends Activity {
                                 Index.set(i, (Index.get(j)));
                                 Index.set(j, ascendSortTemp);
 
-                                ascendSortTemp = historyIndex.get(i);
-                                historyIndex.set(i, (historyIndex.get(j)));
-                                historyIndex.set(j, ascendSortTemp);
+                                ascendSortTemp = galleryIndex.get(i);
+                                galleryIndex.set(i, (galleryIndex.get(j)));
+                                galleryIndex.set(j, ascendSortTemp);
 
-                                ascendSortTemp = historyImage.get(i);
-                                historyImage.set(i, (historyImage.get(j)));
-                                historyImage.set(j, ascendSortTemp);
+                                ascendSortTemp = galleryImage.get(i);
+                                galleryImage.set(i, (galleryImage.get(j)));
+                                galleryImage.set(j, ascendSortTemp);
 
-                                ascendSortTemp = historyCreateDate.get(i);
-                                historyCreateDate.set(i, (historyCreateDate.get(j)));
-                                historyCreateDate.set(j, ascendSortTemp);
+                                ascendSortTemp = galleryCreateDate.get(i);
+                                galleryCreateDate.set(i, (galleryCreateDate.get(j)));
+                                galleryCreateDate.set(j, ascendSortTemp);
 
                             }
                         }
                     }
                     Collections.reverse(Index);
-                    Collections.reverse(historyIndex);
-                    Collections.reverse(historyImage);
-                    Collections.reverse(historyCreateDate);
+                    Collections.reverse(galleryIndex);
+                    Collections.reverse(galleryImage);
+                    Collections.reverse(galleryCreateDate);
 
-                    for(int i = 0; i < historyIndex.size(); i++) {
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-5 : " + Index.get(i));
-                        Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 : " + historyIndex.get(i));
+                    for(int i = 0; i < galleryIndex.size(); i++) {
+                        Log.d("GalleryLog", "GalleryLog 2-5 : " + Index.get(i));
+                        Log.d("GalleryLog", "GalleryLog 2-6 : " + galleryIndex.get(i));
                        /* Log.d("HistoryActivityLog", "HistoryActivityLog 2-6 : " + historyImage.get(i));
                         Log.d("HistoryActivityLog", "HistoryActivityLog 2-7 : " + historyCreateDate.get(i));*/
                     }
@@ -236,12 +236,12 @@ public class GalleryActivity extends Activity {
 
             list = (RecyclerView) findViewById(R.id.list);
             ArrayList<String> changeDate = new ArrayList<String>();
-            for(int i=0 ; i < historyCreateDate.size() ; i++) {
-                String buf[] = historyCreateDate.get(i).split("-");
+            for(int i=0 ; i < galleryCreateDate.size() ; i++) {
+                String buf[] = galleryCreateDate.get(i).split("-");
                 String temp = buf[0]+"."+buf[1]+"."+buf[2];
                 changeDate.add(temp.substring(0,10));
             }
-            mAdapter = new GalleryAdapter(act, historyIndex, changeDate);
+            mAdapter = new GalleryAdapter(act, galleryIndex, changeDate);
             GridLayoutManager gManager = new GridLayoutManager(act, 3);
 
 

@@ -24,7 +24,7 @@
     </android.support.v7.widget.Toolbar>
 
     <TextView
-        android:id="@+id/item_click_created_data"
+        android:id="@+id/createDateView"
         android:gravity="center"
         android:textSize="18sp"
         android:layout_width="match_parent"
@@ -80,16 +80,15 @@
                     android:textSize="17sp"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="93.1dp"
-                    android:layout_marginRight="87.1dp"
                     android:text="유형"
                     android:textColor="#4d4d4d" />
 
                 <TextView
-                    android:layout_width="78.3dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:textSize="17sp"
                     android:gravity="center_vertical"
-                    android:layout_marginRight="70dp"
+                    android:layout_marginLeft="87.1dp"
                     android:text="탈모 진행률"
                     android:textColor="#4d4d4d" />
 
@@ -102,24 +101,19 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/item_click_type"
-                    android:layout_width="92dp"
+                    android:id="@+id/baldTypeView"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:gravity="center"
                     android:textSize="25sp"
-                    android:text="type"
                     android:layout_marginLeft="63dp"
-                    android:layout_marginRight="69.9dp"
                     android:textColor="#2eb74f" />
 
                 <TextView
-                    android:id="@+id/item_click_percent"
-                    android:layout_width="52dp"
+                    android:id="@+id/baldProgressView"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginRight="83.1dp"
-                    android:gravity="center"
+                    android:layout_marginLeft="69.9dp"
                     android:textSize="25sp"
-                    android:text="00%"
                     android:textColor="#2eb74f" />
             </LinearLayout>
         </LinearLayout>

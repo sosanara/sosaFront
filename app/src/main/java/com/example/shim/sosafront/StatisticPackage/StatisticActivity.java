@@ -8,12 +8,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.DialogPackage.TypeDialog;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -36,6 +38,7 @@ public class StatisticActivity extends AppCompatActivity {
 
     DataStore dataStore;
     String authKey;
+
 
     private ArrayList<String> typeIndex = new ArrayList<String>();
     private ArrayList<String> typePercentString = new ArrayList<String>();
@@ -63,6 +66,17 @@ public class StatisticActivity extends AppCompatActivity {
     private TextView ageFiveView;
     private TextView ageSixView;
 
+    private LinearLayout typeLayoutOne;
+
+    private LinearLayout ageLayoutOne;
+    private LinearLayout ageLayoutTwo;
+    private LinearLayout ageLayoutThree;
+    private LinearLayout ageLayoutFour;
+    private LinearLayout ageLayoutFive;
+    private LinearLayout ageLayoutSix;
+
+    TypeDialog typeDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +97,15 @@ public class StatisticActivity extends AppCompatActivity {
         ageFourView = (TextView) findViewById(R.id.ageFourView);
         ageFiveView = (TextView) findViewById(R.id.ageFiveView);
         ageSixView= (TextView) findViewById(R.id.ageSixView);
+
+        ageLayoutOne = (LinearLayout) findViewById(R.id.ageLayoutOne);
+        ageLayoutTwo = (LinearLayout) findViewById(R.id.ageLayoutTwo);
+        ageLayoutThree = (LinearLayout) findViewById(R.id.ageLayoutThree);
+        ageLayoutFour = (LinearLayout) findViewById(R.id.ageLayoutFour);
+        ageLayoutFive = (LinearLayout) findViewById(R.id.ageLayoutFive);
+        ageLayoutSix = (LinearLayout) findViewById(R.id.ageLayoutSix);
+
+        typeLayoutOne = (LinearLayout) findViewById(R.id.typeLayoutOne);
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
@@ -135,6 +158,19 @@ public class StatisticActivity extends AppCompatActivity {
         Log.d("StatisticLog", "StatisticLog 2-1 : " + typePercentOne);*/
 
         new AsyncStatistic().execute();
+        typeDialog = new TypeDialog(this);
+
+        ageLayoutOne.setOnTouchListener(typeTouch);
+        typeLayoutOne.setOnTouchListener(typeTouch);
+
+        /*ageLayoutOne.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                typeDialog.show();
+                return false;
+            }
+        });*/
     }
 
 
@@ -292,4 +328,16 @@ public class StatisticActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+   private View.OnTouchListener typeTouch = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            typeDialog.show();
+
+            return false;
+        }
+
+    };
 }
