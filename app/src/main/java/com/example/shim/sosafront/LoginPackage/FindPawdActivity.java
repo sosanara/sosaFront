@@ -34,6 +34,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class FindPawdActivity extends AppCompatActivity {
 
     private LinearLayout networkCheckLayout;
@@ -64,6 +66,11 @@ public class FindPawdActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     public void networkCheck(View v) {
 
         switch (v.getId()) {
@@ -86,6 +93,8 @@ public class FindPawdActivity extends AppCompatActivity {
 
     }
 
+
+
     private class AsyncChangePawd extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(FindPawdActivity.this);
@@ -102,9 +111,9 @@ public class FindPawdActivity extends AppCompatActivity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 

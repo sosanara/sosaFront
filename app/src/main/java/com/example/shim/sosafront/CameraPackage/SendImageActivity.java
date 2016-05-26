@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
@@ -40,6 +39,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class SendImageActivity extends Activity {
@@ -90,6 +92,13 @@ public class SendImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_image);
 
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
         captureImage  = getIntent().getExtras().getString("captureImage");
         Log.d("SendImageActivityLog", "SendImageActivityLog0-0 : " + captureImage);
         uploadFileName = captureImage;
@@ -113,6 +122,12 @@ public class SendImageActivity extends Activity {
         }
 
 
+    }
+
+    //글씨체 통일
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void networkCheck(View v) {
@@ -169,9 +184,9 @@ public class SendImageActivity extends Activity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 

@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.MainPackage.MainActivity;
@@ -54,6 +53,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class HistoryActivity extends AppCompatActivity implements OnChartGestureListener, OnChartValueSelectedListener {
 
     private LinearLayout networkCheckLayout;
@@ -83,9 +85,18 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_history);
 
+
+
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
 
         Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
         Drawable resizeHome = resize(home);
@@ -229,6 +240,11 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
         // mChart.invalidate();
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     public void networkCheck(View v) {
 
         switch (v.getId()) {
@@ -255,9 +271,9 @@ public class HistoryActivity extends AppCompatActivity implements OnChartGesture
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 

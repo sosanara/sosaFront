@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
@@ -38,6 +37,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class GalleryItemClickActivity extends AppCompatActivity {
 
@@ -84,6 +86,13 @@ public class GalleryItemClickActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
         Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
         Drawable resizeHome = resize(home);
         toolbar.setNavigationIcon(resizeHome);
@@ -113,6 +122,11 @@ public class GalleryItemClickActivity extends AppCompatActivity {
         IP_ADDRESS = intent.getStringExtra("url");
 
         new AsyncItemClick().execute();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void networkCheck(View v) {
@@ -152,9 +166,9 @@ public class GalleryItemClickActivity extends AppCompatActivity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 

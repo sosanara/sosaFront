@@ -31,6 +31,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class ResetPawdActivity extends Activity {
 
@@ -55,6 +58,13 @@ public class ResetPawdActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_pawd);
 
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         resetPawd1View = (EditText) findViewById(R.id.resetPawd1View);
         resetPawd2View = (EditText) findViewById(R.id.resetPawd2View);
@@ -64,6 +74,11 @@ public class ResetPawdActivity extends Activity {
         /*resetPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
         resetPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);*/
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void networkCheck(View v) {
@@ -105,9 +120,9 @@ public class ResetPawdActivity extends Activity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 

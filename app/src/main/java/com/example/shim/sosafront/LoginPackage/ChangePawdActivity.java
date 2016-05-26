@@ -33,6 +33,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class ChangePawdActivity extends Activity {
 
@@ -60,6 +63,13 @@ public class ChangePawdActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pawd);
 
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         oldPawdView = (EditText) findViewById(R.id.oldPawdView);
         changePawd1View = (EditText) findViewById(R.id.changePawd1View);
@@ -83,6 +93,11 @@ public class ChangePawdActivity extends Activity {
                 startActivity(getIntent());
                 break;
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     // Triggers when changePawd Button clicked
@@ -113,9 +128,9 @@ public class ChangePawdActivity extends Activity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 

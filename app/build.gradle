@@ -48,9 +48,10 @@ dependencies {
     compile project(':library')
 
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'  //차트
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'  //뷰 페이저
     compile 'com.jakewharton:butterknife:7.0.1'
     compile ('com.github.ganfra:material-spinner:1.1.1') //스피너
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0' //폰트 일괄적용
 }
 
 

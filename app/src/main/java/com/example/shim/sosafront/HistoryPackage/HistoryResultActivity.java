@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.MainPackage.MainActivity;
@@ -36,6 +35,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HistoryResultActivity extends AppCompatActivity {
 
@@ -64,7 +66,6 @@ public class HistoryResultActivity extends AppCompatActivity {
     private String authKey;
     private DataStore dataStore;
 
-
     private String firstImagePath;
     private String beforeImagePath;
     private String currentImagePath;
@@ -83,6 +84,13 @@ public class HistoryResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_result);
+
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
 
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         firstPercentView = (TextView) findViewById(R.id.firstPercentView);
@@ -108,14 +116,7 @@ public class HistoryResultActivity extends AppCompatActivity {
         authKey = dataStore.getValue("key", "");
 
 
-        currentPercentView.invalidate();
-        currentCreateDateView.invalidate();
-        comparePercentLayout.invalidate();
-        compareCreateDateLayout.invalidate();
-        firstPercentView.invalidate();
-        beforePercentView.invalidate();
-        firstCreateDateView.invalidate();
-        beforeCreateDateView.invalidate();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
@@ -131,6 +132,11 @@ public class HistoryResultActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void networkCheck(View v) {
@@ -159,9 +165,9 @@ public class HistoryResultActivity extends AppCompatActivity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 
@@ -381,14 +387,7 @@ public class HistoryResultActivity extends AppCompatActivity {
 
             pdLoading.dismiss();
 
-            currentPercentView.invalidate();
-            currentCreateDateView.invalidate();
-            comparePercentLayout.invalidate();
-            compareCreateDateLayout.invalidate();
-            firstPercentView.invalidate();
-            beforePercentView.invalidate();
-            firstCreateDateView.invalidate();
-            beforeCreateDateView.invalidate();
+
 
         }
 

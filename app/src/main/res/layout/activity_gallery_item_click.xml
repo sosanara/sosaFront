@@ -127,7 +127,16 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
+
+            <ImageButton
+                android:id="@+id/delete_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:onClick="delete_image"
+                android:src="@drawable/btn_delete"
+                android:layout_marginTop="95.8dp"/>
+            <!--<Button
                 android:id="@+id/delete_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="95.8dp"
@@ -139,7 +148,7 @@
                 android:onClick="delete_image"
                 android:text="삭제"
 
-                />
+                />-->
         </LinearLayout>
 
 

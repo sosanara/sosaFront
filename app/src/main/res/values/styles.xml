@@ -7,7 +7,28 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/textViewColor</item>
         <item name="android:windowBackground">@color/myWindowBackground</item>
+        <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
+        <item name="android:editTextStyle">@style/AppTheme.Widget.EditText</item>
+        <item name="android:buttonStyle">@style/AppTheme.Widget.Button</item>
+        <item name="toolbarStyle">@style/AppTheme.Widget.Toolbar</item>
     </style>
+
+    <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">fonts/NotoSansKR-Medium.ttf</item>e
+    </style>
+
+    <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">
+        <item name="fontPath">fonts/NotoSansKR-Medium.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.Button" parent="android:Widget.Holo.Light.Button">
+        <item name="fontPath">fonts/NotoSansKR-Bold.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.Toolbar" parent="ToolBarStyle">
+        <item name="fontPath">fonts/NotoSansKR-Medium.ttf</item>
+    </style>
+
 
     <style name="homeActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -53,5 +74,13 @@
         <item name="android:elevation">@dimen/toolbar_elevation</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+
+    <style name="TextAppearance.FontPath" parent="android:TextAppearance">
+        <!-- Custom Attr-->
+
+        <item name="fontPath">fonts/NotoSans-Italic.ttf</item>
+
     </style>
 </resources>

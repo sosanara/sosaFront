@@ -98,10 +98,11 @@
             <TextView
                 android:id="@+id/baldTypeView"
                 android:textColor="@color/colorPrimary"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:layout_marginLeft="83dp"
+                android:text="-------------"
+                android:gravity="center"
                 android:textSize="25sp" />
 
             <!--android:layout_width="92dp"
@@ -111,9 +112,10 @@
                 android:id="@+id/baldProgress"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginTop="12dp"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="105dp"
+                android:gravity="center"
+                android:text="------------"
                 android:textSize="25sp" />
 
             <!--android:layout_width="78.3dp"

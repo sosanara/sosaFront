@@ -2,14 +2,10 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -39,30 +35,15 @@ public class LogoutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logout);
+        /*setContentView(R.layout.activity_logout);*/
 
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
-    }
 
-    public void networkCheck(View v) {
-
-        switch (v.getId()) {
-            case R.id.networkCheckBtn:
-                finish();
-                startActivity(getIntent());
-                break;
-        }
-    }
-
-    // Triggers when LOGIN Button clicked
-    public void logOut(View arg0) {
-
-        // Initialize  AsyncLogin() class with email and password
         new AsyncLogout().execute();
-
     }
+
 
     private class AsyncLogout extends AsyncTask<String, String, String>
     {
@@ -74,17 +55,6 @@ public class LogoutActivity extends Activity {
         protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
             super.onPreExecute();
 
-            ConnectivityManager manager =
-                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-            if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
-                networkCheckLayout.setVisibility(View.VISIBLE);
-            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");

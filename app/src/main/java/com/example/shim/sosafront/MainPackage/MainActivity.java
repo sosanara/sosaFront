@@ -23,8 +23,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
@@ -33,6 +33,7 @@ import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
 import com.example.shim.sosafront.R;
 import com.example.shim.sosafront.StatisticPackage.StatisticActivity;
 import com.example.shim.sosafront.TutorialPackage.TutorialActivity;
+import com.example.shim.sosafront.UserInfoPackage.UserInfoActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +46,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout networkCheckLayout;
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton galleryBtn;
     ImageButton historyBtn;
     ImageButton statisticsBtn;
+
+    ImageView userInfoView;
 
     String name;
     String tutorial;
@@ -70,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
         Window window = this.getWindow();
 // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -77,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 // finally change the color
         window.setStatusBarColor(this.getResources().getColor(R.color.subTextColor));
+
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
@@ -86,14 +106,27 @@ public class MainActivity extends AppCompatActivity {
         galleryBtn = (ImageButton) findViewById(R.id.galleryBtn);
         historyBtn = (ImageButton) findViewById(R.id.historyBtn);
         statisticsBtn = (ImageButton) findViewById(R.id.statisticsBtn);
+        userInfoView = (ImageView) findViewById(R.id.userInfoView);
 
         takePictureBtn.setOnClickListener(menuClick);
         galleryBtn.setOnClickListener(menuClick);
         historyBtn.setOnClickListener(menuClick);
         statisticsBtn.setOnClickListener(menuClick);
+        userInfoView.setOnClickListener(menuClick);
 
         new AsyncMain().execute();
 
+    }
+
+
+
+
+
+
+    //글씨체 통일
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private class AsyncMain extends AsyncTask<String, String, String>
@@ -112,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 
@@ -231,15 +264,14 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (result.equals("successful")) {
-                if(tutorial.equals("true")) {
-                    Log.d("MainLog", "MainLog 3-2 : " + "들어와지나?");
+                if(tutorial.equals("false")) {
                     Intent intentToTutorial = new Intent(MainActivity.this, TutorialActivity.class);
                     intentToTutorial.putExtra("TrueFalse", true);
                     startActivity(intentToTutorial);
                 }
 
             } else {
-                Toast.makeText(getApplicationContext(), "사용자 인증 실패", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "사용자 인증 실패", Toast.LENGTH_SHORT).show();*/
             }
         }
 
@@ -252,6 +284,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent;
 
             switch(v.getId()) {
+                case R.id.userInfoView:
+                    intent = new Intent(MainActivity.this, UserInfoActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+
                 case R.id.takePictureBtn:
                     intent = new Intent(MainActivity.this, CameraActivity.class);
                     startActivity(intent);

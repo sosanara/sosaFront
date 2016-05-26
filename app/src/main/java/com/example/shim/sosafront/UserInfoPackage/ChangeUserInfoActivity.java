@@ -41,6 +41,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class ChangeUserInfoActivity extends Activity {
 
@@ -82,7 +85,13 @@ public class ChangeUserInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_user_info);
 
-        // Get Reference to variablesT
+
+        //글씨체 통일
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
 
         userName = getIntent().getExtras().getString("userName");
 
@@ -106,6 +115,12 @@ public class ChangeUserInfoActivity extends Activity {
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
         initAgeListSpinner();
+    }
+
+    //글씨체 통일
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     // Triggers when changePawd Button clicked
@@ -304,14 +319,14 @@ public class ChangeUserInfoActivity extends Activity {
             pdLoading.dismiss();
 
             if(result.equals("successful")) {
-                Toast.makeText(getApplicationContext(), "내정보 수정 성공", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "내정보 수정 성공", Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(ChangeUserInfoActivity.this, LoginActivity.class);
                 startActivity(intent);
                 ChangeUserInfoActivity.this.finish();
             }
 
             else {
-                Toast.makeText(getApplicationContext(), "내정보 수정 실패", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "내정보 수정 실패", Toast.LENGTH_SHORT).show();*/
             }
 
         }

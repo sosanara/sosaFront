@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
 
@@ -41,6 +40,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import fr.ganfra.materialspinner.MaterialSpinner;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -96,6 +97,13 @@ public class SignUpActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
+        //글씨체 통일
+       CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                       .setDefaultFontPath("")
+                       .setFontAttrId(R.attr.fontPath)
+                       .build()
+       );
+
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         signUpUserNameView = (EditText) findViewById(R.id.signUpUserNameView);
         signUpEmailView = (EditText) findViewById(R.id.signUpEmailView);
@@ -125,6 +133,14 @@ public class SignUpActivity extends AppCompatActivity {
         initAgeListSpinner();
 
     }
+
+    //글씨체 통일
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+
 
     public void startSignup(View arg0) {
 
@@ -167,9 +183,9 @@ public class SignUpActivity extends AppCompatActivity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 
@@ -338,14 +354,14 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             if(result.equals("successful")) {
-                Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
                 SignUpActivity.this.finish();
             }
 
             else {
-                Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();*/
             }
 
             //예외 처리 부분----------------------------------------------------------------------------------------
