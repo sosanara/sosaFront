@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#EFF4F5"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="254dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="254dp"
+            android:layout_height="305dp"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/popupClear"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/popup_clear"
+                android:layout_marginLeft="221.3dp"
+                android:layout_marginTop="10.3dp" />
+
+            <ImageView
+                android:layout_width="198.5dp"
+                android:layout_height="255dp"
+                android:layout_gravity="center"
+                android:background="@drawable/statistic_karma"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="57.5dp"
+            android:layout_marginTop="10dp"
+            android:text="Karma 타입 평균 두발상태"
+            android:textColor="#ffffff"
+            android:textSize="17sp"
+            android:background="#2eb74f"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+

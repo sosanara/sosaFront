@@ -18,7 +18,6 @@ public class TypeDialog extends Dialog implements View.OnClickListener {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.content_type_dialog);
-
         popupClear = (ImageButton) findViewById(R.id.popupClear);
         popupClear.setOnClickListener(this);
 

@@ -120,6 +120,8 @@ android:id="@+id/wholeLayout">
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="다시 시도하기"
+                android:textColor="@color/whiteColor"
+                android:background="@drawable/btn_border_black"
                 android:id="@+id/networkCheckBtn"
                 android:onClick="networkCheck"
                 />

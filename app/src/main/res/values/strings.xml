@@ -46,8 +46,8 @@
     <string name="toolbar_logout">로그아웃</string>
     <string name="toolbar_change_pawd">비밀번호 변경</string>
     <string name="toolbar_find_pawd">비밀번호 찾기</string>
-    <string name="toolbar_user_info">사용자 정보</string>
-    <string name="toolbar_user_info_change">사용자 정보수정</string>
+    <string name="toolbar_user_info">내정보</string>
+    <string name="toolbar_user_info_change">내정보 수정</string>
     <string name="toolbar_picture_confirm">사진확인</string>
     <string name="toolbar_result">결과</string>
     <string name="toolbar_history">히스토리</string>
@@ -72,7 +72,7 @@
     <string name="new_pawd">새 비밀번호</string>
     <string name="new_pawd_confirm">새 비밀번호 확인</string>
     <string name="old_pawd">현재 비밀번호</string>
-    <string name="change_info">개인정보 수정</string>
+    <string name="change_info">내정보 수정</string>
 
     <string name="sign_up_complete">회원가입 완료</string>
     <string name="uid">UID</string>

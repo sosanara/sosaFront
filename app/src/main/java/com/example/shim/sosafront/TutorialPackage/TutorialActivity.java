@@ -1,13 +1,17 @@
 package com.example.shim.sosafront.TutorialPackage;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
@@ -22,8 +26,13 @@ public class TutorialActivity extends Activity implements GestureDetector.OnGest
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
+    private ImageView clearOneView;
+    private ImageView clearTwoView;
+    private ImageView clearThreeView;
+
     boolean tf;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +54,21 @@ public class TutorialActivity extends Activity implements GestureDetector.OnGest
         Intent intent = getIntent();
         tf = intent.getExtras().getBoolean("TrueFalse");
 
+        clearOneView = (ImageView) findViewById(R.id.clearOneView);
+        clearTwoView = (ImageView) findViewById(R.id.clearTwoView);
+        clearThreeView = (ImageView) findViewById(R.id.clearThreeView);
+
         if (!tf) {
             Intent intentToMain = new Intent(this, MainActivity.class);
             finish();
             startActivity(intentToMain);
         }
 
+
+
+        clearOneView.setOnTouchListener(exitTutorial);
+        clearTwoView.setOnTouchListener(exitTutorial);
+        clearThreeView.setOnTouchListener(exitTutorial);
     }
 
     @Override
@@ -66,11 +84,11 @@ public class TutorialActivity extends Activity implements GestureDetector.OnGest
         try {
             if (e1.getX() > e2.getX() && Math.abs(e1.getX() - e2.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 
-                if (vf.getDisplayedChild()!=2)
+                if (vf.getDisplayedChild() != 2)
                     vf.showNext();
             } else if (e1.getX() < e2.getX() && e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 
-                if (vf.getDisplayedChild()!=0)
+                if (vf.getDisplayedChild() != 0)
                     vf.showPrevious();
             }
         } catch (Exception e) {
@@ -102,6 +120,28 @@ public class TutorialActivity extends Activity implements GestureDetector.OnGest
                 break;
         }
     }*/
-}
 
+    private View.OnTouchListener exitTutorial = new View.OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch(v.getId()) {
+                case R.id.clearOneView:
+                    finish();
+                    break;
+
+                case R.id.clearTwoView:
+                    finish();
+                    break;
+
+                case R.id.clearThreeView:
+                    finish();
+                    break;
+            }
+
+            return false;
+
+        }
+    };
+}
 

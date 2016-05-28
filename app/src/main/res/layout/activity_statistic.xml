@@ -60,13 +60,13 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/typeLayoutOne"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
             <LinearLayout
+                android:id="@+id/typeLayoutOne"
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="31.8dp"
@@ -112,6 +112,7 @@
             android:layout_marginTop="5dp">
 
             <LinearLayout
+                android:id="@+id/typeLayoutThree"
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="31.8dp"
@@ -130,6 +131,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/typeLayoutFour"
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="10dp"
@@ -156,6 +158,7 @@
             android:layout_marginTop="5dp">
 
             <LinearLayout
+                android:id="@+id/typeLayoutFive"
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="31.8dp"
@@ -248,13 +251,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ageLayoutTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
             <LinearLayout
+                android:id="@+id/ageLayoutTwo"
                 android:layout_width="143.3dp"
                 android:layout_height="30.8dp"
                 android:layout_marginLeft="31.8dp"

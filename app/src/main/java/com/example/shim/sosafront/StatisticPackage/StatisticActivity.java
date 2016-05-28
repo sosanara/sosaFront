@@ -22,7 +22,18 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.DialogPackage.AgeFiveDialog;
+import com.example.shim.sosafront.DialogPackage.AgeFourDialog;
+import com.example.shim.sosafront.DialogPackage.AgeOneDialog;
+import com.example.shim.sosafront.DialogPackage.AgeSixDialog;
+import com.example.shim.sosafront.DialogPackage.AgeThreeDialog;
+import com.example.shim.sosafront.DialogPackage.AgeTwoDialog;
 import com.example.shim.sosafront.DialogPackage.TypeDialog;
+import com.example.shim.sosafront.DialogPackage.TypeFiveDialog;
+import com.example.shim.sosafront.DialogPackage.TypeFourDialog;
+import com.example.shim.sosafront.DialogPackage.TypeOneDialog;
+import com.example.shim.sosafront.DialogPackage.TypeThreeDialog;
+import com.example.shim.sosafront.DialogPackage.TypeTwoDialog;
 import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 
@@ -79,6 +90,11 @@ public class StatisticActivity extends AppCompatActivity {
     private TextView ageSixView;
 
     private LinearLayout typeLayoutOne;
+    private LinearLayout typeLayoutTwo;
+    private LinearLayout typeLayoutThree;
+    private LinearLayout typeLayoutFour;
+    private LinearLayout typeLayoutFive;
+
 
     private LinearLayout ageLayoutOne;
     private LinearLayout ageLayoutTwo;
@@ -88,6 +104,21 @@ public class StatisticActivity extends AppCompatActivity {
     private LinearLayout ageLayoutSix;
 
     TypeDialog typeDialog;
+    TypeOneDialog typeOneDialog;
+    TypeTwoDialog typeTwoDialog;
+    TypeThreeDialog typeThreeDialog;
+    TypeFourDialog typeFourDialog;
+    TypeFiveDialog typeFiveDialog;
+
+    AgeOneDialog ageOneDialog;
+    AgeTwoDialog ageTwoDialog;
+    AgeThreeDialog ageThreeDialog;
+    AgeFourDialog ageFourDialog;
+    AgeFiveDialog ageFiveDialog;
+    AgeSixDialog ageSixDialog;
+
+
+    /*AgeDialg ageDialog;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +158,10 @@ public class StatisticActivity extends AppCompatActivity {
         ageLayoutSix = (LinearLayout) findViewById(R.id.ageLayoutSix);
 
         typeLayoutOne = (LinearLayout) findViewById(R.id.typeLayoutOne);
+        typeLayoutTwo = (LinearLayout) findViewById(R.id.typeLayoutTwo);
+        typeLayoutThree = (LinearLayout) findViewById(R.id.typeLayoutThree);
+        typeLayoutFour = (LinearLayout) findViewById(R.id.typeLayoutFour);
+        typeLayoutFive = (LinearLayout) findViewById(R.id.typeLayoutFive);
 
 
         dataStore = new DataStore(this);
@@ -195,9 +230,32 @@ public class StatisticActivity extends AppCompatActivity {
 
         new AsyncStatistic().execute();
         typeDialog = new TypeDialog(this);
+        typeOneDialog = new TypeOneDialog(this);
+        typeTwoDialog = new TypeTwoDialog(this);
+        typeThreeDialog = new TypeThreeDialog(this);
+        typeFourDialog = new TypeFourDialog(this);
+        typeFiveDialog = new TypeFiveDialog(this);
+
+        ageOneDialog = new AgeOneDialog(this);
+        ageTwoDialog = new AgeTwoDialog(this);
+        ageThreeDialog = new AgeThreeDialog(this);
+        ageFourDialog = new AgeFourDialog(this);
+        ageFiveDialog = new AgeFiveDialog(this);
+        ageSixDialog = new AgeSixDialog(this);
+
+        typeLayoutOne.setOnTouchListener(typeTouch);
+        typeLayoutTwo.setOnTouchListener(typeTouch);
+        typeLayoutThree.setOnTouchListener(typeTouch);
+        typeLayoutFour.setOnTouchListener(typeTouch);
+        typeLayoutFive.setOnTouchListener(typeTouch);
 
         ageLayoutOne.setOnTouchListener(typeTouch);
-        typeLayoutOne.setOnTouchListener(typeTouch);
+        ageLayoutTwo.setOnTouchListener(typeTouch);
+        ageLayoutThree.setOnTouchListener(typeTouch);
+        ageLayoutFour.setOnTouchListener(typeTouch);
+        ageLayoutFive.setOnTouchListener(typeTouch);
+        ageLayoutSix.setOnTouchListener(typeTouch);
+        /*typeLayoutOne.setOnTouchListener(typeTouch);*/
 
         /*ageLayoutOne.setOnTouchListener(new View.OnTouchListener() {
 
@@ -388,7 +446,47 @@ public class StatisticActivity extends AppCompatActivity {
    private View.OnTouchListener typeTouch = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            typeDialog.show();
+
+            switch(v.getId()) {
+                case R.id.typeLayoutOne:
+                    typeOneDialog.show();
+                    break;
+                case R.id.typeLayoutTwo:
+                    typeTwoDialog.show();
+                    break;
+                case R.id.typeLayoutThree:
+                    typeThreeDialog.show();
+                    break;
+                case R.id.typeLayoutFour:
+                    typeFourDialog.show();
+                    break;
+                case R.id.typeLayoutFive:
+                    typeFiveDialog.show();
+                    break;
+
+                case R.id.ageLayoutOne:
+                    ageOneDialog.show();
+                    break;
+                case R.id.ageLayoutTwo:
+                    ageTwoDialog.show();
+                    break;
+                case R.id.ageLayoutThree:
+                    ageThreeDialog.show();
+                    break;
+                case R.id.ageLayoutFour:
+                    ageFourDialog.show();
+                    break;
+                case R.id.ageLayoutFive:
+                    ageFiveDialog.show();
+                    break;
+
+                case R.id.ageLayoutSix:
+                    ageSixDialog.show();
+                    break;
+
+                /*typeDialog.show();*/
+            }
+
 
             return false;
         }

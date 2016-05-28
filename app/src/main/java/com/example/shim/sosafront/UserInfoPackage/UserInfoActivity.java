@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -117,6 +118,16 @@ public class UserInfoActivity extends Activity {
                 UserInfoActivity.this.finish();
             }
         });
+    }
+
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
     }
 
     //글씨체 통일
@@ -247,11 +258,17 @@ public class UserInfoActivity extends Activity {
             userInfoAgeView.setText(userInfoAge);
             userInfoNameView.setText(userInfoName);
 
-            if(userInfoGender.contains("Man"))
-                userInfoGenderView.setText("남성");
+            if(TextUtils.isEmpty(userInfoGender)) {
 
-            else
-                userInfoGenderView.setText("여성");
+            } else {
+                if (userInfoGender.contains("Man"))
+                    userInfoGenderView.setText("남성");
+
+                else
+                    userInfoGenderView.setText("여성");
+            }
+
+
 
              //this method will be running on UI thread
 

@@ -9,5 +9,5 @@
 
 
     <!--delete toolbar shadow-->
-    <dimen name="toolbar_elevation">0dp</dimen>
+    <!--<dimen name="toolbar_elevation">0dp</dimen>-->
 </resources>

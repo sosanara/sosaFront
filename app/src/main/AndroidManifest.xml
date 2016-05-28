@@ -102,11 +102,6 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".HistoryPackage.HistoryResultActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".DialogPackage.TypeDialog"
-            android:label="@string/title_activity_type_dialog"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
         <activity android:name=".TutorialPackage.TutorialActivity"
             android:screenOrientation="portrait"/>
     </application>

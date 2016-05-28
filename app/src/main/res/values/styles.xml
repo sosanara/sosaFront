@@ -19,7 +19,7 @@
 
     <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">
         <item name="fontPath">fonts/NotoSansKR-Medium.otf</item>
-        <item name="android:height">50sp</item>
+        <!--<item name="android:height">50sp</item>-->
 
     </style>
 
@@ -77,7 +77,7 @@
 
 
     <style name="ToolBarStyle" parent="">
-        <item name="android:elevation">@dimen/toolbar_elevation</item>
+        <!--<item name="android:elevation">@dimen/toolbar_elevation</item>-->
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>

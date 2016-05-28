@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class StatisticFragmentPagerAdapter extends FragmentStatePagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "유형별", "나이별"};
+    private String tabTitles[] = new String[] { "타입별", "연령별"};
     private ArrayList<TypeUserFragment> mFragments;
 
 

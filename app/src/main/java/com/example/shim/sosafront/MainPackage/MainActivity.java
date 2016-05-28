@@ -9,12 +9,15 @@ package com.example.shim.sosafront.MainPackage;
         setContentView(R.layout.activity_main);*/
 
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.shim.sosafront.CameraPackage.CameraActivity;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton statisticsBtn;
 
     ImageView userInfoView;
+    TextView userNameView;
 
     String name;
     String tutorial;
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     String authKey;
     DataStore dataStore;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        /* this.requestWindowFeature(Window.FEATURE_NO_TITLE);    // Removes title bar
@@ -107,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         historyBtn = (ImageButton) findViewById(R.id.historyBtn);
         statisticsBtn = (ImageButton) findViewById(R.id.statisticsBtn);
         userInfoView = (ImageView) findViewById(R.id.userInfoView);
+        userNameView = (TextView) findViewById(R.id.userNameView);
 
         takePictureBtn.setOnClickListener(menuClick);
         galleryBtn.setOnClickListener(menuClick);
@@ -264,7 +271,10 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (result.equals("successful")) {
-                if(tutorial.equals("false")) {
+                userNameView.setText(name + "님의 머리를 지켜주는");
+                userNameView.setTextColor(Color.parseColor("#2eb74f"));
+
+                if(tutorial.equals("true")) {
                     Intent intentToTutorial = new Intent(MainActivity.this, TutorialActivity.class);
                     intentToTutorial.putExtra("TrueFalse", true);
                     startActivity(intentToTutorial);

@@ -143,6 +143,8 @@
                 android:gravity="center"
                 android:text="다시 시도하기"
                 android:id="@+id/networkCheckBtn"
+                android:textColor="@color/whiteColor"
+                android:background="@drawable/btn_border_black"
                 android:onClick="networkCheck"
                 />
         </LinearLayout>
