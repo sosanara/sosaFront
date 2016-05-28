@@ -25,19 +25,21 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
-            android:id="@+id/createDateView"
-            android:gravity="center"
-            android:textSize="18sp"
+            android:id="@+id/sendImageUserNameView"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:text="----------------"
-            android:textColor="#4d4d4d" />
+            android:textColor="@color/textViewColor"
+            android:text="잠만"
+            android:textSize="18sp"
+            android:gravity="center"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/black14Color"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,6 +48,20 @@
             android:layout_centerHorizontal="true"
             android:background="#fff"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/createDateView"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:text="----------------"
+                android:textColor="#4d4d4d" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black14Color"/>
 
             <LinearLayout
                 android:layout_marginTop="18.5dp"

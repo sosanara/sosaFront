@@ -3,7 +3,8 @@
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:orientation="vertical"
 android:layout_width="match_parent"
-android:layout_height="match_parent">
+android:layout_height="match_parent"
+android:id="@+id/wholeLayout">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +21,7 @@ android:layout_height="match_parent">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/whiteColor"
-            android:text="@string/toolbar_user_info"
+            android:text="@string/toolbar_change_pawd"
             android:textSize="17.5sp"
             android:gravity="center_horizontal"/>
     </android.support.v7.widget.Toolbar>
@@ -47,6 +48,7 @@ android:layout_height="match_parent">
                 android:paddingLeft="18.3dp"
                 android:paddingRight="18.3dp"
                 android:textSize="16sp"
+                android:maxLength="17"
                 android:layout_gravity="center"
                 android:inputType="textPassword"/>
 
@@ -63,6 +65,7 @@ android:layout_height="match_parent">
                 android:paddingLeft="18.3dp"
                 android:paddingRight="18.3dp"
                 android:textSize="16sp"
+                android:maxLength="17"
                 android:layout_gravity="center"
                 android:inputType="textPassword"/>
 
@@ -79,12 +82,13 @@ android:layout_height="match_parent">
                 android:paddingLeft="18.3dp"
                 android:paddingRight="18.3dp"
                 android:textSize="16sp"
+                android:maxLength="17"
                 android:layout_gravity="center"
                 android:inputType="textPassword"/>
 
             <Button
                 android:id="@+id/changePawdBtn"
-                android:text="@string/send"
+                android:text="@string/change"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"

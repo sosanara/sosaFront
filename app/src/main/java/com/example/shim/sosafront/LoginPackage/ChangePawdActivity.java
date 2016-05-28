@@ -4,17 +4,20 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
@@ -58,6 +61,8 @@ public class ChangePawdActivity extends Activity {
     private String errorNewPawd1;
     private String errorNewPawd2;
 
+    LinearLayout wholeLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,7 @@ public class ChangePawdActivity extends Activity {
                         .build()
         );
 
+        wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         oldPawdView = (EditText) findViewById(R.id.oldPawdView);
         changePawd1View = (EditText) findViewById(R.id.changePawd1View);
@@ -83,6 +89,14 @@ public class ChangePawdActivity extends Activity {
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
 
+
+        wholeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                return false;
+            }
+        });
     }
 
     public void networkCheck(View v) {
@@ -269,16 +283,139 @@ public class ChangePawdActivity extends Activity {
             pdLoading.dismiss();
 
             if(result.equals("successful")) {
-                Toast.makeText(getApplicationContext(), "비밀번호 수정 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChangePawdActivity.this, LoginActivity.class);
                 startActivity(intent);
                 ChangePawdActivity.this.finish();
             }
 
             else {
-                Toast.makeText(getApplicationContext(), "비밀번호 수정 실패", Toast.LENGTH_SHORT).show();
+                if (!validate()) {
+                    return;
+                }
             }
         }
 
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        //여기에 바뀐 style 다시적용
+
+        if (TextUtils.isEmpty(errorOldPawd)) {
+            oldPawdView.setBackgroundResource(R.drawable.text_border);
+            oldPawdView.setError(null);
+        } else if (errorOldPawd.contains("This field may not be blank")) {
+            oldPawdView.setBackgroundResource(R.drawable.text_border_green);
+            oldPawdView.setText("");
+            oldPawdView.setHintTextColor(Color.parseColor("#2eb74f"));
+            oldPawdView.setHint("현재 비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorOldPawd.contains("The two password fields didn't match")) {
+            oldPawdView.setBackgroundResource(R.drawable.text_border_green);
+            oldPawdView.setText("");
+            oldPawdView.setHintTextColor(Color.parseColor("#2eb74f"));
+            oldPawdView.setHint("현재 비밀번호가 일치하지 않습니다.");
+            valid = false;
+        } else if (errorOldPawd.contains("Password must be a minimum of 8 characters.")) {
+            oldPawdView.setBackgroundResource(R.drawable.text_border_green);
+            oldPawdView.setText("");
+            oldPawdView.setHintTextColor(Color.parseColor("#2eb74f"));
+            oldPawdView.setHint("8자리 이상으로 입력해주세요.");
+            valid = false;
+        } else {
+            oldPawdView.setHint("현재 비밀번호를 입력해 주세요.");
+            oldPawdView.setBackgroundResource(R.drawable.text_border_green);
+            oldPawdView.setText("");
+            oldPawdView.setHintTextColor(Color.parseColor("#2eb74f"));
+            valid = false;
+        }
+
+
+        if(TextUtils.isEmpty(errorNewPawd1)){
+            changePawd1View.setBackgroundResource(R.drawable.text_border);
+            changePawd1View.setError(null);
+        } else if (errorNewPawd1.contains("This field may not be blank")) {
+            changePawd1View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd1View.setText("");
+            changePawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd1View.setHint("새 비밀번호를 입력해주세요");
+            valid = false;
+        } else if (errorNewPawd1.contains("The password is too similar to the username")) {
+            changePawd1View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd1View.setText("");
+            changePawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd1View.setHint("기존 비밀번호와 같습니다. 다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorNewPawd1.contains("This password is too short")){
+            changePawd1View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd1View.setText("");
+            changePawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd1View.setHint("안전도가 너무 낮습니다. 다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorNewPawd1.contains("This password is too common")){
+            changePawd1View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd1View.setText("");
+            changePawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd1View.setHint("보안상의 이유로 한 문자로 연속된 비밀번호는 허용하지 않습니다.");
+            valid = false;
+        } else {
+            changePawd1View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd1View.setText("");
+            changePawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd1View.setHint("다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        }
+
+        if(TextUtils.isEmpty(errorNewPawd2)){
+            changePawd2View.setBackgroundResource(R.drawable.text_border);
+            changePawd2View.setError(null);
+        } else if (errorNewPawd2.contains("This field may not be blank")) {
+            changePawd2View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd2View.setText("");
+            changePawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd2View.setHint("새 비밀번호 확인을 입력해주세요");
+            valid = false;
+        } else if (errorNewPawd2.contains("The password is too similar to the username")) {
+            changePawd2View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd2View.setText("");
+            changePawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd2View.setHint("기존 비밀번호와 같습니다.");
+            changePawd1View.setText("");
+            changePawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd1View.setHint("기존 비밀번호와 같습니다.");
+            valid = false;
+        } else if (errorNewPawd2.contains("This password is too short")){
+            changePawd2View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd2View.setText("");
+            changePawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd2View.setHint("안전도가 너무 낮습니다.");
+            valid = false;
+        } else if (errorNewPawd2.contains("This password is too common")){
+            changePawd2View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd2View.setText("");
+            changePawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd2View.setHint("연속된 비밀번호는 허용하지 않습니다.");
+            valid = false;
+        } else if (errorNewPawd2.contains("The two password fields didn't match")) {
+            changePawd2View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd2View.setText("");
+            changePawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd2View.setHint("새 비밀번호와 비밀번호 확인이 다릅니다.");
+            valid = false;
+        } else {
+            changePawd2View.setBackgroundResource(R.drawable.text_border_green);
+            changePawd2View.setText("");
+            changePawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            changePawd2View.setHint("다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

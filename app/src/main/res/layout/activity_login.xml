@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/wholeLayout">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -29,19 +30,16 @@
         <TextView
             android:text="내 머리를 지켜주는"
             android:layout_width="138dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="25.4dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5.4dp"
             android:textSize="17sp"
             android:textColor="@color/subTextColor"
             android:layout_gravity="center"
-            android:gravity="center"
-            style="@style/AppTheme.Widget.TextView"
-            />
+            android:gravity="center"/>
 
         <ImageView
             android:layout_width="149.3dp"
             android:layout_height="20dp"
-            android:layout_marginTop="4.3dp"
             android:background="@drawable/logo_sosanara"
             android:layout_gravity="center"
             android:gravity="center"
@@ -60,8 +58,8 @@
             android:paddingLeft="18.3dp"
             android:paddingRight="18.3dp"
             android:textSize="16sp"
-            android:layout_gravity="center"
-            style="@style/AppTheme.Widget.TextView"/>
+            android:maxLength="17"
+            android:layout_gravity="center"/>
 
         <EditText
             android:id="@+id/loginPawdView"
@@ -76,12 +74,13 @@
             android:paddingLeft="18.3dp"
             android:paddingRight="18.3dp"
             android:textSize="16sp"
+            android:maxLength="17"
             android:layout_gravity="center"
-            android:inputType="textPassword"
-            style="@style/AppTheme.Widget.TextView"/>
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/loginBtn"
+            android:radius="2.5dp"
             android:text="@string/login"
             android:layout_width="300dp"
             android:layout_height="50dp"
@@ -94,8 +93,7 @@
             android:textSize="16sp"
             android:layout_gravity="center"
             android:onClick="startLogin"
-            android:background="@drawable/btn_border_green"
-            style="@style/AppTheme.Widget.Button"/>
+            android:background="@drawable/btn_border_green" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,22 +102,21 @@
                 <TextView
                     android:id="@+id/signUp"
                     android:layout_width="58dp"
-                    android:layout_height="17dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="52.5dp"
                     android:layout_marginTop="23.8dp"
                     android:text="@string/sign_up"
-                    android:textColor="@color/colorPrimary"
-                    style="@style/AppTheme.Widget.TextView"/>
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/findPawd"
                     android:layout_width="87dp"
-                    android:layout_height="17dp"
-                    android:layout_marginLeft="110.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="114.3dp"
+                    android:layout_marginRight="52.3dp"
                     android:layout_marginTop="23.8dp"
                     android:text="@string/find_password"
-                    android:textColor="@color/colorPrimary"
-                    style="@style/AppTheme.Widget.TextView"/>
+                    android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
 
@@ -144,7 +141,6 @@
             android:text="다시 시도하기"
             android:id="@+id/networkCheckBtn"
             android:onClick="networkCheck"
-            style="@style/AppTheme.Widget.Button"
             />
     </LinearLayout>
 </FrameLayout>

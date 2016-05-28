@@ -14,20 +14,26 @@
     </style>
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="fontPath">fonts/NotoSansKR-Medium.ttf</item>e
+        <item name="fontPath">fonts/NotoSansKR-Medium.otf</item>
     </style>
 
     <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">
-        <item name="fontPath">fonts/NotoSansKR-Medium.ttf</item>
+        <item name="fontPath">fonts/NotoSansKR-Medium.otf</item>
+        <item name="android:height">50sp</item>
+
     </style>
 
     <style name="AppTheme.Widget.Button" parent="android:Widget.Holo.Light.Button">
-        <item name="fontPath">fonts/NotoSansKR-Bold.ttf</item>
+        <item name="fontPath">fonts/NotoSansKR-Bold.otf</item>
     </style>
 
     <style name="AppTheme.Widget.Toolbar" parent="ToolBarStyle">
-        <item name="fontPath">fonts/NotoSansKR-Medium.ttf</item>
+        <item name="fontPath">fonts/NotoSansKR-DemiLight.otf</item>
     </style>
+
+    <!--<style name="myEditText" parent="@android:parentdetails">
+        <item name="android:height">5sp</item>
+    </style>-->
 
 
     <style name="homeActionButtonStyle" parent="Widget.AppCompat.ActionButton">

@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -19,7 +23,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.LoginPackage.LoginActivity;
@@ -47,13 +50,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ChangeUserInfoActivity extends Activity {
 
+    private LinearLayout wholeLayout;
     private LinearLayout networkCheckLayout;
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    private EditText emailAddressView;
     private EditText nameView;
     private EditText birthView;
     private EditText GenderView;
@@ -63,6 +66,7 @@ public class ChangeUserInfoActivity extends Activity {
 
 
     private String userName;
+    private String email;
 
     private String errorEmail;
     private String errorFirstName;
@@ -72,6 +76,7 @@ public class ChangeUserInfoActivity extends Activity {
     private String gender;
     private String birth;
     private TextView userNameView;
+    private TextView emailAddressView;
 
     private Spinner ageSpinner;
 
@@ -94,10 +99,12 @@ public class ChangeUserInfoActivity extends Activity {
         );
 
         userName = getIntent().getExtras().getString("userName");
+        email = getIntent().getExtras().getString("email");
 
+        wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         userNameView = (TextView) findViewById(R.id.userNameView);
-        emailAddressView = (EditText) findViewById(R.id.emailAddressView);
+        emailAddressView = (TextView) findViewById(R.id.emailAddressView);
         nameView = (EditText) findViewById(R.id.nameView);
         ageSpinner = (Spinner) findViewById(R.id.ageSpinner);
 
@@ -106,6 +113,7 @@ public class ChangeUserInfoActivity extends Activity {
         femaleRadioBtn = (RadioButton) findViewById(R.id.femaleRadioBtn);
 
         userNameView.setText(userName);
+        emailAddressView.setText(email);
         /*emailAddressView.setText("uiop@naver.com", TextView.BufferType.EDITABLE);
         nameView.setText("mienhwr", TextView.BufferType.EDITABLE);*/
 
@@ -115,6 +123,14 @@ public class ChangeUserInfoActivity extends Activity {
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
         initAgeListSpinner();
+
+        wholeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                return false;
+            }
+        });
     }
 
     //글씨체 통일
@@ -162,9 +178,8 @@ public class ChangeUserInfoActivity extends Activity {
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobile.isConnected() || wifi.isConnected()){
-                Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();
+
             } else {
-                Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 
@@ -275,17 +290,11 @@ public class ChangeUserInfoActivity extends Activity {
 
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-2 : " + errorResult.toString());
 
-                    if(serverJsonValue.contains("username"))
-                        errorEmail = serverJsonObject.getString("username");
+                    if(serverJsonValue.contains("first_name"))
+                        errorFirstName = serverJsonObject.getString("first_name");
 
-                    if(serverJsonValue.contains("email"))
-                        errorFirstName = serverJsonObject.getString("email");
-
-                    if(serverJsonValue.contains("password1"))
-                        errorLastName = serverJsonObject.getString("password1");
-
-                    if(serverJsonValue.contains("password2"))
-                        errorBirth = serverJsonObject.getString("password2");
+                    if(serverJsonValue.contains("last_name"))
+                        errorLastName = serverJsonObject.getString("last_name");
 
                     if(serverJsonValue.contains("age"))
                         errorGender = serverJsonObject.getString("age");
@@ -326,6 +335,9 @@ public class ChangeUserInfoActivity extends Activity {
             }
 
             else {
+                if (!validate()) {
+                    return;
+                }
                 /*Toast.makeText(getApplicationContext(), "내정보 수정 실패", Toast.LENGTH_SHORT).show();*/
             }
 
@@ -397,5 +409,54 @@ public class ChangeUserInfoActivity extends Activity {
 
     }
 
+    public boolean validate() {
+        boolean valid = true;
+
+        //여기에 바뀐 style 다시적용
+
+        if(TextUtils.isEmpty(errorFirstName)){
+            nameView.setBackgroundResource(R.drawable.text_border);
+            nameView.setError(null);
+        } else if (errorFirstName.contains("blank")) {
+            nameView.setBackgroundResource(R.drawable.text_border_green);
+            nameView.setText("");
+            nameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            nameView.setHint("이름을 입력해 주세요.");
+            valid = false;
+        } else {
+            nameView.setBackgroundResource(R.drawable.text_border_green);
+            nameView.setText("");
+            nameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            nameView.setHint("다른 이름을 입력해 주세요.");
+            valid = false;
+        }
+
+        if(TextUtils.isEmpty(errorLastName)){
+            nameView.setBackgroundResource(R.drawable.text_border_green);
+            nameView.setText("");
+            nameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            nameView.setBackgroundResource(R.drawable.text_border);
+            nameView.setError(null);
+        } else if (errorLastName.contains("blank")) {
+            nameView.setBackgroundResource(R.drawable.text_border_green);
+            nameView.setText("");
+            nameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            nameView.setHint("이름을 입력해 주세요.");
+            valid = false;
+        } else {
+            nameView.setBackgroundResource(R.drawable.text_border_green);
+            nameView.setText("");
+            nameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            nameView.setHint("다른 이름을 입력해 주세요.");
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }
 

@@ -395,7 +395,7 @@ public class SendImageActivity extends Activity {
                 baldProgressView.setText(percentage + "%");
 
 
-            userNameView.setText(userName + "님의 모발상태");
+            userNameView.setText(userName + "님의 두발상태");
 
             /*displayImageView(originImagePath, 1);
             displayImageView(resultImagePath, 2);*/

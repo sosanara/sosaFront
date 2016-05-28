@@ -94,6 +94,7 @@ public class UserInfoActivity extends Activity {
             public void onClick(View v) {
                 Intent moveChangeUserInfo = new Intent(UserInfoActivity.this, ChangeUserInfoActivity.class);
                 moveChangeUserInfo.putExtra("userName", userInfoUserName);
+                moveChangeUserInfo.putExtra("email", userInfoEmail);
                 startActivity(moveChangeUserInfo);
                 UserInfoActivity.this.finish();
             }

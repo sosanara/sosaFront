@@ -4,16 +4,19 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
 
@@ -37,6 +40,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ResetPawdActivity extends Activity {
 
+    private LinearLayout wholeLayout;
     private LinearLayout networkCheckLayout;
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
@@ -53,6 +57,11 @@ public class ResetPawdActivity extends Activity {
     private String errorNewPawd1;
     private String errorNewPawd2;
 
+    String new_password1;
+    String new_password2;
+    String uid;
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +74,20 @@ public class ResetPawdActivity extends Activity {
                         .build()
         );
 
+        wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         resetPawd1View = (EditText) findViewById(R.id.resetPawd1View);
         resetPawd2View = (EditText) findViewById(R.id.resetPawd2View);
         resetUid = (EditText) findViewById(R.id.resetUid);
         resetToken = (EditText) findViewById(R.id.resetToken);
 
-        /*resetPawd1View.setText("qwer1234", TextView.BufferType.EDITABLE);
-        resetPawd2View.setText("qwer1234", TextView.BufferType.EDITABLE);*/
+        wholeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                return false;
+            }
+        });
 
     }
 
@@ -94,10 +109,10 @@ public class ResetPawdActivity extends Activity {
     // Triggers when changePawd Button clicked
     public void resetPawd(View arg0) {
 
-        final String new_password1 = resetPawd1View.getText().toString();
-        final String new_password2 = resetPawd2View.getText().toString();
-        final String uid = resetUid.getText().toString();
-        final String token = resetToken.getText().toString();
+        new_password1 = resetPawd1View.getText().toString();
+        new_password2 = resetPawd2View.getText().toString();
+        uid = resetUid.getText().toString();
+        token = resetToken.getText().toString();
 
         // Initialize  AsyncLogin() class with email and password
         new AsyncChangePawd().execute(new_password1, new_password2, uid, token);
@@ -264,17 +279,162 @@ public class ResetPawdActivity extends Activity {
 
             pdLoading.dismiss();
 
+           /* if (!validate()) {
+                return;
+            }*/
+
             if(result.equals("successful")) {
-                Toast.makeText(getApplicationContext(), "비밀번호 리셋 성공", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ResetPawdActivity.this, LoginActivity.class);
+               /* Toast.makeText(getApplicationContext(), "비밀번호 리셋 성공", Toast.LENGTH_SHORT).show();*/
+                Intent intent = new Intent(ResetPawdActivity.this, LogoutActivity.class);
                 startActivity(intent);
                 ResetPawdActivity.this.finish();
             }
 
             else {
-                Toast.makeText(getApplicationContext(), "비밀번호 리셋 실패", Toast.LENGTH_SHORT).show();
+                if (!validate()) {
+                    return;
+                }
+
             }
         }
 
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        //여기에 바뀐 style 다시적용
+
+        /*private String errorToken;
+        private String errorUid;
+        private String er        rorNewPawd2;*/
+        if(TextUtils.isEmpty(errorNewPawd1)){
+            resetPawd1View.setBackgroundResource(R.drawable.text_border);
+            resetPawd1View.setError(null);
+        } else if (errorNewPawd1.contains("This field may not be blank")) {
+            resetPawd1View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd1View.setText("");
+            resetPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd1View.setText("비밀번호를 입력해주세요");
+            valid = false;
+        } else if (errorNewPawd1.contains("The password is too similar to the username")) {
+            resetPawd1View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd1View.setText("");
+            resetPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd1View.setText("기존 비밀번호와 같습니다. 다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorNewPawd1.contains("This password is too short")){
+            resetPawd1View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd1View.setText("");
+            resetPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd1View.setText("안전도가 너무 낮습니다. 다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorNewPawd1.contains("This password is too common")){
+            resetPawd1View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd1View.setText("");
+            resetPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd1View.setText("보안상의 이유로 한 문자로 연속된 비밀번호는 허용하지 않습니다.");
+            valid = false;
+        } else {
+            //여기에 원래 style 다시적용
+            resetPawd1View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd1View.setText("");
+            resetPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd1View.setText("다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        }
+
+        if(TextUtils.isEmpty(errorNewPawd2)){
+            resetPawd2View.setBackgroundResource(R.drawable.text_border);
+            resetPawd2View.setError(null);
+        } else if (errorNewPawd2.contains("This field may not be blank")) {
+            resetPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd2View.setText("");
+            resetPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd2View.setHint("비밀번호를 입력해주세요");
+            valid = false;
+        } else if (errorNewPawd2.contains("The password is too similar to the username")) {
+            resetPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd2View.setText("");
+            resetPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd2View.setHint("기존 비밀번호와 같습니다. 다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorNewPawd2.contains("This password is too short")){
+            resetPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd2View.setText("");
+            resetPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd2View.setHint("안전도가 너무 낮습니다. 다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorNewPawd2.contains("This password is too common")){
+            resetPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd2View.setText("");
+            resetPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd2View.setHint("보안상의 이유로 한 문자로 연속된 비밀번호는 허용하지 않습니다.");
+            valid = false;
+        } else if (errorNewPawd2.contains("The two password fields didn't match")) {
+            resetPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            resetPawd2View.setText("");
+            resetPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetPawd2View.setHint("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            valid = false;
+        } else {
+            resetPawd2View.setHint("다른 비밀번호를 입력해 주세요.");
+            valid = false;
+        }
+
+        if(TextUtils.isEmpty(errorUid)){
+            resetUid.setBackgroundResource(R.drawable.text_border);
+            resetUid.setError(null);
+        } else if (errorUid.contains("This field may not be blank")) {
+            resetUid.setBackgroundResource(R.drawable.text_border_green);
+            resetUid.setText("");
+            resetUid.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetUid.setHint("Uid 값을 입력해 주세요.");
+            valid = false;
+        } else if (errorUid.contains("Invalid value")) {
+            resetUid.setBackgroundResource(R.drawable.text_border_green);
+            resetUid.setText("");
+            resetUid.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetUid.setHint("Uid 값을 잘못 입력하셨습니다.");
+            valid = false;
+        } else {
+            resetUid.setBackgroundResource(R.drawable.text_border_green);
+            resetUid.setText("");
+            resetUid.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetUid.setHint("UID 값을 다시 확인하세요.");
+            valid = false;
+        }
+
+        if(TextUtils.isEmpty(errorToken)){
+            resetToken.setBackgroundResource(R.drawable.text_border);
+            resetToken.setError(null);
+        } else if (errorToken.isEmpty() || errorToken.contains("This field may not be blank")) {
+            resetToken.setBackgroundResource(R.drawable.text_border_green);
+            resetToken.setText("");
+            resetToken.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetToken.setHint("Token 값을 입력해 주세요.");
+            valid = false;
+        } else if (errorToken.contains("Invalid value")) {
+            resetToken.setBackgroundResource(R.drawable.text_border_green);
+            resetToken.setText("");
+            resetToken.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetToken.setHint("Token 값을 잘못 입력하셨습니다.");
+            valid = false;
+        } else {
+            resetToken.setBackgroundResource(R.drawable.text_border_green);
+            resetToken.setText("");
+            resetToken.setHintTextColor(Color.parseColor("#2eb74f"));
+            resetToken.setHint("Token 값을 다시 확인하세요.");
+            valid = false;
+        }
+
+
+
+        return valid;
+    }
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

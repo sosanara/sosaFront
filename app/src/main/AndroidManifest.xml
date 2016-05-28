@@ -44,17 +44,20 @@
         <activity
             android:name=".CameraPackage.CameraActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CameraPackage.CaptureActivity"
-            android:label="@string/title_activity_capture" />
+            android:label="@string/title_activity_capture"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginPackage.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginPackage.LoginActivity"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait">
 
             <!--
             <intent-filter>
@@ -66,34 +69,46 @@
         </activity>
         <activity
             android:name=".LoginPackage.FindPawdActivity"
-            android:label="@string/title_activity_find_pawd" />
-        <activity android:name=".LoginPackage.ChangePawdActivity" />
+            android:label="@string/title_activity_find_pawd"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginPackage.ChangePawdActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginPackage.LogoutActivity"
-            android:label="@string/title_activity_logout" />
+            android:label="@string/title_activity_logout"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginPackage.ResetPawdActivity"
-            android:label="@string/title_activity_reset_pawd" />
+            android:label="@string/title_activity_reset_pawd"
+            android:screenOrientation="portrait"/>
         <activity android:name=".CameraPackage.SendImageActivity" />
         <activity
             android:name=".UserInfoPackage.UserInfoActivity"
-            android:label="@string/title_activity_user_info" />
+            android:label="@string/title_activity_user_info"
+            android:screenOrientation="portrait"/>
         <activity android:name=".HistoryPackage.HistoryActivity" />
         <activity
             android:name=".StatisticPackage.StatisticActivity"
             android:label="@string/title_activity_statistic"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".UserInfoPackage.ChangeUserInfoActivity"
-            android:label="@string/title_activity_change_user_info" />
-        <activity android:name=".GalleryPackage.GalleryActivity" />
-        <activity android:name=".GalleryPackage.GalleryNextPagePackage.GalleryItemClickActivity" />
-        <activity android:name=".HistoryPackage.HistoryResultActivity" />
+            android:label="@string/title_activity_change_user_info"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".GalleryPackage.GalleryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".GalleryPackage.GalleryNextPagePackage.GalleryItemClickActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".HistoryPackage.HistoryResultActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DialogPackage.TypeDialog"
             android:label="@string/title_activity_type_dialog"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".TutorialPackage.TutorialActivity" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TutorialPackage.TutorialActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

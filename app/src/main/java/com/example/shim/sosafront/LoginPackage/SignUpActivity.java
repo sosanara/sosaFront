@@ -3,6 +3,7 @@ package com.example.shim.sosafront.LoginPackage;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -10,8 +11,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,17 +65,21 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Spinner ageSpinner;
 
+    private LinearLayout wholeLayout;
+
     private String errorUsername;
     private String errorEmail;
     private String errorPassword1;
     private String errorPassword2;
     private String errorAge;
-    private String errorName;
+    private String errorFirstName;
+    private String errorLastName;
     private String errorGender;
 
     RadioButton maleRadioBtn;
     RadioButton femaleRadioBtn;
     RadioGroup genderRadioGroup;
+
 
     Toolbar toolbar;
     private ArrayAdapter<String> adapter;
@@ -104,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                        .build()
        );
 
+        wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         signUpUserNameView = (EditText) findViewById(R.id.signUpUserNameView);
         signUpEmailView = (EditText) findViewById(R.id.signUpEmailView);
@@ -131,6 +140,14 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         initAgeListSpinner();
+
+        wholeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                return false;
+            }
+        });
 
     }
 
@@ -293,6 +310,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-2 : " + errorResult.toString());
 
+
                     if(serverJsonValue.contains("username"))
                         errorUsername = serverJsonObject.getString("username");
 
@@ -309,10 +327,10 @@ public class SignUpActivity extends AppCompatActivity {
                         errorAge = serverJsonObject.getString("birth");
 
                     if(serverJsonValue.contains("first_name"))
-                        errorName = serverJsonObject.getString("first_name");
+                        errorFirstName = serverJsonObject.getString("first_name");
 
                     if(serverJsonValue.contains("last_name"))
-                        errorName = serverJsonObject.getString("last_name");
+                        errorLastName = serverJsonObject.getString("last_name");
 
                     if(serverJsonValue.contains("gender"))
                         errorGender = serverJsonObject.getString("gender");
@@ -322,8 +340,9 @@ public class SignUpActivity extends AppCompatActivity {
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-5 : " + errorPassword1);
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-6 : " + errorPassword2);
                     Log.d("SignUpActivityLog", "SignUpActivityLog 2-7 : " + errorAge);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-8 : " + errorName);
-                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-9 : " + errorGender);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-8 : " + errorFirstName);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-9 : " + errorLastName);
+                    Log.d("SignUpActivityLog", "SignUpActivityLog 2-10 : " + errorGender);
 
                     return("unsuccessful");
                 }
@@ -349,9 +368,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
             //예외 처리 부분----------------------------------------------------------------------------------------
-            if (!validate()) {
-                return;
-            }
+
 
             if(result.equals("successful")) {
                 /*Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();*/
@@ -361,6 +378,10 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             else {
+
+                if (!validate()) {
+                    return;
+                }
                 /*Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();*/
             }
 
@@ -374,54 +395,144 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
     }
-/*
-    private EditText signUpUserNameView;
-    private EditText signUpEmailView;
-    private EditText signUpPawd1View;
-    private EditText signUpPawd2View;
-    private EditText signUpAgeView;
-    private EditText signUpNameView;
-    private EditText signUpGenderView;
-*/
-/*
-    String username;
-    String email;
-    String password1;
-    String password2;
-    String age;
-    String name;
-    String gender;
-    */
-    public boolean validate() {
+
+ boolean validate() {
         boolean valid = true;
 
-        if (username.isEmpty()) {
-            signUpUserNameView.setError("enter a valid username");
-            valid = false;
-        } else {
+        //여기에 바뀐 style 다시적용
+        if(TextUtils.isEmpty(errorUsername)) {
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border);
             signUpUserNameView.setError(null);
-        }
-
-        if (email.isEmpty()) {
-            signUpEmailView.setError("enter a valid email");
+        } else if (errorUsername.contains("This field may not be blank")) {
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            signUpUserNameView.setText("");
+            signUpUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpUserNameView.setHint("아이디를 입력해 주시기 바랍니다.");
+            valid = false;
+        } else if (errorUsername.contains("only contain letters, digits")){
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            signUpUserNameView.setText("");
+            signUpUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpUserNameView.setHint("공백 및 특수문자는 사용하실 수 없습니다.");
+            valid = false;
+        } else if (errorUsername.contains("Ensure this field") || errorUsername.contains("minimum")){
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            signUpUserNameView.setText("");
+            signUpUserNameView.setText("5~30자리로 입력 하시기 바랍니다.");
+            signUpUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));;
+            signUpUserNameView.setHint("5~30자리로 입력 하시기 바랍니다.");
+            valid = false;
+        } else if (errorUsername.contains("This username is already taken")){
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            signUpUserNameView.setText("");
+            signUpUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpUserNameView.setHint("이미 사용 중인 아이디입니다.");
+            valid = false;
+        } else if (errorUsername.contains("Username can not be used. Please use other username")){
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            signUpUserNameView.setText("");
+            signUpUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpUserNameView.setHint("블랙리스트로 등록된 아이디입니다.");
+            valid = false;
+        } else if (errorUsername.contains("Too many failed login attempts.")){
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            signUpUserNameView.setText("");
+            signUpUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpUserNameView.setHint("현재 너무 많은 로그인 시도로 인해 나중에 다시 시도하시기 바랍니다.");
             valid = false;
         } else {
-            signUpEmailView.setError(null);
+            signUpUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            signUpUserNameView.setText("");
+            signUpUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpUserNameView.setHint("잘못된 아이디를 입력하였습니다.");
         }
 
-        if (password1.isEmpty()) {
-            signUpPawd1View.setError("enter a valid password");
+         if (TextUtils.isEmpty(errorEmail)) {
+             signUpEmailView.setBackgroundResource(R.drawable.text_border);
+             signUpEmailView.setError(null);
+         } else if (errorEmail.contains("This field may not be blank")) {
+             signUpEmailView.setBackgroundResource(R.drawable.text_border_green);
+             signUpEmailView.setText("");
+             signUpEmailView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpEmailView.setHint("이메일을 입력해 주세요.");
+            valid = false;
+        } else if (errorEmail.contains("Enter a valid email address")){
+             signUpEmailView.setBackgroundResource(R.drawable.text_border_green);
+             signUpEmailView.setText("");
+             signUpEmailView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpEmailView.setHint("올바른 이메일 형식이 아닙니다.");
+            valid = false;
+        } else if (errorEmail.contains("A user is already registered with this e-mail address")){
+             signUpEmailView.setBackgroundResource(R.drawable.text_border_green);
+             signUpEmailView.setText("");
+             signUpEmailView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpEmailView.setHint("이미 사용 중인 이메일 주소입니다.");
             valid = false;
         } else {
-            signUpPawd1View.setError(null);
+             signUpEmailView.setBackgroundResource(R.drawable.text_border_green);
+             signUpEmailView.setText("");
+             signUpEmailView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpEmailView.setHint("다른 이메일을 입력해 주세요.");
         }
 
-        if (password2.isEmpty()) {
-            signUpPawd2View.setError("enter a valid confirm password");
+         if (TextUtils.isEmpty(errorPassword1)) {
+             signUpPawd1View.setBackgroundResource(R.drawable.text_border);
+             signUpPawd1View.setError(null);
+         } else if (errorPassword1.contains("This field may not be blank")) {
+             signUpPawd1View.setBackgroundResource(R.drawable.text_border_green);
+             signUpPawd1View.setText("");
+             signUpPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpPawd1View.setHint("비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorPassword1.contains("The two password fields didn't match")) {
+             signUpPawd1View.setBackgroundResource(R.drawable.text_border_green);
+             signUpPawd1View.setText("");
+             signUpPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpPawd1View.setHint("비밀번호가 일치하지 않습니다.");
+            valid = false;
+        } else if (errorPassword1.contains("Password must be a minimum of 8 characters.")) {
+             signUpPawd1View.setBackgroundResource(R.drawable.text_border_green);
+             signUpPawd1View.setText("");
+             signUpPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+             signUpPawd1View.setHint("비밀번호는 8자리 이상으로 입력해주세요.");
             valid = false;
         } else {
+             signUpPawd1View.setBackgroundResource(R.drawable.text_border_green);
+             signUpPawd1View.setText("");
+             signUpPawd1View.setHintTextColor(Color.parseColor("#2eb74f"));
+             signUpPawd2View.setHint("다른 비밀번호를 입력해 주세요");
+             valid = false;
+        }
+
+        if (TextUtils.isEmpty(errorPassword2)) {
+            signUpPawd2View.setBackgroundResource(R.drawable.text_border);
             signUpPawd2View.setError(null);
+        } else if (errorPassword2.contains("This field may not be blank")) {
+            signUpPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            signUpPawd2View.setText("");
+            signUpPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpPawd2View.setHint("비밀번호를 입력해 주세요.");
+            valid = false;
+        } else if (errorPassword2.contains("The two password fields didn't match")) {
+            signUpPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            signUpPawd2View.setText("");
+            signUpPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpPawd2View.setHint("비밀번호가 일치하지 않습니다.");
+            valid = false;
+        } else if (errorPassword2.contains("Password must be a minimum of 8 characters.")) {
+            signUpPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            signUpPawd2View.setText("");
+            signUpPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpPawd2View.setHint("비밀번호는 8자리 이상으로 입력해주세요.");
+            valid = false;
+        } else {
+            signUpPawd2View.setBackgroundResource(R.drawable.text_border_green);
+            signUpPawd2View.setText("");
+            signUpPawd2View.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpPawd2View.setHint("다른 비밀번호를 입력해 주세요.");
+            valid = false;
         }
+
 
         /*if (birth.isEmpty()) {
             signUpAgeView.setError("enter a valid age");
@@ -430,19 +541,49 @@ public class SignUpActivity extends AppCompatActivity {
             signUpAgeView.setError(null);
         }
 */
-        if (name.isEmpty()) {
-            signUpNameView.setError("enter a valid name");
+
+         if(TextUtils.isEmpty(errorFirstName)){
+             signUpNameView.setBackgroundResource(R.drawable.text_border);
+             signUpNameView.setError(null);
+         } else if (errorFirstName.contains("blank")) {
+             signUpNameView.setBackgroundResource(R.drawable.text_border_green);
+             signUpNameView.setText("");
+             signUpNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            signUpNameView.setHint("이름을 입력해 주세요.");
             valid = false;
         } else {
-            signUpNameView.setError(null);
+             signUpNameView.setBackgroundResource(R.drawable.text_border_green);
+             signUpNameView.setText("");
+             signUpNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+             signUpNameView.setHint("다른 이름을 입력해 주세요.");
+             valid = false;
         }
 
-        if (gender.isEmpty()) {
-           /* signUpGenderView.setError("enter a valid gender");*/
+     if(TextUtils.isEmpty(errorLastName)){
+         signUpNameView.setBackgroundResource(R.drawable.text_border);
+         signUpNameView.setError(null);
+     } else if (errorLastName.contains("blank")) {
+         signUpNameView.setBackgroundResource(R.drawable.text_border_green);
+         signUpNameView.setText("");
+         signUpNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+         signUpNameView.setHint("이름을 입력해 주세요.");
+         valid = false;
+     } else {
+         signUpNameView.setBackgroundResource(R.drawable.text_border_green);
+         signUpNameView.setText("");
+         signUpNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+         signUpNameView.setHint("다른 이름을 입력해 주세요.");
+         valid = false;
+     }
+
+
+
+        /*if (errorGender.isEmpty()) {
+           *//* signUpGenderView.setError("enter a valid gender");*//*
             valid = false;
         } else {
-            /*signUpGenderView.setError(null);*/
-        }
+            *//*signUpGenderView.setError(null);*//*
+        }*/
 
 
         return valid;
@@ -508,5 +649,10 @@ public class SignUpActivity extends AppCompatActivity {
         // Set the adapter to th spinner
         ageSpinner.setAdapter(adapter);
         /*birth = ageSpinner.getSelectedItem().toString();*/
+    }
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

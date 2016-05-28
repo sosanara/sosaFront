@@ -3,7 +3,7 @@ package com.example.shim.sosafront.LoginPackage;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -11,8 +11,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -44,9 +47,12 @@ public class FindPawdActivity extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
+    private LinearLayout wholeLayout;
     private EditText emailView;
     private Button findPawdBtn;
+    private String email;
     private String errorEmail;
+
 
     Toolbar toolbar;
 
@@ -55,14 +61,19 @@ public class FindPawdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_pawd);
 
+        wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         findPawdBtn =(Button) findViewById(R.id.findPawdBtn);
         emailView = (EditText) findViewById(R.id.emailView);
 
-        Typeface tf=Typeface.createFromAsset(getAssets(), "fonts/NotoSansKR-Bold.otf");
-        findPawdBtn.setTypeface(tf);
-
+        wholeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                return false;
+            }
+        });
 
     }
 
@@ -84,7 +95,7 @@ public class FindPawdActivity extends AppCompatActivity {
     // Triggers when findPawd Button clicked
     public void findPawd(View arg0) {
 
-        final String email = emailView.getText().toString();
+        email = emailView.getText().toString();
 
 
         // Initialize  AsyncLogin() class with email and password
@@ -240,16 +251,63 @@ public class FindPawdActivity extends AppCompatActivity {
 
             pdLoading.dismiss();
 
+
+
             if (result.equals("successful")) {
                 Toast.makeText(getApplicationContext(), "이메일 일치합니다.", Toast.LENGTH_SHORT).show();
                 Intent resetIntent = new Intent(FindPawdActivity.this, ResetPawdActivity.class);
                 startActivity(resetIntent);
                 FindPawdActivity.this.finish();
             } else {
+                if (!validate()) {
+                    return;
+                }
                 Toast.makeText(getApplicationContext(), "일치하지 않은 이메일 입니다.", Toast.LENGTH_SHORT).show();
             }
         }
 
     }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        //여기에 바뀐 style 다시적용
+
+        if(TextUtils.isEmpty(errorEmail)) {
+            emailView.setBackgroundResource(R.drawable.text_border);
+            emailView.setError(null);
+        } else if (errorEmail.contains("This field may not be blank")) {
+            emailView.setBackgroundResource(R.drawable.text_border_green);
+            emailView.setText("");
+            emailView.setHintTextColor(Color.parseColor("#2eb74f"));
+            emailView.setHint("이메일을 입력해 주세요.");
+
+            valid = false;
+        } else if (errorEmail.contains("Enter a valid email address")) {
+            emailView.setBackgroundResource(R.drawable.text_border_green);
+            emailView.setText("");
+            emailView.setHintTextColor(Color.parseColor("#2eb74f"));
+            emailView.setHint("등록되지 않은 이메일입니다.");
+            valid = false;
+        } else {
+            emailView.setBackgroundResource(R.drawable.text_border_green);
+            emailView.setText("");
+            emailView.setHintTextColor(Color.parseColor("#2eb74f"));
+            emailView.setHint("잘못된 이메일입니다.");
+            valid = false;
+            //여기에 원래 style 다시적용
+            /*emailView.setError(null);*/
+        }
+
+
+
+        return valid;
+    }
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
 }
 

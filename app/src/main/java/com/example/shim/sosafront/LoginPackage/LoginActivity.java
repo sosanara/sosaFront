@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -12,15 +13,17 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.MainPackage.MainActivity;
@@ -49,8 +52,8 @@ public class LoginActivity extends Activity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
-    public static final int CONNECTION_TIMEOUT=10000;
-    public static final int READ_TIMEOUT=15000;
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
 
     private EditText loginUserNameView;
     private EditText loginPawdView;
@@ -67,10 +70,12 @@ public class LoginActivity extends Activity {
     DataStore dataStore;
     String authKey;
 
+    LinearLayout wholeLayout;
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         //글씨체 통일
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -78,6 +83,8 @@ public class LoginActivity extends Activity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+
+        setContentView(R.layout.activity_login);
 
         Window window = this.getWindow();
 // clear FLAG_TRANSLUCENT_STATUS flag:
@@ -88,13 +95,10 @@ public class LoginActivity extends Activity {
         window.setStatusBarColor(this.getResources().getColor(R.color.subTextColor));
 
 
-
-
-
         dataStore = new DataStore(this);
 
-
-        networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
+        wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
+        networkCheckLayout = (LinearLayout) findViewById(R.id.networkCheckLayout);
         loginUserNameView = (EditText) findViewById(R.id.loginUserNameView);
         loginPawdView = (EditText) findViewById(R.id.loginPawdView);
 
@@ -107,7 +111,7 @@ public class LoginActivity extends Activity {
         findPawd.setText(Html.fromHtml("<u>비밀번호찾기</u>"), TextView.BufferType.SPANNABLE);
 
         loginUserNameView.setText("qwer1234", TextView.BufferType.EDITABLE);
-        loginPawdView.setText("qwer1234", TextView.BufferType.EDITABLE);
+        loginPawdView.setText("zxcv1234", TextView.BufferType.EDITABLE);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,13 +130,20 @@ public class LoginActivity extends Activity {
 
             }
         });
+
+        wholeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                return false;
+            }
+        });
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 
 
     public void networkCheck(View v) {
@@ -156,8 +167,7 @@ public class LoginActivity extends Activity {
 
     }
 
-    private class AsyncLogin extends AsyncTask<String, String, String>
-    {
+    private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(LoginActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -167,11 +177,11 @@ public class LoginActivity extends Activity {
             super.onPreExecute();
 
             ConnectivityManager manager =
-                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            if (mobile.isConnected() || wifi.isConnected()){
+            if (mobile.isConnected() || wifi.isConnected()) {
                 /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
             } else {
                 /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
@@ -183,10 +193,11 @@ public class LoginActivity extends Activity {
             pdLoading.setCancelable(false);
             pdLoading.show();
         }
+
         @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... params) {  //프로그레스 다이얼로그 자동 종료 및 에러메시지 토스트보여줌
-                                                                //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
+            //doInBackground()에서 에러발생시 하위 클래스의 onPostExecute()는 실행되지 않음
             try {
                 // Enter URL address where your php file resides
                 url = new URL("http://113.198.84.37/rest-auth/login/");
@@ -198,7 +209,7 @@ public class LoginActivity extends Activity {
 
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
 
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
@@ -273,7 +284,7 @@ public class LoginActivity extends Activity {
                         e.printStackTrace();
                     }
 
-                    return("successful");
+                    return ("successful");
 
                 } else {
                     InputStream errorInputStream = conn.getErrorStream();
@@ -290,17 +301,26 @@ public class LoginActivity extends Activity {
 
                     Log.d("LoginActivityLog", "LoginActivityLog 2-2 : " + errorResult.toString());
 
-                    if(serverJsonValue.contains("This field may not be blank."))
-                        errorUsername = serverJsonObject.getString("password");
+                    if(serverJsonValue.contains("Must include") || serverJsonValue.contains("non_field_errors")) {
+                        if(serverJsonValue.contains("username"))
 
-                    if(serverJsonValue.contains("non_field_errors"))
-                        errorPassword = serverJsonObject.getString("non_field_errors");
+                        errorUsername = errorResult.toString();
+                        errorPassword = errorResult.toString();
+                    }
+
+                    if (serverJsonValue.contains("username"))
+                        errorUsername = serverJsonObject.getString("username");
+
+                    if (serverJsonValue.contains("password"))
+                        errorPassword = serverJsonObject.getString("password");
+
+
 
 
                     Log.d("LoginActivityLog", "LoginActivityLog 2-3 : " + errorUsername);
-                    Log.d("LoginActivityLog", "LoginActivityLog 2-3 : " + errorPassword);
+                    Log.d("LoginActivityLog", "LoginActivityLog 2-4 : " + errorPassword);
 
-                    return("unsuccessful");
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -320,22 +340,92 @@ public class LoginActivity extends Activity {
             Log.d("LoginActivityLog", "LoginActivityLog 3-0 : " + result);
             pdLoading.dismiss();
 
-            if(result.equals("successful"))  //equals랑 같음(대소문자까지)
+            /*if (!validate()) {
+                return;
+            }*/
+
+            if (result.equals("successful"))  //equals랑 같음(대소문자까지)
             {
-                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.success_login), Toast.LENGTH_SHORT).show();
 
                 Intent moveMainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(moveMainIntent);
                 LoginActivity.this.finish();
 
             } else {
-                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fail_login), Toast.LENGTH_SHORT).show();
-
+                if (!validate()) {
+                    return;
+                }
             }
 
         }
 
     }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        //여기에 바뀐 style 다시적용
+
+        if(TextUtils.isEmpty(errorUsername)){
+            loginUserNameView.setBackgroundResource(R.drawable.text_border);
+            loginUserNameView.setError(null);
+        } else if (errorUsername.contains("This field may not be blank")) {
+            loginUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            loginUserNameView.setText("");
+            loginUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            loginUserNameView.setBackgroundResource( R.drawable.text_border_green);
+            loginUserNameView.setHint("아이디를 입력해 주세요.");
+            valid = false;
+        } else if (errorUsername.contains("Unable to log in with provided credentials")||
+                errorUsername.contains("Must include")) {
+            loginUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            loginUserNameView.setText("");
+            loginUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            loginUserNameView.setBackgroundResource( R.drawable.text_border_green);
+            loginUserNameView.setHint("아이디를 다시 확인하세요.");
+            valid = false;
+        } else {
+            loginUserNameView.setBackgroundResource(R.drawable.text_border_green);
+            loginUserNameView.setText("");
+            loginUserNameView.setHintTextColor(Color.parseColor("#2eb74f"));
+            loginUserNameView.setBackgroundResource( R.drawable.text_border_green);
+            loginUserNameView.setHint("아이디를 다시 확인하세요.");
+            //여기에 원래 style 다시적용
+            /*loginUserNameView.setError(null);*/
+        }
+
+        if(TextUtils.isEmpty(errorPassword)){
+            loginPawdView.setBackgroundResource(R.drawable.text_border);
+            loginPawdView.setError(null);
+        } else if (errorPassword.contains("This field may not be blank")) {
+            loginPawdView.setBackgroundResource(R.drawable.text_border_green);
+            loginPawdView.setText("");
+            loginPawdView.setHintTextColor(Color.parseColor("#2eb74f"));
+            loginPawdView.setBackgroundResource(R.drawable.text_border_green);
+            loginPawdView.setHint("패스워드를 입력해 주세요.");
+            valid = false;
+        } else if (errorPassword.contains("Unable to log in with provided credentials")||
+                errorPassword.contains("Must include")) {
+            loginPawdView.setBackgroundResource(R.drawable.text_border_green);
+            loginPawdView.setText("");
+            loginPawdView.setHintTextColor(Color.parseColor("#2eb74f"));
+            loginPawdView.setBackgroundResource(R.drawable.text_border_green);
+            loginPawdView.setHint("비밀번호를 다시 확인하세요.");
+            valid = false;
+        } else {
+            loginPawdView.setBackgroundResource(R.drawable.text_border_green);
+            loginPawdView.setText("");
+            loginPawdView.setHintTextColor(Color.parseColor("#2eb74f"));
+            loginPawdView.setBackgroundResource(R.drawable.text_border_green);
+            loginPawdView.setHint("비밀번호를 다시 확인하세요.");
+        }
+
+
+        return valid;
+    }
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }
-
-

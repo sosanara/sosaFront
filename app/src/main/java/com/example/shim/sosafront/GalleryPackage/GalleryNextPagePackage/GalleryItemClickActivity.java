@@ -64,6 +64,7 @@ public class GalleryItemClickActivity extends AppCompatActivity {
     private ImageView original_image;
     private ImageView binary_image;
 
+
     private String firstImagePath;
     private String changeImagePath;
     private String myType;

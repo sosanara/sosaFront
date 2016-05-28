@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/wholeLayout">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -109,7 +110,7 @@
 
             <Button
                 android:id="@+id/resetPawdBtn"
-                android:text="@string/send"
+                android:text="@string/change"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
