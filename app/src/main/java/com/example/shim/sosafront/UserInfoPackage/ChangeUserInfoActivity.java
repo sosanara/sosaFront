@@ -25,7 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
-import com.example.shim.sosafront.LoginPackage.LoginActivity;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -329,9 +328,9 @@ public class ChangeUserInfoActivity extends Activity {
 
             if(result.equals("successful")) {
                 /*Toast.makeText(getApplicationContext(), "내정보 수정 성공", Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(ChangeUserInfoActivity.this, LoginActivity.class);
+                Intent intent = new Intent(ChangeUserInfoActivity.this, UserInfoActivity.class);
+                finish();
                 startActivity(intent);
-                ChangeUserInfoActivity.this.finish();
             }
 
             else {

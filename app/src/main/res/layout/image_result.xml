@@ -18,10 +18,11 @@
             android:id="@+id/toolbar_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="100dp"
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_result"
             android:textSize="17.5sp"
-            android:gravity="center_horizontal"/>
+            android:layout_gravity="center" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -70,22 +71,23 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="31.5dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="40.5dp"
-                android:layout_marginLeft="85.6dp"
+                android:layout_width="157.8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="19.8dp"
                 android:text="@string/bald_type"
                 android:textColor="@color/textViewColor"
+                android:gravity="center"
                 android:textSize="17sp"/>
 
             <TextView
-                android:layout_width="78.3dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="40.5dp"
-                android:layout_marginLeft="95.6dp"
-                android:layout_marginRight="80dp"
+                android:layout_width="158.7dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingRight="19.8dp"
                 android:text="@string/bald_progress"
                 android:textColor="@color/textViewColor"
+                android:gravity="center"
                 android:textSize="17sp"/>
         </LinearLayout>
 
@@ -97,25 +99,28 @@
 
             <TextView
                 android:id="@+id/baldTypeView"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="180dp"
+                android:textColor="@color/whiteColor"
+                android:layout_width="157.8dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="-------------"
+                android:layout_marginTop="-20dp"
+                android:layout_marginLeft="19.8dp"
+                android:text="-----------"
                 android:gravity="center"
                 android:textSize="25sp" />
+
 
             <!--android:layout_width="92dp"
                 android:layout_height="55dp"-->
 
             <TextView
                 android:id="@+id/baldProgress"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginTop="12dp"
-                android:layout_width="180dp"
+                android:textColor="@color/whiteColor"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="19.8dp"
+                android:layout_width="157.8dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="------------"
+                android:text="-----------"
                 android:textSize="25sp" />
 
             <!--android:layout_width="78.3dp"
@@ -132,7 +137,7 @@
                 android:id="@+id/galleryBtn"
                 android:layout_width="99.8dp"
                 android:layout_height="103.9dp"
-                android:layout_marginTop="53.5dp"
+                android:layout_marginTop="33.5dp"
                 android:layout_marginLeft="26dp"
                 android:background="@drawable/main_gallery"/>
 
@@ -140,7 +145,7 @@
                 android:id="@+id/historyBtn"
                 android:layout_width="99.3dp"
                 android:layout_height="114.6dp"
-                android:layout_marginTop="43dp"
+                android:layout_marginTop="23dp"
                 android:layout_marginLeft="4.5dp"
                 android:background="@drawable/main_history"/>
 
@@ -148,7 +153,7 @@
                 android:id="@+id/statisticsBtn"
                 android:layout_width="99.8dp"
                 android:layout_height="101.8dp"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="33.5dp"
                 android:layout_marginLeft="4.9dp"
                 android:background="@drawable/main_statistics"/>
 

@@ -285,7 +285,7 @@ public class ResetPawdActivity extends Activity {
 
             if(result.equals("successful")) {
                /* Toast.makeText(getApplicationContext(), "비밀번호 리셋 성공", Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(ResetPawdActivity.this, LogoutActivity.class);
+                Intent intent = new Intent(ResetPawdActivity.this, LoginActivity.class);
                 startActivity(intent);
                 ResetPawdActivity.this.finish();
             }

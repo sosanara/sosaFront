@@ -89,6 +89,8 @@ public class GalleryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GalleryActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -126,6 +128,7 @@ public class GalleryActivity extends AppCompatActivity {
 
     //Server Connect class
     private class AsyncGallery extends AsyncTask<String, String, String> {
+        //MaterialDialog dialog; 소사 다이어로그
         ProgressDialog pdLoading = new ProgressDialog(GalleryActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -151,6 +154,14 @@ public class GalleryActivity extends AppCompatActivity {
             pdLoading.setCancelable(false);
             pdLoading.show();
 
+            //소사 다이어로그
+            /*LayoutInflater layoutInflater = getLayoutInflater();
+            View view = layoutInflater.inflate(R.layout.dialog_loading, null);
+            GifView gifView = (GifView) view.findViewById(R.id.loading);
+            gifView.setVisibility(View.VISIBLE);
+            dialog = new MaterialDialog.Builder(act).customView(view, true).build();
+            dialog.setCancelable(false);
+            dialog.show();*/
         }
 
         @Override

@@ -1,4 +1,4 @@
-package com.example.shim.sosafront.LoginPackage;
+package com.example.shim.sosafront.UserInfoPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -18,8 +18,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
+import com.example.shim.sosafront.LoginPackage.LoginActivity;
 import com.example.shim.sosafront.R;
 
 import org.json.JSONException;
@@ -283,9 +285,12 @@ public class ChangePawdActivity extends Activity {
             pdLoading.dismiss();
 
             if(result.equals("successful")) {
+                Toast.makeText(getApplicationContext(), "비밀번호 수정 성공", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChangePawdActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                finish();
                 startActivity(intent);
-                ChangePawdActivity.this.finish();
             }
 
             else {

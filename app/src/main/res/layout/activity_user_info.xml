@@ -67,20 +67,22 @@
                     android:gravity="left" />
             </LinearLayout>
 
-            <!--<LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp">
                 <TextView
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text_line"
                     android:layout_marginLeft="32dp"/>
-            </LinearLayout>-->
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="-30dp">
                 <TextView
                     android:text="@string/name"
                     android:layout_width="60dp"
@@ -102,20 +104,22 @@
                     android:gravity="left" />
             </LinearLayout>
 
-            <!--<LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp">
                 <TextView
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text_line"
                     android:layout_marginLeft="32dp"/>
-            </LinearLayout>-->
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="-30dp">
                 <TextView
                     android:text="@string/email"
                     android:layout_width="60dp"
@@ -137,6 +141,16 @@
                     android:gravity="left" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp">
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_line"
+                    android:layout_marginLeft="32dp"/>
+            </LinearLayout>
             <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -150,7 +164,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="-30dp">
                 <TextView
                     android:text="@string/gender"
                     android:layout_width="60dp"
@@ -172,6 +187,16 @@
                     android:gravity="left" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp">
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_line"
+                    android:layout_marginLeft="32dp"/>
+            </LinearLayout>
             <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -185,7 +210,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="-30dp">
                 <TextView
                     android:text="@string/birth"
                     android:layout_width="60dp"
@@ -210,14 +236,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="-20dp">
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_line"
+                    android:layout_marginLeft="32dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="32.8dp">
 
                 <Button
                     android:id="@+id/userInfoChangeBtn"
                     android:text="@string/change_info"
                     android:layout_width="145dp"
                     android:layout_height="50dp"
-                    android:layout_marginTop="39.8dp"
+
                     android:layout_marginLeft="30dp"
                     android:textColor="@color/whiteColor"
                     android:textSize="16sp"
@@ -230,7 +268,7 @@
                     android:layout_width="145dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="39.8dp"
+
                     android:textColor="@color/whiteColor"
                     android:textSize="16sp"
                     android:background="@drawable/btn_border_green"/>

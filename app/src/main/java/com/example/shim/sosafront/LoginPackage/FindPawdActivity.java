@@ -19,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
 
@@ -254,15 +253,14 @@ public class FindPawdActivity extends AppCompatActivity {
 
 
             if (result.equals("successful")) {
-                Toast.makeText(getApplicationContext(), "이메일 일치합니다.", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "이메일 일치합니다.", Toast.LENGTH_SHORT).show();*/
                 Intent resetIntent = new Intent(FindPawdActivity.this, ResetPawdActivity.class);
                 startActivity(resetIntent);
-                FindPawdActivity.this.finish();
             } else {
                 if (!validate()) {
                     return;
                 }
-                Toast.makeText(getApplicationContext(), "일치하지 않은 이메일 입니다.", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "일치하지 않은 이메일 입니다.", Toast.LENGTH_SHORT).show();*/
             }
         }
 

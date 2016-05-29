@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.R;
 import com.nostra13.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
@@ -88,6 +87,14 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         imgGrid.setVisibility(View.VISIBLE);
         /*scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");*/
         scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");
+
+        ib_camera_change.post(new Runnable() {
+            @Override
+            public void run() {
+                ib_camera_change.performClick();
+
+            }
+        });
 
     }
 
@@ -181,7 +188,7 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
             @Override
             public void run() {
                 if (success) {
-                    Toast.makeText(CameraActivity.this, "success!", Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(CameraActivity.this, "success!", Toast.LENGTH_SHORT).show();*/
                 }
             }
         });

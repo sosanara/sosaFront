@@ -16,10 +16,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="90dp"
+            android:layout_marginRight="50dp"
             android:text="@string/toolbar_gallary_click"
             android:textColor="@color/whiteColor"
-            android:textSize="17.5sp" />
+            android:textSize="17.5sp"
+            android:gravity="center"/>
     </android.support.v7.widget.Toolbar>
 
     <FrameLayout
@@ -30,8 +31,7 @@
             android:id="@+id/sendImageUserNameView"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:textColor="@color/textViewColor"
-            android:text="잠만"
+            android:textColor="@color/whiteColor"
             android:textSize="18sp"
             android:gravity="center"/>
 
@@ -55,7 +55,6 @@
                 android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:text="----------------"
                 android:textColor="#4d4d4d" />
 
             <TextView
@@ -64,83 +63,84 @@
                 android:background="@color/black14Color"/>
 
             <LinearLayout
-                android:layout_marginTop="18.5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/original_image"
-                    android:layout_marginRight="2.5dp"
-                    android:layout_width="157.5dp"
-                    android:layout_height="200dp"/>
+                    android:layout_width="157.8dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="18.8dp"
+                    android:layout_marginLeft="19.8dp" />
 
                 <ImageView
                     android:id="@+id/binary_image"
-                    android:layout_marginLeft="2.5dp"
-                    android:layout_width="157.5dp"
-                    android:layout_height="200dp"/>
+                    android:layout_width="157.8dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="18.8dp"
+                    android:layout_marginRight="19.8dp" />
+
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40.5dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="31.5dp"
-                        android:layout_height="20dp"
-                        android:textSize="17sp"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="93.1dp"
-                        android:text="유형"
-                        android:textColor="#4d4d4d" />
+                <TextView
+                    android:layout_width="157.8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="19.8dp"
+                    android:text="@string/bald_type"
+                    android:textColor="@color/textViewColor"
+                    android:gravity="center"
+                    android:textSize="17sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:textSize="17sp"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="87.1dp"
-                        android:text="탈모 진행률"
-                        android:textColor="#4d4d4d" />
+                <TextView
+                    android:layout_width="157.8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="19.8dp"
+                    android:text="@string/bald_progress"
+                    android:textColor="@color/textViewColor"
+                    android:gravity="center"
+                    android:textSize="17sp"/>
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/resultView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_marginTop="13dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/baldTypeView"
+                    android:textColor="@color/whiteColor"
+                    android:layout_width="157.8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginLeft="19.8dp"
+                    android:text="-----------"
+                    android:gravity="center"
+                    android:textSize="25sp" />
 
-                    <TextView
-                        android:id="@+id/baldTypeView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:text="----------------"
-                        android:textSize="25sp"
-                        android:layout_marginLeft="63dp"
-                        android:textColor="#2eb74f" />
+                <!--android:layout_width="92dp"
+                    android:layout_height="55dp"-->
 
-                    <TextView
-                        android:id="@+id/baldProgressView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="45dp"
-                        android:text="---------------"
-                        android:textSize="25sp"
-                        android:textColor="#2eb74f" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/baldProgressView"
+                    android:textColor="@color/whiteColor"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginRight="19.8dp"
+                    android:layout_width="157.8dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="-----------"
+                    android:textSize="25sp" />
+
             </LinearLayout>
 
 
@@ -151,7 +151,7 @@
                 android:layout_height="50dp"
                 android:onClick="delete_image"
                 android:src="@drawable/btn_delete"
-                android:layout_marginTop="95.8dp"/>
+                android:layout_marginTop="80dp"/>
             <!--<Button
                 android:id="@+id/delete_button"
                 android:layout_gravity="center_horizontal"

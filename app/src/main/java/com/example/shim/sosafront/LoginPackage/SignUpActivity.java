@@ -2,7 +2,6 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -371,10 +370,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
             if(result.equals("successful")) {
-                /*Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-                SignUpActivity.this.finish();
+                finish();
             }
 
             else {

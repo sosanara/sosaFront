@@ -129,6 +129,7 @@ public class LogoutActivity extends Activity {
                     Log.d("logoutTest", "로그아웃 받는거 2-1: " + reader);    //java.io.BufferedReader@5015f88
 
 
+
                     // Pass data to onPostExecute method
                     return(result.toString());
 

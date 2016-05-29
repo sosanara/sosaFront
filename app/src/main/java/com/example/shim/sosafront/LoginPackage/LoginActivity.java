@@ -348,8 +348,9 @@ public class LoginActivity extends Activity {
             {
 
                 Intent moveMainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                moveMainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                moveMainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(moveMainIntent);
-                LoginActivity.this.finish();
 
             } else {
                 if (!validate()) {

@@ -12,6 +12,7 @@ package com.example.shim.sosafront.MainPackage;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -19,6 +20,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -123,6 +125,24 @@ public class MainActivity extends AppCompatActivity {
 
         new AsyncMain().execute();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder d = new AlertDialog.Builder(this);
+        d.setMessage("정말 종료하시겠습니까?");
+        d.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        d.setNegativeButton("예", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        d.show();
     }
 
 
@@ -274,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
                 userNameView.setText(name + "님의 머리를 지켜주는");
                 userNameView.setTextColor(Color.parseColor("#2eb74f"));
 
-                if(tutorial.equals("true")) {
+                if(tutorial.equals("false")) {
                     Intent intentToTutorial = new Intent(MainActivity.this, TutorialActivity.class);
                     intentToTutorial.putExtra("TrueFalse", true);
                     startActivity(intentToTutorial);
@@ -297,31 +317,27 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.userInfoView:
                     intent = new Intent(MainActivity.this, UserInfoActivity.class);
                     startActivity(intent);
-                    finish();
                     break;
 
                 case R.id.takePictureBtn:
                     intent = new Intent(MainActivity.this, CameraActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent);
-                    finish();
                     break;
 
                 case R.id.galleryBtn:
                     intent = new Intent(MainActivity.this, GalleryActivity.class);
                     startActivity(intent);
-                    finish();
                     break;
 
                 case R.id.historyBtn:
                     intent = new Intent(MainActivity.this, HistoryActivity.class);
                     startActivity(intent);
-                    finish();
                     break;
 
                 case R.id.statisticsBtn:
                     intent = new Intent(MainActivity.this, StatisticActivity.class);
                     startActivity(intent);
-                    finish();
                     break;
             }
         }

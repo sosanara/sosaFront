@@ -18,12 +18,11 @@
             android:id="@+id/toolbar_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginRight="50dp"
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_history"
             android:textSize="17.5sp"
-            android:layout_marginLeft="100.6dp"
-            android:layout_marginRight="147.8dp"
-            android:layout_gravity="center_vertical"/>
+            android:gravity="center"/>
     </android.support.v7.widget.Toolbar>
 
 

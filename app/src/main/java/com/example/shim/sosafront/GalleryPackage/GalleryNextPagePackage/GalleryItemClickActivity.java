@@ -3,15 +3,18 @@ package com.example.shim.sosafront.GalleryPackage.GalleryNextPagePackage;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -101,6 +104,8 @@ public class GalleryItemClickActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GalleryItemClickActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -126,6 +131,12 @@ public class GalleryItemClickActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(act, GalleryActivity.class));
+    }
+
+    @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
@@ -141,13 +152,22 @@ public class GalleryItemClickActivity extends AppCompatActivity {
     }
 
     public void delete_image(View v) {
-
-        new AsyncDeleteClick().execute();
+        AlertDialog.Builder d = new AlertDialog.Builder(act);
+        d.setMessage("정말 삭제하시겠습니까?");
+        d.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        d.setNegativeButton("예", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                new AsyncDeleteClick().execute();
+            }
+        });
+        d.show();
 
     }
 
-
-    //다시 갑니다~
     //Server Connect class
     private class AsyncItemClick extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(GalleryItemClickActivity.this);
@@ -265,17 +285,9 @@ public class GalleryItemClickActivity extends AppCompatActivity {
                     Log.d("HistoryClickLog", "HistoryClickLog 2-4: " + percent);
                     Log.d("HistoryClickLog", "HistoryClickLog 2-5: " + userName);
 
-                    if(myType.equals("0")) {
-                        myType = "Normal";
-                    } else  if(myType.equals("1")) {
-                        myType = "Forward";
-                    } else  if(myType.equals("2")) {
-                        myType = "Backward";
-                    } else  if(myType.equals("3")) {
-                        myType = "Karma";
-                    } else  if(myType.equals("4")) {
-                        myType = "Bald";
-                    }
+
+
+
 
                     String buf[] = createDate.split("-");
                     String temp = buf[0]+"."+buf[1]+"."+buf[2];
@@ -308,11 +320,37 @@ public class GalleryItemClickActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
 
-            percent = String.format("%.2f", Double.parseDouble(percent)) + "%";
+            if(myType.equals("0")) {
+                myType = "Normal";
+            } else  if(myType.equals("1")) {
+                myType = "Forward";
+            } else  if(myType.equals("2")) {
+                myType = "Backward";
+            } else  if(myType.equals("3")) {
+                myType = "Karma";
+            } else  if(myType.equals("4")) {
+                myType = "Bald";
+            }
 
+            if(percent.contains(".")) {
+                int cutDot = percent.indexOf(".");
+                String cutPercentage = percent.substring(0, cutDot+3);
+                baldProgressView.setText(cutPercentage + "%");
+                baldProgressView.setTextColor(Color.parseColor("#2eb74f"));
+                Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + cutPercentage + "%");
+            }
+
+            else {
+                baldProgressView.setText(percent + "%");
+                baldProgressView.setTextColor(Color.parseColor("#2eb74f"));
+            }
+
+            /*percent = String.format("%.2f", Double.parseDouble(percent)) + "%";*/
+            /*baldProgressView.setTextColor(Color.parseColor("#2eb74f"));*/
             createDateView.setText(createDate);
             baldTypeView.setText(myType);
-            baldProgressView.setText(percent);
+            createDateView.setTextColor(Color.parseColor("#4d4d4d"));
+            baldTypeView.setTextColor(Color.parseColor("#2eb74f"));
 
         }
     }
@@ -392,9 +430,8 @@ public class GalleryItemClickActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             /*pdLoading.dismiss();*/
 
-            Intent userInfoIntent = new Intent(GalleryItemClickActivity.this, GalleryActivity.class);
-            startActivity(userInfoIntent);
             finish();
+            startActivity(new Intent(act, GalleryActivity.class));
         }
     }
     public void displayOriginalImageView(String ImagePath) {

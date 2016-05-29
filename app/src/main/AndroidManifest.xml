@@ -58,24 +58,16 @@
             android:name=".LoginPackage.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".LoginPackage.FindPawdActivity"
             android:label="@string/title_activity_find_pawd"
             android:screenOrientation="portrait"/>
-        <activity android:name=".LoginPackage.ChangePawdActivity"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginPackage.LogoutActivity"
             android:label="@string/title_activity_logout"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserInfoPackage.ChangePawdActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginPackage.ResetPawdActivity"

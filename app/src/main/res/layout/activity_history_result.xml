@@ -60,7 +60,7 @@
                         android:textColor="@color/textViewColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="55.8dp"
+                        android:paddingTop="45.8dp"
                         android:layout_gravity="center_horizontal"/>
 
                     <TextView
@@ -68,20 +68,20 @@
                         android:text="-------------"
                         android:textSize="30sp"
                         android:textColor="@color/colorPrimary"
-                        android:layout_width="wrap_content"
+                        android:layout_width="157.8dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14.3dp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:layout_marginTop="-30dp"
+                        android:gravity="center_horizontal"/>
 
                     <TextView
                         android:id="@+id/currentCreateDateView"
                         android:text="2016.05.08"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textColor="@color/rectBorderColor"
-                        android:layout_width="wrap_content"
+                        android:layout_width="157.8dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="13.5dp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:layout_marginTop="-30dp"
+                        android:gravity="center_horizontal"/>
 
                 </LinearLayout>
 
@@ -115,25 +115,25 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="62.8dp"
+                    android:layout_width="157.8dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="22.6dp"
-                    android:layout_marginLeft="77.5dp"
+                    android:layout_marginLeft="19.8dp"
                     android:text="@string/first_contrast"
                     android:textSize="17sp"
-                    android:textColor="@color/textViewColor"/>
+                    android:textColor="@color/textViewColor"
+                    android:gravity="center"/>
 
                 <TextView
-                    android:layout_width="62.8dp"
+                    android:layout_width="157.8dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="22.6dp"
-                    android:layout_marginLeft="79.3dp"
-                    android:layout_marginRight="77.8dp"
+                    android:layout_marginRight="19.8dp"
                     android:text="@string/before_contrast"
                     android:textSize="17sp"
-                    android:textColor="@color/textViewColor"/>
+                    android:textColor="@color/textViewColor"
+                    android:gravity="center"/>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -161,25 +161,25 @@
 
                 <TextView
                     android:id="@+id/firstPercentView"
-                    android:layout_width="100dp"
+                    android:layout_width="157.8dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginLeft="65dp"
-                    android:text="+100.0%"
-                    android:textSize="25sp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:layout_marginTop="-25dp"
+                    android:layout_marginLeft="19.8dp"
+                    android:text="-------------"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center"
+                    android:textSize="25sp"/>
 
                 <TextView
                     android:id="@+id/beforePercentView"
-                    android:layout_width="100dp"
+                    android:layout_width="157.8dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginLeft="47dp"
-                    android:layout_marginRight="65dp"
-                    android:text="-100.0%"
-                    android:textSize="25sp"
-                    android:textColor="@color/colorPrimary"/>
-
+                    android:layout_marginTop="-25dp"
+                    android:layout_marginRight="19.8dp"
+                    android:text="-------------"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center"
+                    android:textSize="25sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -190,22 +190,23 @@
 
                 <TextView
                     android:id="@+id/firstCreateDateView"
-                    android:layout_width="69.3dp"
+                    android:layout_width="157.8dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginLeft="75.3dp"
-                    android:text="2016.02.14"
+                    android:layout_marginTop="-14dp"
+                    android:layout_marginLeft="19.8dp"
+                    android:text="-------------"
+                    android:gravity="center"
                     android:textSize="13.5sp"
                     android:textColor="@color/rectBorderColor"/>
 
                 <TextView
                     android:id="@+id/beforeCreateDateView"
-                    android:layout_width="69.3dp"
+                    android:layout_width="157.8dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginLeft="74.5dp"
-                    android:layout_marginRight="75.3dp"
-                    android:text="2016.02.14"
+                    android:layout_marginTop="-14dp"
+                    android:layout_marginRight="19.8dp"
+                    android:text="-------------"
+                    android:gravity="center"
                     android:textSize="13.5sp"
                     android:textColor="@color/rectBorderColor"/>
 
@@ -233,8 +234,6 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="다시 시도하기"
-                android:textColor="@color/whiteColor"
-                android:background="@drawable/btn_border_black"
                 android:id="@+id/networkCheckBtn"
                 android:onClick="networkCheck"
                 />

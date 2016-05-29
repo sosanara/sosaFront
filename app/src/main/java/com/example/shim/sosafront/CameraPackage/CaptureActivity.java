@@ -94,8 +94,10 @@ public class CaptureActivity extends Activity {
                 Log.i("minho", mPath);
                 Intent sendImageIntent = new Intent(CaptureActivity.this, SendImageActivity.class);
                 sendImageIntent.putExtra("captureImage", mPath);
+                sendImageIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(sendImageIntent);
-                CaptureActivity.this.finish();
+                finish();
+                /*CaptureActivity.this.finish();*/
                 /*reTryBtn.setVisibility(View.VISIBLE);
                 checkResultBtn.setVisibility(View.VISIBLE);*/
             }

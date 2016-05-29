@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
-import com.example.shim.sosafront.LoginPackage.ChangePawdActivity;
 import com.example.shim.sosafront.LoginPackage.LogoutActivity;
 import com.example.shim.sosafront.R;
 
@@ -96,8 +95,8 @@ public class UserInfoActivity extends Activity {
                 Intent moveChangeUserInfo = new Intent(UserInfoActivity.this, ChangeUserInfoActivity.class);
                 moveChangeUserInfo.putExtra("userName", userInfoUserName);
                 moveChangeUserInfo.putExtra("email", userInfoEmail);
+                finish();
                 startActivity(moveChangeUserInfo);
-                UserInfoActivity.this.finish();
             }
         });
 
@@ -106,7 +105,6 @@ public class UserInfoActivity extends Activity {
             public void onClick(View v) {
                 Intent moveChangePawd = new Intent(UserInfoActivity.this, ChangePawdActivity.class);
                 startActivity(moveChangePawd);
-                UserInfoActivity.this.finish();
             }
         });
 
@@ -114,6 +112,8 @@ public class UserInfoActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent moveLogout = new Intent(UserInfoActivity.this, LogoutActivity.class);
+                moveLogout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                moveLogout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(moveLogout);
                 UserInfoActivity.this.finish();
             }

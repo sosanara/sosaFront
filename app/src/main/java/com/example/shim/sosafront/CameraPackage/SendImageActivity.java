@@ -1,16 +1,20 @@
 package com.example.shim.sosafront.CameraPackage;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,6 +25,7 @@ import android.widget.TextView;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
 import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
+import com.example.shim.sosafront.MainPackage.MainActivity;
 import com.example.shim.sosafront.R;
 import com.example.shim.sosafront.StatisticPackage.StatisticActivity;
 
@@ -44,7 +49,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class SendImageActivity extends Activity {
+public class SendImageActivity extends AppCompatActivity {
 
     private LinearLayout networkCheckLayout;
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
@@ -99,6 +104,8 @@ public class SendImageActivity extends Activity {
                         .build()
         );
 
+
+
         captureImage  = getIntent().getExtras().getString("captureImage");
         Log.d("SendImageActivityLog", "SendImageActivityLog0-0 : " + captureImage);
         uploadFileName = captureImage;
@@ -111,6 +118,23 @@ public class SendImageActivity extends Activity {
 
         /*resultImageView = (ImageView) findViewById(R.id.resultImageView);
         resultImageView.setVisibility(View.GONE);*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+        Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
+        Drawable resizeHome = resize(home);
+        toolbar.setNavigationIcon(resizeHome);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SendImageActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         File imgFile = new  File(captureImage);
 
@@ -142,7 +166,7 @@ public class SendImageActivity extends Activity {
 
     public void retryImage(View arg0) {
 
-        new File("/sdcard/my/file/is/here.txt").delete();
+        /*new File("/sdcard/my/file/is/here.txt").delete();*/
         Intent cameraIntent = new Intent(SendImageActivity.this, CameraActivity.class);
         startActivity(cameraIntent);
         SendImageActivity.this.finish();
@@ -152,6 +176,23 @@ public class SendImageActivity extends Activity {
     public void sendImage(View arg0) {
         // Initialize  AsyncLogin() class with email and password
         setContentView(R.layout.image_result);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+        Drawable home = getResources().getDrawable(R.drawable.toolbar_home);
+        Drawable resizeHome = resize(home);
+        toolbar.setNavigationIcon(resizeHome);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SendImageActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         originImageView = (ImageView) findViewById(R.id.originImageView);
         resultImageView = (ImageView) findViewById(R.id.resultImageView);
 
@@ -356,6 +397,7 @@ public class SendImageActivity extends Activity {
             statisticsBtn.setOnClickListener(menuClick);
 
             int typeNumber = Integer.parseInt(resultType);
+
             switch(typeNumber) {
                 case 0 :
                     baldTypeView.setText("Normal");
@@ -379,21 +421,26 @@ public class SendImageActivity extends Activity {
 
                 default:
                     baldTypeView.setText("에러");
+
             }
+
+            baldTypeView.setTextColor(Color.parseColor("#2eb74f"));
 
 
             Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + percentage);
 
             if(percentage.contains(".")) {
                 int cutDot = percentage.indexOf(".");
-                String cutPercentage = percentage.substring(0, cutDot);
+                String cutPercentage = percentage.substring(0, cutDot+3);
                 baldProgressView.setText(cutPercentage + "%");
+                baldProgressView.setTextColor(Color.parseColor("#2eb74f"));
                 Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + cutPercentage + "%");
             }
 
-            else
+            else {
                 baldProgressView.setText(percentage + "%");
-
+                baldProgressView.setTextColor(Color.parseColor("#2eb74f"));
+            }
 
             userNameView.setText(userName + "님의 두발상태");
 
@@ -498,4 +545,10 @@ public class SendImageActivity extends Activity {
             }
         }
     };
+
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 96, 77, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
 }
