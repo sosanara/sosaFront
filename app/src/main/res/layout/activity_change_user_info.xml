@@ -26,6 +26,11 @@
             android:gravity="center_horizontal"/>
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -57,6 +62,7 @@
 
             <EditText
                 android:id="@+id/nameView"
+                android:singleLine="true"
                 android:background="@drawable/text_border"
                 android:hint="@string/name"
                 android:textColorHint="@color/hintTextColor"
@@ -164,7 +170,7 @@
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:onClick="changeUserInfo"
-                android:background="@drawable/btn_border_green"/>
+                android:background="@drawable/btn_border_grey"/>
 
         </LinearLayout>
 
@@ -185,7 +191,7 @@
                 android:gravity="center"
                 android:text="다시 시도하기"
                 android:textColor="@color/whiteColor"
-                android:background="@drawable/btn_border_black"
+                android:background="@drawable/btn_border_grey"
                 android:id="@+id/networkCheckBtn"
                 android:onClick="networkCheck"
                 />

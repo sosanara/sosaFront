@@ -77,8 +77,8 @@ public class TypeUserFragment extends Fragment  {
 
     static int sendTypeData = 0;
 
-
-
+    Highlight h;
+    Entry e;
 
 
     public static TypeUserFragment newInstance(int page) {
@@ -98,7 +98,9 @@ public class TypeUserFragment extends Fragment  {
         super.onCreate(savedInstanceState);
         mPage = getArguments().getInt("page");
 
-
+        e = new Entry(20, 1);
+        int dataSetIndex = 0;
+        /*Highlight(1, 0);*/
 
     }
 

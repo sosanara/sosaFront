@@ -22,6 +22,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -156,6 +159,16 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
+    }
+
     private class AsyncMain extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(MainActivity.this);
@@ -257,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                     tutorial = subJsonObject.getString("tutorial").toString();
 
                     Log.d("MainLog", "MainLog 2-2 : " + name);
-                    Log.d("MainLog", "MainLog 2-2 : " + tutorial);
+                    Log.d("MainLog", "MainLog 2-3 : " + tutorial);
 
                     // Pass data to onPostExecute method
                         /*return(result.toString());*/
@@ -288,21 +301,25 @@ public class MainActivity extends AppCompatActivity {
 
             pdLoading.dismiss();
 
+            Log.d("MainLog", "MainLog 3-1 : " + tutorial);
 
 
-            if (result.equals("successful")) {
-                userNameView.setText(name + "님의 머리를 지켜주는");
-                userNameView.setTextColor(Color.parseColor("#2eb74f"));
 
-                if(tutorial.equals("false")) {
-                    Intent intentToTutorial = new Intent(MainActivity.this, TutorialActivity.class);
-                    intentToTutorial.putExtra("TrueFalse", true);
-                    startActivity(intentToTutorial);
-                }
-
-            } else {
-                /*Toast.makeText(getApplicationContext(), "사용자 인증 실패", Toast.LENGTH_SHORT).show();*/
+            if(tutorial.equals("false")) {
+                Intent intentToTutorial = new Intent(MainActivity.this, TutorialActivity.class);
+                intentToTutorial.putExtra("TrueFalse", true);
+                startActivity(intentToTutorial);
             }
+
+            /*userNameView.setText(name + "님의 머리를 지켜주는");*/
+            userNameView.setTextColor(Color.parseColor("#2eb74f"));
+
+            int nameLength = name.length();
+            String myNameProtect = name + "님의 머리를 지켜주는";
+
+            final SpannableStringBuilder sps = new SpannableStringBuilder(myNameProtect);
+            sps.setSpan(new ForegroundColorSpan(Color.parseColor("#013e1a")), 0, nameLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            userNameView.append(sps);
         }
 
     }

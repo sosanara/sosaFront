@@ -29,7 +29,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import io.values.camera.widget.CameraView;
 import io.values.camera.widget.FocusView;
 
-
 public class CameraActivity extends Activity implements CameraView.OnCameraSelectListener,
         View.OnClickListener {
 
@@ -85,16 +84,8 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         }
         initViews();
         imgGrid.setVisibility(View.VISIBLE);
-        /*scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");*/
+
         scanFile(Environment.getExternalStorageDirectory() + "/sosaCamera/IMG.jpg");
-
-        ib_camera_change.post(new Runnable() {
-            @Override
-            public void run() {
-                ib_camera_change.performClick();
-
-            }
-        });
 
     }
 
@@ -123,14 +114,12 @@ public class CameraActivity extends Activity implements CameraView.OnCameraSelec
         ImageLoader.getInstance().init(config);
     }
 
-
-
     @Override
     protected void onStart() {
         super.onStart();
+        ibTakePicture.setOnClickListener(this);
         ib_camera_change.setOnClickListener(this);
         ib_camera_grid.setOnClickListener(this);
-        ibTakePicture.setOnClickListener(this);
     }
 
     @Override

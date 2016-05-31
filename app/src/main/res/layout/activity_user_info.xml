@@ -25,6 +25,10 @@
             android:gravity="center_horizontal"/>
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

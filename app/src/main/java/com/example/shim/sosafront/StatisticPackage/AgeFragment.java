@@ -69,7 +69,7 @@ public class AgeFragment extends Fragment  {
     PieChart mChart;
 
     String[] mParties = new String[] {                                                                                               //수정 타입별, 나이별, 성별 각각 배열 생성
-            "20대 미만" ,"20대", "30대", "40대", "50대", "60대 이상"
+            "19세 이하" ,"20~29세", "30~30세", "40~49세", "50~59세", "60세 이상"
     };
 
 

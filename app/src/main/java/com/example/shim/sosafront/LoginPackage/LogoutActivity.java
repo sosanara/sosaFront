@@ -2,12 +2,15 @@ package com.example.shim.sosafront.LoginPackage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.R;
@@ -19,6 +22,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LogoutActivity extends Activity {
 
@@ -44,6 +49,21 @@ public class LogoutActivity extends Activity {
         new AsyncLogout().execute();
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
+    }
+
 
     private class AsyncLogout extends AsyncTask<String, String, String>
     {
@@ -55,6 +75,18 @@ public class LogoutActivity extends Activity {
         protected void onPreExecute() {  //작업처리중' 프로그레스 다이얼로그 자동 시작
             super.onPreExecute();
 
+
+            ConnectivityManager manager =
+                    (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobile.isConnected() || wifi.isConnected()) {
+                /*Toast.makeText(getApplicationContext(), "연결성공", Toast.LENGTH_LONG).show();*/
+            } else {
+                /*Toast.makeText(getApplicationContext(), "연결실패", Toast.LENGTH_LONG).show();*/
+                networkCheckLayout.setVisibility(View.VISIBLE);
+            }
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");
@@ -157,7 +189,7 @@ public class LogoutActivity extends Activity {
             startActivity(intent);
             LogoutActivity.this.finish();
 
-            Toast.makeText(LogoutActivity.this, "로그아웃 되었습니다", Toast.LENGTH_LONG);
+            /*Toast.makeText(LogoutActivity.this, "로그아웃 되었습니다", Toast.LENGTH_LONG);*/
 
             pdLoading.dismiss();
         }

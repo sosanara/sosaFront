@@ -83,7 +83,7 @@
     <string name="result_confirm">결과확인</string>
     <string name="take_picture">두발 상태 점검하기</string>
     <string name="bald_type">유형</string>
-    <string name="bald_progress">탈모진행율</string>
+    <string name="bald_progress">탈모진행률</string>
     <string name="toolbar_gallary_click">사진첩 상세보기</string>
     <string name="toolbar_gallary">사진첩</string>
     <string name="first_contrast">최초대비</string>

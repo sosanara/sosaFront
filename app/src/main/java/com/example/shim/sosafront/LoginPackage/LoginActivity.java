@@ -6,14 +6,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,6 +65,7 @@ public class LoginActivity extends Activity {
     private TextView signUp;
     private TextView findPawd;
 
+    private Button loginBtn;
     private Button moveFindPassBtn;
     private Button moveSignUpBtn;
 
@@ -71,6 +76,11 @@ public class LoginActivity extends Activity {
     String authKey;
 
     LinearLayout wholeLayout;
+
+    int userNameLength = 0;
+    int passwordLength = 0;
+
+    Context mContext;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -97,6 +107,7 @@ public class LoginActivity extends Activity {
 
         dataStore = new DataStore(this);
 
+        loginBtn = (Button) findViewById(R.id.loginBtn);
         wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
         networkCheckLayout = (LinearLayout) findViewById(R.id.networkCheckLayout);
         loginUserNameView = (EditText) findViewById(R.id.loginUserNameView);
@@ -114,12 +125,12 @@ public class LoginActivity extends Activity {
         loginPawdView.setText("zxcv1234", TextView.BufferType.EDITABLE);
 
         signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent moveSignUp = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(moveSignUp);
+                @Override
+                public void onClick(View v) {
+                    Intent moveSignUp = new Intent(LoginActivity.this, SignUpActivity.class);
+                    startActivity(moveSignUp);
 
-            }
+                }
         });
 
         findPawd.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +147,67 @@ public class LoginActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 hideKeyboard();
                 return false;
+            }
+        });
+
+
+
+        mContext = getApplicationContext();
+
+        loginUserNameView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                userNameLength =loginUserNameView.getText().toString().getBytes().length;
+                passwordLength = loginPawdView.getText().toString().getBytes().length;
+
+                if (userNameLength == 0 || passwordLength == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    loginBtn.setBackground(drawable);
+
+                } else {  //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    loginBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        loginPawdView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                userNameLength =loginUserNameView.getText().toString().getBytes().length;
+                passwordLength = loginPawdView.getText().toString().getBytes().length;
+
+                if (userNameLength == 0 || passwordLength == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    loginBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    loginBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -429,4 +501,6 @@ public class LoginActivity extends Activity {
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
+
 }

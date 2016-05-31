@@ -1,17 +1,23 @@
 package com.example.shim.sosafront.LoginPackage;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,8 +58,10 @@ public class FindPawdActivity extends AppCompatActivity {
     private String email;
     private String errorEmail;
 
+    Context mContext;
 
     Toolbar toolbar;
+    int emailLength = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,35 @@ public class FindPawdActivity extends AppCompatActivity {
             }
         });
 
+        mContext = getApplicationContext();
+
+        emailView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailLength = emailView.getText().toString().getBytes().length;
+
+                if (emailLength == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    findPawdBtn.setBackground(drawable);
+
+                } else {  //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    findPawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override

@@ -26,6 +26,11 @@
             android:gravity="center_horizontal"/>
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -38,7 +43,7 @@
                 android:text="이메일 주소를 입력해주세요."
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="41.5dp"
+                android:layout_marginTop="21.5dp"
                 android:paddingTop="17dp"
                 android:paddingBottom="17dp"
                 android:textSize="16sp"
@@ -47,6 +52,8 @@
 
             <EditText
                 android:id="@+id/emailView"
+                android:textCursorDrawable="@drawable/edittext_cursor_size"
+                android:singleLine="true"
                 android:background="@drawable/text_border"
                 android:hint="@string/email"
                 android:textColorHint="@color/hintTextColor"
@@ -54,7 +61,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="41dp"
+                android:layout_marginTop="21dp"
                 android:paddingLeft="18.3dp"
                 android:paddingRight="18.3dp"
                 android:textSize="16sp"
@@ -75,8 +82,7 @@
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:onClick="findPawd"
-                android:radius="20.5dp"
-                android:background="@drawable/button_border"/>
+                android:background="@drawable/btn_border_grey"/>
         </LinearLayout>
 
         <LinearLayout

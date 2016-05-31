@@ -23,6 +23,11 @@
             android:gravity="center"/>
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -144,13 +149,20 @@
             </LinearLayout>
 
 
+        <!--<LinearLayout
+            android:id="@+id/ageLayoutFour"
+            android:layout_width="143.3dp"
+            android:layout_height="30.8dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_age_four"/>  -->
+
             <ImageButton
                 android:id="@+id/delete_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:onClick="delete_image"
-                android:src="@drawable/btn_delete"
+                android:background="@drawable/btn_delete"
                 android:layout_marginTop="80dp"/>
             <!--<Button
                 android:id="@+id/delete_button"

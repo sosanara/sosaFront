@@ -26,6 +26,10 @@ android:id="@+id/wholeLayout">
             android:gravity="center_horizontal"/>
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -35,8 +39,11 @@ android:id="@+id/wholeLayout">
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
             <EditText
                 android:id="@+id/oldPawdView"
+                android:singleLine="true"
                 android:background="@drawable/text_border"
                 android:hint="@string/old_pawd"
                 android:textColorHint="@color/hintTextColor"
@@ -54,6 +61,7 @@ android:id="@+id/wholeLayout">
 
             <EditText
                 android:id="@+id/changePawd1View"
+                android:singleLine="true"
                 android:background="@drawable/text_border"
                 android:hint="@string/new_pawd"
                 android:textColorHint="@color/hintTextColor"
@@ -71,6 +79,7 @@ android:id="@+id/wholeLayout">
 
             <EditText
                 android:id="@+id/changePawd2View"
+                android:singleLine="true"
                 android:background="@drawable/text_border"
                 android:hint="@string/new_pawd_confirm"
                 android:textColorHint="@color/hintTextColor"
@@ -100,7 +109,7 @@ android:id="@+id/wholeLayout">
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:onClick="changePawd"
-                android:background="@drawable/button_border"/>
+                android:background="@drawable/btn_border_grey"/>
 
             <!--android:background="@color/btnBackgoundColor"-->
         </LinearLayout>

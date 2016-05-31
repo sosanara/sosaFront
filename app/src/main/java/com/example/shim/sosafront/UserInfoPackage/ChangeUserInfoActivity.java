@@ -1,22 +1,29 @@
 package com.example.shim.sosafront.UserInfoPackage;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -59,6 +66,7 @@ public class ChangeUserInfoActivity extends Activity {
     private EditText nameView;
     private EditText birthView;
     private EditText GenderView;
+    private Button changeUserInfoBtn;
 
     private String authKey;
     DataStore dataStore;
@@ -66,6 +74,7 @@ public class ChangeUserInfoActivity extends Activity {
 
     private String userName;
     private String email;
+    private String name;
 
     private String errorEmail;
     private String errorFirstName;
@@ -83,6 +92,10 @@ public class ChangeUserInfoActivity extends Activity {
     RadioButton femaleRadioBtn;
     RadioGroup genderRadioGroup;
 
+    int userNameLength = 0;
+
+    Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +112,9 @@ public class ChangeUserInfoActivity extends Activity {
 
         userName = getIntent().getExtras().getString("userName");
         email = getIntent().getExtras().getString("email");
+        name = getIntent().getExtras().getString("name");
+        birth = getIntent().getExtras().getString("age");
+        gender = getIntent().getExtras().getString("gender");
 
         wholeLayout = (LinearLayout) findViewById(R.id.wholeLayout);
         networkCheckLayout = (LinearLayout)findViewById(R.id.networkCheckLayout);
@@ -110,18 +126,30 @@ public class ChangeUserInfoActivity extends Activity {
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
         maleRadioBtn = (RadioButton) findViewById(R.id.maleRadioBtn);
         femaleRadioBtn = (RadioButton) findViewById(R.id.femaleRadioBtn);
+        changeUserInfoBtn = (Button) findViewById(R.id.changeUserInfoBtn);
 
         userNameView.setText(userName);
         emailAddressView.setText(email);
+        nameView.setText(name);
+
+
+
         /*emailAddressView.setText("uiop@naver.com", TextView.BufferType.EDITABLE);
         nameView.setText("mienhwr", TextView.BufferType.EDITABLE);*/
 
         changeGenderFunc();
 
+        Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 0-2 : " + userName);
+        Log.d("ChangeUserInfoLog", "ChangeUserInfoLog 0-3 : " + birth);
 
         dataStore = new DataStore(this);
         authKey = dataStore.getValue("key", "");
         initAgeListSpinner();
+
+        int spinnerNum = 0;
+        spinnerNum = 2016 - Integer.parseInt(birth) + 1;
+
+        ageSpinner.setSelection(spinnerNum);
 
         wholeLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -130,12 +158,58 @@ public class ChangeUserInfoActivity extends Activity {
                 return false;
             }
         });
+
+        mContext = getApplicationContext();
+
+        nameView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                userNameLength = nameView.getText().toString().getBytes().length;
+
+                if (userNameLength == 0 && birth == "생년월일") { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    changeUserInfoBtn.setBackground(drawable);
+
+                } else {  //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    changeUserInfoBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(this, UserInfoActivity.class));
     }
 
     //글씨체 통일
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
     }
 
     // Triggers when changePawd Button clicked
@@ -387,7 +461,6 @@ public class ChangeUserInfoActivity extends Activity {
 
     void changeGenderFunc() {
         maleRadioBtn.setChecked(true);
-        gender = "Man";
         genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 

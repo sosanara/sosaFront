@@ -138,6 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
         /*signUpGenderView.setText("Man", TextView.BufferType.EDITABLE);*/
 
 
+
         initAgeListSpinner();
 
         wholeLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -154,6 +155,16 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void networkCheck(View v) {
+
+        switch (v.getId()) {
+            case R.id.networkCheckBtn:
+                finish();
+                startActivity(getIntent());
+                break;
+        }
     }
 
 
@@ -174,12 +185,12 @@ public class SignUpActivity extends AppCompatActivity {
         //이름 성과 이름으로 나눔
 
         if(name.length() >= 1) {
-            first_name = name.substring(0, 1);
+            first_name = name.substring(0, 1); //last성 first 이름
             last_name = name.substring(1, name.length());
         }
 
         new AsyncSignUp().execute(username, email, password1, password2, birth
-                , first_name, last_name, gender);
+                , last_name, first_name, gender);
 
     }
 
@@ -623,7 +634,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new InputStreamReader(getAssets().open("ageSpinner/age.txt"), "euc_kr"));
+            in = new BufferedReader(new InputStreamReader(getAssets().open("ageSpinner/age.txt"), "UTF-8"));
             String line = in.readLine();
 
             while (line != null) {

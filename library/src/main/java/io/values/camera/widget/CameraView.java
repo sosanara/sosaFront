@@ -58,7 +58,7 @@ public class CameraView implements SurfaceHolder.Callback, Camera.PictureCallbac
     private FocusView focusView;
 
     private int flash_type = FLASH_AUTO; // 0 close , 1 open , 2 auto
-    private static int camera_position = Camera.CameraInfo.CAMERA_FACING_BACK;// 0 back camera , 1 front camera
+    private static int camera_position = Camera.CameraInfo.CAMERA_FACING_FRONT;// 0 back camera , 1 front camera
     private int takePhotoOrientation = 90;
 
     /**

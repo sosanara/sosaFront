@@ -1,12 +1,15 @@
 package com.example.shim.sosafront.CameraPackage;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,13 +18,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cunoraz.gifview.library.GifView;
 import com.example.shim.sosafront.DatabasePackage.DataStore;
 import com.example.shim.sosafront.GalleryPackage.GalleryActivity;
 import com.example.shim.sosafront.HistoryPackage.HistoryActivity;
@@ -62,7 +71,7 @@ public class SendImageActivity extends AppCompatActivity {
 
     private ImageView sendImageView;
 
-
+    Activity act = SendImageActivity.this;
     TextView userNameView;
     TextView baldTypeView;
     TextView baldProgressView;
@@ -212,6 +221,7 @@ public class SendImageActivity extends AppCompatActivity {
         ProgressDialog pdLoading = new ProgressDialog(SendImageActivity.this);
         HttpURLConnection conn;
         URL url = null;
+        MaterialDialog dialog;
 
 
 
@@ -231,10 +241,13 @@ public class SendImageActivity extends AppCompatActivity {
                 networkCheckLayout.setVisibility(View.VISIBLE);
             }
 
-            //this method will be running on UI thread
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
-            pdLoading.show();
+            LayoutInflater layoutInflater = getLayoutInflater();
+            View view = layoutInflater.inflate(R.layout.dialog_loading, null);
+            GifView gifView = (GifView) view.findViewById(R.id.loading);
+            gifView.setVisibility(View.VISIBLE);
+            dialog = new MaterialDialog.Builder(act).customView(view, true).build();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.show();
 
         }
 
@@ -325,6 +338,7 @@ public class SendImageActivity extends AppCompatActivity {
                 // Check if successful connection made
                 if (response_code == HttpURLConnection.HTTP_OK) {
 
+                    dialog.dismiss();
                     // Read data sent from server
                     InputStream input = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -442,7 +456,21 @@ public class SendImageActivity extends AppCompatActivity {
                 baldProgressView.setTextColor(Color.parseColor("#2eb74f"));
             }
 
-            userNameView.setText(userName + "님의 두발상태");
+
+            /*userNameView.setText(userName + "님의 두발상태");*/
+
+            int nameLength = userName.length();
+            String myNameProtect = userName + "님의 두발상태";
+
+
+            Typeface font = Typeface.createFromAsset(getAssets(), "fonts/NotoSansKR-Bold.otf");
+
+            SpannableStringBuilder sps = new SpannableStringBuilder(myNameProtect);
+            sps.setSpan ( new StyleSpan(font.getStyle()), 0, nameLength, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
+           /* final SpannableStringBuilder sps = new SpannableStringBuilder(myNameProtect);
+            sps.setSpan(new ForegroundColorSpan(Color.parseColor("#013e1a")), 0, nameLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
+            userNameView.append(sps);
 
             /*displayImageView(originImagePath, 1);
             displayImageView(resultImagePath, 2);*/
@@ -525,21 +553,25 @@ public class SendImageActivity extends AppCompatActivity {
             switch(v.getId()) {  //switch가 if문보다 빠름 몇개 없는데 if문이 나려나?
                 case R.id.takePictureBtn:
                     intent = new Intent(SendImageActivity.this, CameraActivity.class);
+                    finish();
                     startActivity(intent);
                     break;
 
                 case R.id.galleryBtn:
                     intent = new Intent(SendImageActivity.this, GalleryActivity.class);
+                    finish();
                     startActivity(intent);
                     break;
 
                 case R.id.historyBtn:
                     intent = new Intent(SendImageActivity.this, HistoryActivity.class);
+                    finish();
                     startActivity(intent);
                     break;
 
                 case R.id.statisticsBtn:
                     intent = new Intent(SendImageActivity.this, StatisticActivity.class);
+                    finish();
                     startActivity(intent);
                     break;
             }

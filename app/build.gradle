@@ -52,6 +52,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile ('com.github.ganfra:material-spinner:1.1.1') //스피너
     compile 'uk.co.chrisjenx:calligraphy:2.2.0' //폰트 일괄적용
+
+    compile('com.afollestad.material-dialogs:core:0.8.2.0@aar') {
+        transitive = true
+    }
+    compile project(':library2')
 }
 
 

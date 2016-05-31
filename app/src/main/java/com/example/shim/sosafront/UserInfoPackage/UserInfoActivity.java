@@ -95,6 +95,9 @@ public class UserInfoActivity extends Activity {
                 Intent moveChangeUserInfo = new Intent(UserInfoActivity.this, ChangeUserInfoActivity.class);
                 moveChangeUserInfo.putExtra("userName", userInfoUserName);
                 moveChangeUserInfo.putExtra("email", userInfoEmail);
+                moveChangeUserInfo.putExtra("age", userInfoAge);
+                moveChangeUserInfo.putExtra("name", userInfoName);
+                moveChangeUserInfo.putExtra("gender", userInfoGender);
                 finish();
                 startActivity(moveChangeUserInfo);
             }
@@ -221,7 +224,7 @@ public class UserInfoActivity extends Activity {
 
                     userInfoUserName = jsonObject.getString("username").toString();
                     userInfoGender = jsonObject.getString("gender").toString();
-                    userInfoName = jsonObject.getString("first_name").toString() + jsonObject.getString("last_name").toString();
+                    userInfoName = jsonObject.getString("last_name").toString() + jsonObject.getString("first_name").toString();
                     userInfoAge = jsonObject.getString("birth").toString();
                     userInfoEmail = jsonObject.getString("email").toString();
 

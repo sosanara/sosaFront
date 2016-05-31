@@ -121,6 +121,7 @@ public class GalleryActivity extends AppCompatActivity {
 
         Intent goItemClickActivity = new Intent(this, GalleryItemClickActivity.class);
         goItemClickActivity.putExtra("url", tempKeys);
+        finish();
         startActivity(goItemClickActivity);
 
     }

@@ -26,6 +26,11 @@
             android:textSize="17.5sp" />
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
+
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         app:pstsShouldExpand="true"
@@ -78,9 +83,8 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
 
             </LinearLayout>
 
@@ -93,14 +97,12 @@
 
                 <TextView
                     android:id="@+id/typeTwoView"
-                    android:text="0.0%"
                     android:textSize="12sp"
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -124,9 +126,8 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
 
             </LinearLayout>
 
@@ -139,14 +140,12 @@
 
                 <TextView
                     android:id="@+id/typeFourView"
-                    android:text="0.0%"
                     android:textSize="12sp"
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -170,30 +169,11 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
 
             </LinearLayout>
 
-            <!--<LinearLayout
-                android:layout_width="143.3dp"
-                android:layout_height="30.8dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/btn_type_two">
-
-                <TextView
-                    android:id="@+id/typeSixView"
-                    android:text="0.0%"
-                    android:textSize="12sp"
-                    android:textColor="@color/textViewColor"
-                    android:layout_width="50.3dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"
-                    android:visibility="gone"/>
-            </LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
 
@@ -223,9 +203,8 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
 
             </LinearLayout>
 
@@ -238,14 +217,12 @@
 
                 <TextView
                     android:id="@+id/ageFourView"
-                    android:text="0.0%"
                     android:textSize="12sp"
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -269,9 +246,8 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
 
             </LinearLayout>
 
@@ -289,9 +265,8 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -315,9 +290,8 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
 
             </LinearLayout>
 
@@ -335,9 +309,8 @@
                     android:textColor="@color/textViewColor"
                     android:layout_width="50.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="104dp"
-                    android:paddingRight="13.5dp"/>
+                    android:layout_marginTop="-2.5dp"
+                    android:layout_marginLeft="97dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

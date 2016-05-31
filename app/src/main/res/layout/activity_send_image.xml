@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/cameraCheckColor">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,23 +13,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary">
+        android:background="@color/cameraCheckColor">
+
+        <!--TextView
+            android:id="@+id/toolbar_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingRight="60dp"
+            android:textColor="@color/whiteColor"
+            android:text="@string/toolbar_result"
+            android:textSize="17.5sp"
+            android:gravity="center"
+            android:layout_gravity="center" />-->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="100dp"
+            android:paddingRight="60dp"
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_picture_confirm"
-            android:textSize="17.5sp"
-            android:layout_gravity="center" />
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="17.5sp" />
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/cameraCheckColor">
 
         <ImageView
             android:id="@+id/sendImageView"
@@ -50,11 +67,11 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginBottom="35.5dp"
-                android:textColor="@color/whiteColor"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:onClick="retryImage"
-                android:background="@drawable/btn_border_green" />
+                android:background="@drawable/btn_border_white"/>
 
             <Button
                 android:id="@+id/sendImageBtn"
@@ -64,11 +81,11 @@
                 android:layout_marginLeft="10.3dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="35.5dp"
-                android:textColor="@color/whiteColor"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:onClick="sendImage"
-                android:background="@drawable/btn_border_green"/>
+                android:background="@drawable/btn_border_white"/>
         </LinearLayout>
 
         <!--<ImageView

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/wholeLayout">
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -46,7 +47,9 @@
             />
 
         <EditText
+            android:textCursorDrawable="@drawable/edittext_cursor_size"
             android:id="@+id/loginUserNameView"
+            android:singleLine="true"
             android:background="@drawable/text_border"
             android:hint="@string/id"
             android:textColorHint="@color/hintTextColor"
@@ -63,6 +66,7 @@
 
         <EditText
             android:id="@+id/loginPawdView"
+            android:singleLine="true"
             android:background="@drawable/text_border"
             android:hint="@string/pawd"
             android:textColorHint="@color/hintTextColor"
@@ -80,7 +84,6 @@
 
         <Button
             android:id="@+id/loginBtn"
-            android:radius="2.5dp"
             android:text="@string/login"
             android:layout_width="300dp"
             android:layout_height="50dp"
@@ -93,7 +96,7 @@
             android:textSize="16sp"
             android:layout_gravity="center"
             android:onClick="startLogin"
-            android:background="@drawable/btn_border_green" />
+            android:background="@drawable/btn_border_grey" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,7 +107,7 @@
                     android:layout_width="58dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="52.5dp"
-                    android:layout_marginTop="23.8dp"
+                    android:layout_marginTop="13.8dp"
                     android:text="@string/sign_up"
                     android:textColor="@color/colorPrimary" />
 
@@ -112,9 +115,9 @@
                     android:id="@+id/findPawd"
                     android:layout_width="87dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="114.3dp"
+                    android:layout_marginLeft="110.3dp"
                     android:layout_marginRight="52.3dp"
-                    android:layout_marginTop="23.8dp"
+                    android:layout_marginTop="13.8dp"
                     android:text="@string/find_password"
                     android:textColor="@color/colorPrimary" />
 

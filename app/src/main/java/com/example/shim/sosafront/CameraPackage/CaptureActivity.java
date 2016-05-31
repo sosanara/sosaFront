@@ -1,5 +1,6 @@
 package com.example.shim.sosafront.CameraPackage;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,10 +8,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -33,11 +37,20 @@ public class CaptureActivity extends Activity {
     String mPath;
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        moveTaskToBack(true);
         setContentView(R.layout.activity_capture);
+
+        Window window = this.getWindow();
+// clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+// finally change the color
+        window.setStatusBarColor(this.getResources().getColor(R.color.imageCheckColor));
+
 
         autoCaptureBtn = (Button) findViewById(R.id.autoCaptureBtn);
         /*reTryBtn = (Button) findViewById(R.id.reTryBtn);
@@ -94,10 +107,8 @@ public class CaptureActivity extends Activity {
                 Log.i("minho", mPath);
                 Intent sendImageIntent = new Intent(CaptureActivity.this, SendImageActivity.class);
                 sendImageIntent.putExtra("captureImage", mPath);
-                sendImageIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(sendImageIntent);
-                finish();
-                /*CaptureActivity.this.finish();*/
+                CaptureActivity.this.finish();
                 /*reTryBtn.setVisibility(View.VISIBLE);
                 checkResultBtn.setVisibility(View.VISIBLE);*/
             }

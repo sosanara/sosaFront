@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -78,7 +79,7 @@ public class HistoryResultActivity extends AppCompatActivity {
     private String resultType;
     private String userName;
 
-    private int firstTakePicture = 0;
+    private int firstTakePicture = 0; //처음 찍은 이미지인 경우
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,17 +310,21 @@ public class HistoryResultActivity extends AppCompatActivity {
                     currentCreateDate =currentJsonObject.getString("created_date").toString();
                     displayImageView(currentImagePath, 3);
 
-
                     if(firstPercent == null && beforePercent == null) {
                         currentCreateDate =  currentCreateDate.substring(0, 10);// ex) 2016-04-01
+                        currentCreateDate = currentCreateDate.replace("-", ".");
                         currentPercent = String.format("%.2f", Double.parseDouble(currentPercent)) + "%";
 
                     }
 
                     else {
                         firstCreateDate =  firstCreateDate.substring(0, 10);
-                        beforeCreateDate =  firstCreateDate.substring(0, 10);
-                        currentCreateDate =  firstCreateDate.substring(0, 10);
+                        beforeCreateDate =  beforeCreateDate.substring(0, 10);
+                        currentCreateDate =  currentCreateDate.substring(0, 10);
+
+                        firstCreateDate = firstCreateDate.replace("-", ".");
+                        beforeCreateDate = beforeCreateDate.replace("-", ".");
+                        currentCreateDate = currentCreateDate.replace("-", ".");
 
                         firstPercent = String.format("%.2f", Double.parseDouble(firstPercent)) + "%";
                         beforePercent = String.format("%.2f", Double.parseDouble(beforePercent)) + "%";
@@ -364,6 +369,7 @@ public class HistoryResultActivity extends AppCompatActivity {
                 onlyOneDataView.setVisibility(View.VISIBLE);
                 comparePercentLayout.setVisibility(View.GONE);
                 compareCreateDateLayout.setVisibility(View.GONE);
+
                 /*firstPercentView.setText("");
                 beforePercentView.setText("");
                 firstCreateDateView.setText("");
@@ -379,13 +385,56 @@ public class HistoryResultActivity extends AppCompatActivity {
             }
 
             else {
-                firstPercentView.setText(firstPercent);
-                beforePercentView.setText(beforePercent);
+                onlyOneDataView.setVisibility(View.GONE);
+                comparePercentLayout.setVisibility(View.VISIBLE);
+                compareCreateDateLayout.setVisibility(View.VISIBLE);
+
+                if(firstPercent.contains(".")) {
+                    int cutDot = firstPercent.indexOf(".");
+                    String cutPercentage = firstPercent.substring(0, cutDot+3);
+                    firstPercentView.setText(cutPercentage + "%");
+                    firstPercentView.setTextColor(Color.parseColor("#2eb74f"));
+                    Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + cutPercentage + "%");
+                }
+
+                else {
+                    firstPercentView.setText(firstPercent + "%");
+                    firstPercentView.setTextColor(Color.parseColor("#2eb74f"));
+                }
+
+                if(beforePercent.contains(".")) {
+                    int cutDot = beforePercent.indexOf(".");
+                    String cutPercentage = beforePercent.substring(0, cutDot+3);
+                    beforePercentView.setText(cutPercentage + "%");
+                    beforePercentView.setTextColor(Color.parseColor("#2eb74f"));
+                    Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + cutPercentage + "%");
+                }
+
+                else {
+                    beforePercentView.setText(beforePercent + "%");
+                    beforePercentView.setTextColor(Color.parseColor("#2eb74f"));
+                }
+
                 firstCreateDateView.setText(firstCreateDate);
                 beforeCreateDateView.setText(beforeCreateDate);
+                firstCreateDateView.setTextColor(Color.parseColor("#4d4d4d"));
+                beforeCreateDateView.setTextColor(Color.parseColor("#4d4d4d"));
             }
-            currentPercentView.setText(currentPercent);
-            currentCreateDateView.setText((currentCreateDate));
+
+            if(currentPercent.contains(".")) {
+                int cutDot = currentPercent.indexOf(".");
+                String cutPercentage = currentPercent.substring(0, cutDot+3);
+                currentPercentView.setText(cutPercentage + "%");
+                currentPercentView.setTextColor(Color.parseColor("#2eb74f"));
+                Log.d("SendImageActivityLog", "SendImageActivityLog 3-1 : " + cutPercentage + "%");
+            }
+
+            else {
+                currentPercentView.setText(currentPercent + "%");
+                currentPercentView.setTextColor(Color.parseColor("#2eb74f"));
+            }
+            currentCreateDateView.setText(currentCreateDate);
+            currentCreateDateView.setTextColor(Color.parseColor("#4d4d4d"));
 
             pdLoading.dismiss();
 

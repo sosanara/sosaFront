@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <!-- SHADOW LAYER -->
+            <item>
+                <shape>
+                    <solid android:color="@color/btnClickShadowColor" />
+                </shape>
+            </item>
+
+            <!-- CONTENT LAYER -->
+            <item>
+                <!--content-->
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/colorPrimary"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

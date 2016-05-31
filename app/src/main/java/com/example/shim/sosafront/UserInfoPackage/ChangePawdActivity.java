@@ -1,16 +1,22 @@
 package com.example.shim.sosafront.UserInfoPackage;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,6 +71,12 @@ public class ChangePawdActivity extends Activity {
 
     LinearLayout wholeLayout;
 
+    int oldPawdLength = 0;
+    int newPawd1Length = 0;
+    int newPawd2Length = 0;
+
+    Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +109,100 @@ public class ChangePawdActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 hideKeyboard();
                 return false;
+            }
+        });
+
+        mContext = getApplicationContext();
+        changePawd1View.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                oldPawdLength = oldPawdView.getText().toString().getBytes().length;
+                newPawd1Length = changePawd1View.getText().toString().getBytes().length;
+                newPawd2Length = changePawd2View.getText().toString().getBytes().length;
+
+                if (oldPawdLength == 0 || newPawd1Length == 0 || newPawd2Length == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    changePawdBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    changePawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        changePawd2View.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                oldPawdLength = oldPawdView.getText().toString().getBytes().length;
+                newPawd1Length = changePawd1View.getText().toString().getBytes().length;
+                newPawd2Length = changePawd2View.getText().toString().getBytes().length;
+
+                if (oldPawdLength == 0 || newPawd1Length == 0 || newPawd2Length==0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    changePawdBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    changePawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        oldPawdView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                oldPawdLength = oldPawdView.getText().toString().getBytes().length;
+                newPawd1Length = changePawd1View.getText().toString().getBytes().length;
+                newPawd2Length = changePawd2View.getText().toString().getBytes().length;
+
+                if (oldPawdLength == 0 || newPawd1Length == 0 || newPawd2Length==0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    changePawdBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    changePawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

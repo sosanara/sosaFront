@@ -1,20 +1,27 @@
 package com.example.shim.sosafront.LoginPackage;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -57,10 +64,19 @@ public class ResetPawdActivity extends Activity {
     private String errorNewPawd1;
     private String errorNewPawd2;
 
+    private Button resetPawdBtn;
+
     String new_password1;
     String new_password2;
     String uid;
     String token;
+
+    int uidLength = 0;
+    int tokenLength = 0;
+    int newPawd1Length = 0;
+    int newPawd2Length = 0;
+
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +96,146 @@ public class ResetPawdActivity extends Activity {
         resetPawd2View = (EditText) findViewById(R.id.resetPawd2View);
         resetUid = (EditText) findViewById(R.id.resetUid);
         resetToken = (EditText) findViewById(R.id.resetToken);
+        resetPawdBtn = (Button) findViewById(R.id.resetPawdBtn);
 
         wholeLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 hideKeyboard();
                 return false;
+            }
+        });
+
+        mContext = getApplicationContext();
+        resetPawd1View.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uidLength = resetUid.getText().toString().getBytes().length;
+                tokenLength = resetToken.getText().toString().getBytes().length;
+                newPawd1Length = resetPawd1View.getText().toString().getBytes().length;
+                newPawd2Length = resetPawd2View.getText().toString().getBytes().length;
+
+                if (uidLength == 0 || newPawd1Length == 0 || newPawd2Length == 0
+                || tokenLength == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    resetPawdBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    resetPawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        resetPawd2View.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uidLength = resetUid.getText().toString().getBytes().length;
+                tokenLength = resetToken.getText().toString().getBytes().length;
+                newPawd1Length = resetPawd1View.getText().toString().getBytes().length;
+                newPawd2Length = resetPawd2View.getText().toString().getBytes().length;
+
+                if (uidLength == 0 || newPawd1Length == 0 || newPawd2Length == 0
+                        || tokenLength == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    resetPawdBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    resetPawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        resetUid.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uidLength = resetUid.getText().toString().getBytes().length;
+                tokenLength = resetToken.getText().toString().getBytes().length;
+                newPawd1Length = resetPawd1View.getText().toString().getBytes().length;
+                newPawd2Length = resetPawd2View.getText().toString().getBytes().length;
+
+                if (uidLength == 0 || newPawd1Length == 0 || newPawd2Length == 0
+                        || tokenLength == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    resetPawdBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    resetPawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        resetToken.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                loginBtn.setBackground(drawable);*/
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uidLength = resetUid.getText().toString().getBytes().length;
+                tokenLength = resetToken.getText().toString().getBytes().length;
+                newPawd1Length = resetPawd1View.getText().toString().getBytes().length;
+                newPawd2Length = resetPawd2View.getText().toString().getBytes().length;
+
+                if (uidLength == 0 || newPawd1Length == 0 || newPawd2Length == 0
+                        || tokenLength == 0) { //회색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_grey);
+                    resetPawdBtn.setBackground(drawable);
+
+                } else { //초록색
+                    Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.btn_border_green);
+                    resetPawdBtn.setBackground(drawable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

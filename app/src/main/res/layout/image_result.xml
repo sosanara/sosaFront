@@ -18,18 +18,24 @@
             android:id="@+id/toolbar_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="100dp"
+            android:paddingRight="60dp"
             android:textColor="@color/whiteColor"
             android:text="@string/toolbar_result"
             android:textSize="17.5sp"
+            android:gravity="center"
             android:layout_gravity="center" />
 
     </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/result_img_line">
 
         <TextView
             android:id="@+id/sendImageUserNameView"
@@ -70,11 +76,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+
             <TextView
                 android:layout_width="157.8dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="19.8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="19.8dp"
                 android:text="@string/bald_type"
                 android:textColor="@color/textViewColor"
                 android:gravity="center"
@@ -83,8 +90,8 @@
             <TextView
                 android:layout_width="158.7dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingRight="19.8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="19.8dp"
                 android:text="@string/bald_progress"
                 android:textColor="@color/textViewColor"
                 android:gravity="center"
@@ -96,6 +103,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+
 
             <TextView
                 android:id="@+id/baldTypeView"
@@ -109,8 +118,7 @@
                 android:textSize="25sp" />
 
 
-            <!--android:layout_width="92dp"
-                android:layout_height="55dp"-->
+
 
             <TextView
                 android:id="@+id/baldProgress"
@@ -123,8 +131,6 @@
                 android:text="-----------"
                 android:textSize="25sp" />
 
-            <!--android:layout_width="78.3dp"
-            android:layout_height="55dp"-->
 
         </LinearLayout>
 

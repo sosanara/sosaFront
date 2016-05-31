@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -19,6 +19,7 @@
 
     <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">
         <item name="fontPath">fonts/NotoSansKR-Medium.otf</item>
+        <item name="android:textCursorDrawable">@drawable/edittext_cursor_size</item>
         <!--<item name="android:height">50sp</item>-->
 
     </style>

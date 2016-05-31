@@ -26,6 +26,11 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/btnClickShadowColor"></LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -67,7 +72,7 @@
                         android:id="@+id/currentPercentView"
                         android:text="-------------"
                         android:textSize="30sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/notCompareColor"
                         android:layout_width="157.8dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-30dp"
@@ -77,7 +82,7 @@
                         android:id="@+id/currentCreateDateView"
                         android:text="2016.05.08"
                         android:textSize="16sp"
-                        android:textColor="@color/rectBorderColor"
+                        android:textColor="@color/notCompareColor"
                         android:layout_width="157.8dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-30dp"
@@ -97,119 +102,128 @@
                     android:layout_width="116.9dp"
                     android:layout_height="150.dp"
                     android:layout_marginTop="39.8dp"
-                    android:layout_marginLeft="50.5dp" />
+                    android:layout_marginLeft="40dp"
+                />
 
                 <ImageView
                     android:id="@+id/beforeImageView"
                     android:layout_width="116.9dp"
                     android:layout_height="150.dp"
                     android:layout_marginTop="39.8dp"
-                    android:layout_marginLeft="25.1dp"
-                    android:layout_marginRight="50.6dp" />
+                    android:layout_marginLeft="43dp"
+                    android:layout_marginRight="40dp"
+                />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/history_line"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="157.8dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="19.8dp"
-                    android:text="@string/first_contrast"
-                    android:textSize="17sp"
-                    android:textColor="@color/textViewColor"
-                    android:gravity="center"/>
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="157.8dp"
+                    <TextView
+                        android:layout_width="157.8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="19.8dp"
+                        android:text="@string/first_contrast"
+                        android:textSize="17sp"
+                        android:textColor="@color/textViewColor"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="157.8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="19.8dp"
+                        android:text="@string/before_contrast"
+                        android:textSize="17sp"
+                        android:textColor="@color/textViewColor"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/onlyOneDataView"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="29.3dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@color/notCompareColor"
+                        android:text="@string/notCompareData"
+                        android:textSize="13sp"
+                        android:textColor="@color/textViewColor"
+                        android:gravity="center"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/comparePercentLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="19.8dp"
-                    android:text="@string/before_contrast"
-                    android:textSize="17sp"
-                    android:textColor="@color/textViewColor"
-                    android:gravity="center"/>
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/firstPercentView"
+                        android:layout_width="157.8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-25dp"
+                        android:layout_marginLeft="19.8dp"
+                        android:text="-------------"
+                        android:textColor="@color/whiteColor"
+                        android:gravity="center"
+                        android:textSize="25sp"/>
 
+                    <TextView
+                        android:id="@+id/beforePercentView"
+                        android:layout_width="157.8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-25dp"
+                        android:layout_marginRight="19.8dp"
+                        android:text="-------------"
+                        android:textColor="@color/whiteColor"
+                        android:gravity="center"
+                        android:textSize="25sp"/>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/onlyOneDataView"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="29.3dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:background="@color/notCompareColor"
-                    android:text="@string/notCompareData"
-                    android:textSize="13sp"
-                    android:textColor="@color/textViewColor"
-                    android:gravity="center"
-                    android:visibility="gone"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/comparePercentLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/firstPercentView"
-                    android:layout_width="157.8dp"
+                <LinearLayout
+                    android:id="@+id/compareCreateDateLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
-                    android:layout_marginLeft="19.8dp"
-                    android:text="-------------"
-                    android:textColor="@color/colorPrimary"
-                    android:gravity="center"
-                    android:textSize="25sp"/>
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/beforePercentView"
-                    android:layout_width="157.8dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
-                    android:layout_marginRight="19.8dp"
-                    android:text="-------------"
-                    android:textColor="@color/colorPrimary"
-                    android:gravity="center"
-                    android:textSize="25sp"/>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/firstCreateDateView"
+                        android:layout_width="157.8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-14dp"
+                        android:layout_marginLeft="19.8dp"
+                        android:text="-------------"
+                        android:gravity="center"
+                        android:textSize="13.5sp"
+                        android:textColor="@color/whiteColor"/>
 
-            <LinearLayout
-                android:id="@+id/compareCreateDateLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/beforeCreateDateView"
+                        android:layout_width="157.8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-14dp"
+                        android:layout_marginRight="19.8dp"
+                        android:text="-------------"
+                        android:gravity="center"
+                        android:textSize="13.5sp"
+                        android:textColor="@color/whiteColor"/>
 
-                <TextView
-                    android:id="@+id/firstCreateDateView"
-                    android:layout_width="157.8dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-14dp"
-                    android:layout_marginLeft="19.8dp"
-                    android:text="-------------"
-                    android:gravity="center"
-                    android:textSize="13.5sp"
-                    android:textColor="@color/rectBorderColor"/>
-
-                <TextView
-                    android:id="@+id/beforeCreateDateView"
-                    android:layout_width="157.8dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-14dp"
-                    android:layout_marginRight="19.8dp"
-                    android:text="-------------"
-                    android:gravity="center"
-                    android:textSize="13.5sp"
-                    android:textColor="@color/rectBorderColor"/>
-
+                </LinearLayout>
             </LinearLayout>
 
 

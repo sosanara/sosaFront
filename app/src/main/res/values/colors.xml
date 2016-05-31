@@ -53,5 +53,9 @@
     <color name="mainPageTextColor">#013e1a</color>
 
     <color name="notCompareColor">#f3f3f3</color>
+    <color name="emphasisColor">#013e1a</color>
+
+    <color name="cameraCheckColor">#2fb54e</color>
+    <color name="imageCheckColor">#2cb54d</color>
 
 </resources>
